@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Account{% endblock %}
+{% block body %}
+  <h2>Account</h2>
+    <dl>
+      <dt>USHPA Number:
+      <dd>{{ g.account.ushpa }}
+      <dt>First Name:
+      <dd>{{ g.user.firstname }}
+      <dt>Last Name:
+      <dd>{{ g.user.lastname }}
+      <dt>Last Payment:
+      <dd>${{ g.account.amount }}
+      <dt>Date of Last Payment:
+      <dd>{{ g.account.date }}
+    </dl>
+{% endblock %}
