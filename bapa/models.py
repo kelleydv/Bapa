@@ -16,8 +16,10 @@ class Base:
         return self
 
     def update(self, id, key, value):
+        if isinstance(id, str):
+            id = ObjectId(id)
         return self.collection.update(
-            {'_id': ObjectId(id)},
+            {'_id': id},
             {'$set': {key:value}}
         )
 
@@ -28,6 +30,8 @@ class Base:
 
 
     def match(self, key, value):
+        if key in ['user_id']:
+            value = ObjectId(value)
         return self.collection.find_one( {key:value} )
 
     def match_all(self, key, value):
