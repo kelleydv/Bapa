@@ -8,25 +8,28 @@
 		<tbody>
 			<tr>
 				<td>USHPA Number: </td>
-				<td>{{ g.user.ushpa }}</td>
+				<td>{{ session['user_ushpa'] }}</td>
 			</tr>
 			<tr>
 				<td>First Name: </td>
-				<td>{{ g.user.firstname }}</td>
+				<td>{{ session['firstname'] }}</td>
 			</tr>
 			<tr>
 				<td>Last Name: </td>
-				<td>{{ g.user.lastname }}</td>
+				<td>{{ session['lastname'] }}</td>
 			</tr>
 			<tr>
 				<td>Last Payment: </td>
-				<td>${{ g.account.amount }}</td>
+				<td>${{ account['amount'] }}</td>
 			</tr>
 			<tr>
 				<td>Date of Last Payment: </td>
-				<td>{{ g.account.date }}</td>
+				<td>{{ account['date'] }}</td>
 			</tr>
 		</tbody>
 	</table>
+	<form method="GET" action="{{ url_for('pay') }}">
+		<button type="submit">Make Payment</button>
+	</form>
 
 {% endblock %}

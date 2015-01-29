@@ -2,9 +2,9 @@
 <h1>BAPA</h1>
 <div class="navigation">
 	<a href="{{ url_for('home') }}">home</a> |
-	{% if g.user %}
+	{% if session['user_id'] %}
 		<a href="{{ url_for('account') }}">account</a> |
-		<a href="{{ url_for('logout') }}">sign out [{{ g.user.ushpa }}]</a>
+		<a href="{{ url_for('logout') }}">sign out [{{ session['firstname'] }}]</a>
 	{% else %}
 		<a href="{{ url_for('register') }}">sign up</a> |
 		<a href="{{ url_for('login') }}">sign in</a>
