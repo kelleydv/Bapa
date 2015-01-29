@@ -1,31 +1,19 @@
 <!doctype html>
-<title>{% block title %}Welcome{% endblock %} | Bay Area Paragliders Association</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-<div class="page">
-  <h1>BAPA</h1>
-  <div class="navigation">
-  <a href="{{ url_for('home') }}">home</a> |
-  {% if g.user %}
-    <a href="{{ url_for('account') }}">account</a> |
-    <a href="{{ url_for('logout') }}">sign out [{{ g.user.ushpa }}]</a>
-  {% else %}
-    <a href="{{ url_for('register') }}">sign up</a> |
-    <a href="{{ url_for('login') }}">sign in</a>
-  {% endif %}
-  </div>
-  {% with flashes = get_flashed_messages() %}
-    {% if flashes %}
-      <ul class="flashes">
-      {% for message in flashes %}
-        <li>{{ message }}
-      {% endfor %}
-      </ul>
-    {% endif %}
-  {% endwith %}
-  <div class="body">
-  {% block body %}{% endblock %}
-  </div>
-  <div class="footer">
-    BAPA &mdash; word to ya motha
-  </div>
-</div>
+<html lang="en">
+	<head>
+		<title>{% block title %}Welcome{% endblock %} | Bay Area Paragliders Association</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	</head>
+	<body>
+		<div class="content">
+			<div class="container">
+				{% include "partials/navigation.html" %}
+				{% block flash %}{% endblock %}
+				{% block body %}{% endblock %}
+			</div>
+		</div>
+		<div class="container">
+			{% include "partials/footer.html" %}
+		</div>
+	</body>
+</html>

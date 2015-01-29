@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block title %}Account{% endblock %}
+{% block body %}
+
+	<h2>Account</h2>
+
+	<table>
+		<tbody>
+			<tr>
+				<td>USHPA Number: </td>
+				<td>{{ g.user.ushpa }}</td>
+			</tr>
+			<tr>
+				<td>First Name: </td>
+				<td>{{ g.user.firstname }}</td>
+			</tr>
+			<tr>
+				<td>Last Name: </td>
+				<td>{{ g.user.lastname }}</td>
+			</tr>
+			<tr>
+				<td>Last Payment: </td>
+				<td>${{ g.account.amount }}</td>
+			</tr>
+			<tr>
+				<td>Date of Last Payment: </td>
+				<td>{{ g.account.date }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+{% endblock %}
