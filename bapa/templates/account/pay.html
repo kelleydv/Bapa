@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+{% block title %}Pay Member Dues{% endblock %}
+{% block body %}
+
+	<h2>Pay Member Dues</h2>
+
+	{% if error %}
+		<div class="error">
+			<strong>Error:</strong> {{ error }}
+		</div>
+	{% endif %}
+
+	<form action="/pay_dues" method="POST">
+
+		<div class="form-control">
+			<label for="ushpa">USHPA Pilot Number: </label>
+			<input type="text" name="ushpa" id="ushpa" value="{{ g.user.ushpa }}" readonly>
+		</div>
+		<div class="form-control">
+			<label for="password">Password: </label>
+			<input type="password" name="password" id="password">
+		</div>
+
+		<div class="form-control">
+			<label for="amount">Amount: </label>
+			<input type="text" name="amount" id="amount">
+		</div>
+
+		<div class="form-control">
+			<input type="submit" value="Make Payment">
+		</div>
+	</form>
+
+{% endblock %}

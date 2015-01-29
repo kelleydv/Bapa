@@ -27,15 +27,15 @@ class Home(View):
     methods = ['GET']
 
     def dispatch_request(self):
-        return render_template('home.html')
+        return render_template('home/home.html')
 
 
 class Register(View):
     """Register the user"""
 
     methods = ['GET', 'POST']
-    
-    def dispatch_request(self): 
+
+    def dispatch_request(self):
         if g.user:
             return redirect(url_for('login'))
         error = None
@@ -62,7 +62,7 @@ class Register(View):
                 )
                 flash('You were successfully registered and can login now')
                 return redirect(url_for('login'))
-        return render_template('register.html', error=error)
+        return render_template('auth/register.html', error=error)
 
 
 class Login(View):
@@ -87,7 +87,7 @@ class Login(View):
                 session['firstname'] = user['firstname']
                 session['lastname'] = user['lastname']
                 return redirect(url_for('home'))
-        return render_template('login.html', error=error)
+        return render_template('auth/login.html', error=error)
 
 class Logout(View):
     """Log user out"""
@@ -105,7 +105,7 @@ class Account(View):
     """View BAPA membership account"""
 
     methods = ['GET']
-    
+
     def dispatch_request(self):
         if not g.user:
             return redirect(url_for('login'))
@@ -114,7 +114,7 @@ class Account(View):
             g.account = models.Account().match('user_id', g.user['_id']) #todo: sort for most recent
             if not g.account:
                 return redirect(url_for('pay'))
-        return render_template('account.html', error=error)
+        return render_template('account/account.html', error=error)
 
 
 class Pay(View):
@@ -134,5 +134,5 @@ class Pay(View):
             else:
                 models.Account().create(g.user['_id'], request.form['amount'])
                 return redirect(url_for('account'))
-        return render_template('pay.html', error=error)
+        return render_template('account/pay.html', error=error)
 
