@@ -5,9 +5,15 @@
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 	</head>
 	<body>
-		{% include "partials/navigation.html" %}
-		{% block flash %}{% endblock %}
-		{% block body %}{% endblock %}
-		{% include "partials/footer.html" %}
+		<div class="content">
+			<div class="container">
+				{% include "partials/navigation.html" %}
+				{% block flash %}{% endblock %}
+				{% block body %}{% endblock %}
+			</div>
+		</div>
+		<div class="container">
+			{% include "partials/footer.html" %}
+		</div>
 	</body>
 </html>
