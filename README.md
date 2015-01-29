@@ -12,6 +12,6 @@ source venv/bin/activate
 
 ### Run locally
 ```
-$ python3 bapa.py 
+$ python3 server.py 
  * Running on http://127.0.0.1:5000/
 ```
