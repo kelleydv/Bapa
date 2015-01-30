@@ -10,11 +10,11 @@
 		</div>
 	{% endif %}
 
-	<form action="/pay_dues" method="POST">
+	<form action="{{ url_for('pay') }}" method="POST">
 
 		<div class="form-control">
 			<label>USHPA Pilot Number: </label>
-			<input type="text" name="ushpa" value="{{ g.user.ushpa }}" readonly>
+			<input type="text" name="ushpa" value="{{ session['user_ushpa'] }}" readonly>
 		</div>
 
 		<div class="form-control">
