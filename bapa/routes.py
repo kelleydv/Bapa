@@ -7,7 +7,7 @@ def before_request():
     # stay logged in with a cookie
     user_id = session.get('user_id')
     if not controllers.record_user_activity(user_id):
-        session.pop('user_id', None)
+        logout(None)
 
 
 @app.route("/")
@@ -60,9 +60,9 @@ def login():
 
 
 @app.route('/logout')
-def logout():
+def logout(msg='You were logged out'):
     """Logs the user out."""
-    flash('You were logged out')
+    flash(msg)
     session.pop('user_id', None)
     return redirect(url_for('home'))
 
@@ -75,7 +75,7 @@ def account():
     if not session.get('user_id'):
         return redirect(url_for('login'))
     if request.method == 'GET':
-        account = controllers.get_latest_account(session['user_id'])
+        account = controllers.get_last_payment(session['user_id'])
         if not account:
             return redirect(url_for('pay'))
     return render_template('account/account.html', account=account)

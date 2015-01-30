@@ -8,8 +8,7 @@ def record_user_activity(user_id):
     """
     res = models.User().update(
                 user_id,
-                "last_activity",
-                timestamp()
+                last_activity=timestamp()
             )
     if not res['updatedExisting']:
         return
@@ -29,12 +28,14 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         error = 'You have to enter a valid ushpa number'
     elif not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
+    elif models.User().match(ushpa=ushpa):
+        error = 'This USHPA pilot number is already in use by a current BAPA member'
+    elif models.User().match(email=email):
+        error = 'This email is already in use by a current BAPA member'
     elif not password:
         error = 'You have to enter a password'
     elif password != password2:
         error = 'The two passwords do not match'
-    elif models.User().match('ushpa',ushpa):
-        error = 'This USHPA pilot number is already in use by a current BAPA member'
     else:
         # Insert user into database.
         # See models.User for full schema
@@ -48,9 +49,9 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         return
     return error
 
-def get_latest_account(user_id):
-    """Retrieve latest payment info, or return None"""
-    return models.Account().match('user_id', user_id) #todo: sort for most recent
+def get_last_payment(user_id):
+    """Retrieve latest payment info for user, or return None"""
+    return models.Account().latest( user_id=user_id )[0]
 
 def make_payment(ushpa, password, amount):
     """
