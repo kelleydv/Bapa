@@ -1,4 +1,4 @@
-from bapa import models
+import bapa.models as models
 from bapa.utils import timestamp
 
 def record_user_activity(user_id):
@@ -13,6 +13,7 @@ def record_user_activity(user_id):
     if not res['updatedExisting']:
         return
     return True
+
 
 def authenticate_user(ushpa, password):
     """
@@ -48,19 +49,3 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         )
         return
     return error
-
-def get_last_payment(user_id):
-    """Retrieve latest payment info for user, or return None"""
-    return models.Account().latest( user_id=user_id )[0]
-
-def make_payment(ushpa, password, amount):
-    """
-    Authenticate and record user payment.  Return error string
-    on failure.
-    """
-    user = models.User().auth(ushpa, password)
-    if not user:
-        return "Invalid password"
-    else:
-        models.Account().create(user['_id'], amount)
-        return
