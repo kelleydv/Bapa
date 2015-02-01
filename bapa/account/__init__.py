@@ -1,1 +1,1 @@
-from .routes import bp
+from .routes import acct_bp

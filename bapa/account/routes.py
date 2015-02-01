@@ -1,12 +1,11 @@
-from flask import session, render_template, redirect, url_for, request, flash
-
 from . import controllers
-
+from flask import session, render_template, redirect, url_for, request, flash
 from flask import Blueprint
-bp = Blueprint('account', __name__, template_folder='templates')
+
+acct_bp = Blueprint('account', __name__, template_folder='templates')
 
 
-@bp.route('/view', methods=['GET'])
+@acct_bp.route('/view', methods=['GET'])
 def view():
     """View BAPA membership account."""
     if not session.get('user_id'):
@@ -18,7 +17,7 @@ def view():
     return render_template('account.html', account=account)
 
 
-@bp.route('/pay', methods=['GET', 'POST'])
+@acct_bp.route('/pay', methods=['GET', 'POST'])
 def pay():
     """Pay club dues"""
     if not session.get('user_id'):

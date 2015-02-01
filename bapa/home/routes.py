@@ -1,17 +1,16 @@
-from flask import session, render_template, redirect, url_for, request, flash
-
 from . import controllers
-
+from flask import session, render_template, redirect, url_for, request, flash
 from flask import Blueprint
-bp = Blueprint('home', __name__, template_folder='templates')
+
+home_bp = Blueprint('home', __name__, template_folder='templates')
 
 
-@bp.route('/')
+@home_bp.route('/')
 def index():
     return render_template('home.html', session=session)
 
 
-@bp.route('/register', methods=['GET', 'POST'])
+@home_bp.route('/register', methods=['GET', 'POST'])
 def register():
     """Register the user."""
     if session.get('user_id'):
@@ -33,7 +32,7 @@ def register():
 
 
 
-@bp.route('/login', methods=['GET', 'POST'])
+@home_bp.route('/login', methods=['GET', 'POST'])
 def login():
     """User login"""
     if session.get('user_id'):
@@ -54,7 +53,7 @@ def login():
 
 
 
-@bp.route('/logout')
+@home_bp.route('/logout')
 def logout(msg='You were logged out'):
     """Logs the user out."""
     flash(msg)
