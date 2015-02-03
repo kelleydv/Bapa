@@ -17,5 +17,11 @@ def get_salt():
     """return a salt string"""
     return b64encode(os.urandom(64)).decode('utf-8')
 
-def timestamp():
-    return str(datetime.datetime.utcnow())
+def timestamp(object = False):
+    if not object:
+        return str(datetime.datetime.utcnow())
+    else:
+        return datetime.datetime.utcnow()
+
+def object_from_timestamp(date_str):
+    return datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S.%f")
