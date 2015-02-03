@@ -1,5 +1,5 @@
 from bapa.models import Base
-from bapa.utils import get_hash, timestamp
+from bapa.utils import get_hash, verify_hash, timestamp
 
 class User(Base):
 
@@ -23,5 +23,5 @@ class User(Base):
 
     def auth(self, ushpa, password):
         user = self.collection.find_one( {'ushpa':ushpa} )
-        if user and verify_hash(password, user['password']:
+        if user and verify_hash(password, user['password']):
             return user
