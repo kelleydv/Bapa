@@ -1,8 +1,6 @@
 import os
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from bapa.utils import get_hash, timestamp, get_salt
-
 
 class Base:
 
@@ -42,6 +40,3 @@ class Base:
         """
         kwargs = self._ensure_ObjectIds(kwargs)
         return [ x for x in self.collection.find(kwargs).sort('_id',-1)[0:n] ]
-        
-
-
