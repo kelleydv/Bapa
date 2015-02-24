@@ -1,8 +1,9 @@
 import os
-from flask import Flask
+from flask import Flask, url_for
 from flask_mail import Mail
 
 app = Flask(__name__)
+
 app.config.update(
     DEBUG = True,
     SECRET_KEY = os.environ['bapa_session_secret'],
@@ -13,10 +14,11 @@ app.config.update(
     MAIL_PASSWORD = os.environ['bapa_mail_password'],
     MAIL_DEFAULT_SENDER = os.environ['bapa_mail_sender']
 )
+
 mail = Mail(app)
 
-from bapa import home, account # blueprints
+from bapa import home, account, password # blueprints
 
 app.register_blueprint(home.home_bp)
 app.register_blueprint(account.acct_bp, url_prefix='/account')
-
+app.register_blueprint(password.pass_bp, url_prefix='/password')

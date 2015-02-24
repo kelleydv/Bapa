@@ -2,6 +2,7 @@ from passlib.hash import pbkdf2_sha256
 import datetime
 import os
 from base64 import b64decode, b64encode
+import binascii
 
 def get_hash(m):
     """
@@ -15,7 +16,8 @@ def verify_hash(password, hash):
 
 def get_salt():
     """return a salt string"""
-    return b64encode(os.urandom(64)).decode('utf-8')
+    salt = b64encode(os.urandom(64))
+    return binascii.hexlify(salt).decode('utf-8')
 
 def timestamp(object = False):
     if not object:

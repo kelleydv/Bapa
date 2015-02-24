@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}Authenticate{% endblock %}
+{% block body %}
+
+    <h2>Authenticate</h2>
+
+    {% if error %}
+        <div class="error">
+            <strong>Error:</strong> {{ error }}
+        </div>
+    {% endif %}
+
+    <form action="{{ url_for('password.simple_auth') }}" method="POST">
+
+        <div class="form-control">
+            <label for="password">Enter Password: </label>
+            <input type="password" name="password" id="password">
+        </div>
+
+        <div class="form-control">
+            <input type="submit" value="Send">
+        </div>
+    </form>
+
+{% endblock %}
