@@ -16,5 +16,5 @@ class Reset(Base):
             'secret': secret
         })
 
-    def delete(selef, secret):
+    def delete(self, secret):
         user = self.collection.remove( {'secret':secret} )
