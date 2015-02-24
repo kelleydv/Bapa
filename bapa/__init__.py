@@ -17,7 +17,7 @@ app.config.update(
 
 mail = Mail(app)
 
-from bapa import home, account, password # blueprints
+from bapa.modules import home, account, password # blueprints
 
 app.register_blueprint(home.home_bp)
 app.register_blueprint(account.acct_bp, url_prefix='/account')
