@@ -1,9 +1,8 @@
-import bapa.models as models
-from bapa.utils import timestamp, get_salt
+from bapa import models
+from bapa.utils import timestamp,is_too_old, get_salt
 from bapa.utils import object_from_timestamp, get_hash
 from bapa import app, mail
 from flask_mail import Message
-import datetime
 
 
 def reset_password_request(ushpa, email, url):
@@ -21,30 +20,34 @@ def reset_password_request(ushpa, email, url):
                     timestamp(),
                     secret
             )
+            body = '%s/%s' % (url,secret)
             msg = Message(
                 subject='Password Reset - sfbapa.org',
-                body='%s/%s' % (url,secret),
+                body=body,
                 recipients=[email]
             )
-
-            with app.app_context():
-                mail.send(msg)
+            
+            if app.debug:
+                print(body)
+            else:
+                with app.app_context():
+                    mail.send(msg)
 
 
 def reset_password_auth(ushpa, email, secret):
     """Authenticate a user using a secret hash"""
     if not (ushpa and email and secret):
-        pass
+        return
     else:
         reset = models.Reset().match(secret=secret)
+        if not reset:
+            return
         models.Reset().delete(secret)
         user = models.User().from_id(reset.get('user_id'))
-        if not reset:
-            pass
-        elif user['email'] == email and user['ushpa'] == ushpa:
-            time_requested = object_from_timestamp(pw_reset['timestamp'])
-            if time_requested < datetime.timedelta(minutes=5):
-                if pw_reset['secret'] == secret:
+        if user['email'] == email and user['ushpa'] == ushpa:
+            time_requested = object_from_timestamp(reset['timestamp'])
+            if not is_too_old(time_requested):
+                if reset['secret'] == secret:
                     return user
 
 

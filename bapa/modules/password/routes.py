@@ -2,6 +2,7 @@ from . import controllers
 from flask import session, flash
 from flask import render_template, redirect, url_for, request
 from flask import Blueprint
+from bapa.utils import timestamp, is_too_old
 
 pass_bp = Blueprint('password', __name__, template_folder='templates')
 
@@ -15,7 +16,7 @@ def reset_request():
         error = controllers.reset_password_request(
             request.form['ushpa'],
             request.form['email'],
-            url_for('home.login')+'/reset/auth'
+            '/password/reset/auth'
         )
         if not error:
             flash('Email sent')
@@ -24,7 +25,7 @@ def reset_request():
 
 
 @pass_bp.route('/reset/auth/<secret>', methods=['GET', 'POST'])
-def reset_auth(secret=None):
+def reset_auth(secret):
     if session.get('user_id') or not secret:
         return redirect(url_for('home.index'))
     if request.method == 'POST':
@@ -37,18 +38,19 @@ def reset_auth(secret=None):
             flash('Password Reset Failed')
             return redirect(url_for('home.login'))
         session['user_id'] = str(user['_id'])
+        session['authed'] = timestamp(object=True)
         return redirect(url_for('password.reset'))
-    flash('Re-enter')
-    return render_template('reset_req.html')
+    return render_template('reset_auth.html', secret=secret)
 
 
 @pass_bp.route('/auth', methods=['GET', 'POST'])
 def simple_auth():
     if not session.get('user_id'):
-        return redirect(url_for('home.index'))
+        return redirect(url_for('home.lgoin'))
     error = None
     if request.method == 'POST':
-        if controllers.auth(session['ushpa'], request.form['password']):
+        if controllers.auth(session['user_ushpa'], request.form['password']):
+            session['authed'] = timestamp(object=True)
             return redirect(url_for('password.reset'))
         error = 'Enter your current password'
     return render_template('auth.html', error=error)
@@ -58,6 +60,8 @@ def simple_auth():
 def reset():
     if not session.get('user_id'):
         return redirect(url_for('home.login'))
+    if is_too_old(session.get('authed')):
+        return redirect(url_for('password.simple_auth'))
     error = None
     if request.method == 'POST':
         error = controllers.reset_password(
