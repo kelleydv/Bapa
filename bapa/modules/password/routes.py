@@ -46,7 +46,7 @@ def reset_auth(secret):
 @pass_bp.route('/auth', methods=['GET', 'POST'])
 def simple_auth():
     if not session.get('user_id'):
-        return redirect(url_for('home.lgoin'))
+        return redirect(url_for('home.login'))
     error = None
     if request.method == 'POST':
         if controllers.auth(session['user_ushpa'], request.form['password']):
