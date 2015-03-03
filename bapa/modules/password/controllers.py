@@ -15,7 +15,7 @@ def reset_password_request(ushpa, email, url):
         user = models.User().match(email=email)
         if user and user['ushpa'] == ushpa:
             secret = get_salt()
-            models.Reset().create(
+            models.ResetPassword().create(
                     user['_id'],
                     timestamp(),
                     secret
@@ -39,10 +39,10 @@ def reset_password_auth(ushpa, email, secret):
     if not (ushpa and email and secret):
         return
     else:
-        reset = models.Reset().match(secret=secret)
+        reset = models.ResetPassword().match(secret=secret)
         if not reset:
             return
-        models.Reset().delete(secret)
+        models.ResetPassword().delete(secret)
         user = models.User().from_id(reset.get('user_id'))
         if user['email'] == email and user['ushpa'] == ushpa:
             time_requested = object_from_timestamp(reset['timestamp'])

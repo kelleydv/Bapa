@@ -1,7 +1,7 @@
 from bapa.models import Base
 from bapa.utils import get_salt, timestamp
 
-class Reset(Base):
+class ResetPassword(Base):
     """Records inserted when a user requests a password reset"""
 
     def __init__(self):
@@ -9,7 +9,6 @@ class Reset(Base):
         self.collection = self.db.resets
 
     def create(self, user_id, timestamp, secret):
-        salt = get_salt()
         return self.collection.insert({
             'user_id': user_id,
             'timestamp': timestamp,
