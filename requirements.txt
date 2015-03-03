@@ -1,2 +1,4 @@
-Flask>=0.10.1
+Flask
+Flask-Mail
 pymongo
+passlib

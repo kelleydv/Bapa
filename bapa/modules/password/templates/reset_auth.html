@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block title %}Reset Password{% endblock %}
+{% block body %}
+
+    <h2>Reenter Credentials</h2>
+
+    {% if error %}
+        <div class="error">
+            <strong>Error:</strong> {{ error }}
+        </div>
+    {% endif %}
+
+    <form action="{{ url_for('password.reset_auth', secret=secret) }}" method="POST">
+
+        <div class="form-control">
+            <label for="ushpa">USHPA Pilot Number: </label>
+            <input type="text" name="ushpa" id="ushpa">
+        </div>
+
+        <div class="form-control">
+            <label for="email">Email: </label>
+            <input type="email" name="email" id="email">
+        </div>
+
+        <div class="form-control">
+            <input type="submit" value="Confirm">
+        </div>
+    </form>
+
+{% endblock %}
