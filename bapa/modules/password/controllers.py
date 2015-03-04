@@ -12,7 +12,7 @@ def reset_password_request(ushpa, email, url):
     elif not (email and '@' in email and '.' in email):
         return 'You have to enter a valid email address'
     else:
-        user = models.User().match(email=email)
+        user = models.User.match(email=email)
         if user and user['ushpa'] == ushpa:
             secret = get_salt()
             models.ResetPassword().create(
@@ -39,11 +39,11 @@ def reset_password_auth(ushpa, email, secret):
     if not (ushpa and email and secret):
         return
     else:
-        reset = models.ResetPassword().match(secret=secret)
+        reset = models.ResetPassword.match(secret=secret)
         if not reset:
             return
-        models.ResetPassword().delete(secret)
-        user = models.User().from_id(reset.get('user_id'))
+        models.ResetPassword.delete(secret)
+        user = models.User.from_id(reset.get('user_id'))
         if user['email'] == email and user['ushpa'] == ushpa:
             time_requested = object_from_timestamp(reset['timestamp'])
             if not is_too_old(time_requested):
@@ -53,11 +53,11 @@ def reset_password_auth(ushpa, email, secret):
 
 def auth(ushpa, password):
     """Authenticate as permission for password reset"""
-    return models.User().auth(ushpa, password)
+    return models.User.auth(ushpa, password)
 
 def reset_password(user_id, password, password2):
     """Reset password for an authenticated user"""
     if password != password2:
         return 'Passwords must match'
-    models.User().update(user_id, password=get_hash(password))
+    models.User.update(user_id, password=get_hash(password))
 

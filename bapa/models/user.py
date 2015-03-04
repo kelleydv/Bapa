@@ -3,12 +3,11 @@ from bapa.utils import get_hash, verify_hash, timestamp
 
 class User(Base):
 
-    def __init__(self):
-        self.init_db()
-        self.collection = self.db.users
+    collection = Base.db.users
 
-    def create(self, ushpa, email, password, firstname, lastname):
-        return self.collection.insert({
+    @classmethod
+    def create(cls, ushpa, email, password, firstname, lastname):
+        return cls.collection.insert({
             'ushpa': ushpa, # pilot number
             'email': email,
             'password': get_hash(password),
@@ -21,7 +20,8 @@ class User(Base):
             'admin': False,     # Does the user have admin priveleges?
         })
 
-    def auth(self, ushpa, password):
-        user = self.collection.find_one( {'ushpa':ushpa} )
+    @classmethod
+    def auth(cls, ushpa, password):
+        user = cls.collection.find_one( {'ushpa':ushpa} )
         if user and verify_hash(password, user['password']):
             return user

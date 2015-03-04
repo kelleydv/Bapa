@@ -4,39 +4,37 @@ from bson.objectid import ObjectId
 
 class Base:
 
-    def __init__(self):
-        pass
+    db = MongoClient()['bapa']
 
-    def init_db(self, db='bapa'):
-        self.db = MongoClient()[db]
-        return self
-
-    def update(self, id, **kwargs):
+    @classmethod
+    def update(cls, id, **kwargs):
         if isinstance(id, str):
             id = ObjectId(id)
-        return self.collection.update(
+        return cls.collection.update(
             {'_id': id},
             {'$set': kwargs }
         )
 
-    def from_id(self, id):
+    @classmethod
+    def from_id(cls, id):
         if isinstance(id, str):
             id = ObjectId(id)
-        return self.collection.find_one( {'_id':id} )
+        return cls.collection.find_one( {'_id':id} )
 
-    def _ensure_ObjectIds(self, doc):
+    @staticmethod
+    def _ensure_ObjectIds(doc):
         return { k:ObjectId(v) for k,v in doc.items() if k.endswith('_id') and isinstance(v, str) }
 
-    def match(self, **kwargs):
-        #kwargs = self._ensure_ObjectIds(kwargs)
-        return self.collection.find_one(kwargs)
+    @classmethod
+    def match(cls, **kwargs):
+        return cls.collection.find_one(kwargs)
 
-    def match_all(self, **kwargs):
-        return self.collection.find(kwargs)
+    @classmethod
+    def match_all(cls, **kwargs):
+        return cls.collection.find(kwargs)
 
-    def latest(self, n=1, **kwargs):
-        """
-        Return the latest n documents matched by kwargs
-        """
-        kwargs = self._ensure_ObjectIds(kwargs)
-        return [ x for x in self.collection.find(kwargs).sort('_id',-1)[0:n] ]
+    @classmethod
+    def latest(cls, n=1, **kwargs):
+        """Return the latest n documents matched by kwargs"""
+        kwargs = cls._ensure_ObjectIds(kwargs)
+        return [ x for x in cls.collection.find(kwargs).sort('_id',-1)[0:n] ]
