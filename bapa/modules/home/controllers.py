@@ -6,7 +6,7 @@ def record_user_activity(user_id):
     Return True if last activity is successfully
     recorded in the database for user_id.
     """
-    res = models.User().update(
+    res = models.User.update(
                 user_id,
                 last_activity=timestamp()
             )
@@ -20,7 +20,7 @@ def authenticate_user(ushpa, password):
     Authenticate and return user document from
     database, None on failed auth.
     """
-    return models.User().auth(ushpa, password)
+    return models.User.auth(ushpa, password)
 
 
 def signup(ushpa, email, password, password2, firstname, lastname):
@@ -29,9 +29,9 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         error = 'You have to enter a valid ushpa number'
     elif not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
-    elif models.User().match(ushpa=ushpa):
+    elif models.User.match(ushpa=ushpa):
         error = 'This USHPA pilot number is already in use by a current BAPA member'
-    elif models.User().match(email=email):
+    elif models.User.match(email=email):
         error = 'This email is already in use by a current BAPA member'
     elif not password:
         error = 'You have to enter a password'
@@ -40,7 +40,7 @@ def signup(ushpa, email, password, password2, firstname, lastname):
     else:
         # Insert user into database.
         # See models.User for full schema
-        models.User().create(
+        models.User.create(
             ushpa,
             email,
             password,
