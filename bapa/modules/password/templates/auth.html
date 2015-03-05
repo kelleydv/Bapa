@@ -2,24 +2,37 @@
 {% block title %}Authenticate{% endblock %}
 {% block body %}
 
-    <h2>Authenticate</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
 
-    {% if error %}
-        <div class="error">
-            <strong>Error:</strong> {{ error }}
+                {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        <strong>Error</strong> {{ error }}
+                    </div>
+                {% endif %}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Authenticate</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="{{ url_for('password.simple_auth') }}" method="POST">
+
+                            <div class="form-group">
+                                <label for="password">Enter Password: </label>
+                                <input type="password" name="password" id="password" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Authenticate" class="btn btn-primary pull-right">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    {% endif %}
-
-    <form action="{{ url_for('password.simple_auth') }}" method="POST">
-
-        <div class="form-control">
-            <label for="password">Enter Password: </label>
-            <input type="password" name="password" id="password">
-        </div>
-
-        <div class="form-control">
-            <input type="submit" value="Send">
-        </div>
-    </form>
+    </div>
 
 {% endblock %}

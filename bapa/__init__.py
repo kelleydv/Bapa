@@ -1,6 +1,7 @@
 import os
 from flask import Flask, url_for
 from flask_mail import Mail
+from datetime import date
 
 app = Flask(__name__)
 
@@ -18,6 +19,9 @@ app.config.update(
 mail = Mail(app)
 
 from bapa.modules import home, account, password # blueprints
+
+# Template Globals
+app.jinja_env.globals['year'] = date.today().year
 
 app.register_blueprint(home.home_bp)
 app.register_blueprint(account.acct_bp, url_prefix='/account')

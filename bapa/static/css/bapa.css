@@ -1,0 +1,22 @@
+
+/* Because of our fixed footer */
+body { padding-bottom: 70px; }
+
+form .form-group:last-child{ margin-bottom: 0; }
+.copyright { margin-left: 0; }
+
+
+#hero {
+	background: url(http://i.imgur.com/a28uWNy.jpg) center center no-repeat;
+	background-size: cover;
+	color: #fff;
+	}
+	#hero h1 {
+		padding-top: 150px;
+		text-shadow: 0 2px 2px rgba(0,0,0,0.4);
+		}
+	#hero hr {
+		width: 50%;
+		opacity: 0.8;
+		}
+	#hero .btn { margin: 10px; }
