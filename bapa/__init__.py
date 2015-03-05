@@ -12,7 +12,10 @@ app.config.update(
     MAIL_PORT = os.environ['bapa_mail_port'],
     MAIL_USERNAME = os.environ['bapa_mail_username'],
     MAIL_PASSWORD = os.environ['bapa_mail_password'],
-    MAIL_DEFAULT_SENDER = os.environ['bapa_mail_sender']
+    MAIL_DEFAULT_SENDER = os.environ['bapa_mail_sender'],
+
+    USHPA_CHAPTER = os.environ['bapa_ushpa_chapter'],
+    USHPA_PIN = os.environ['bapa_ushpa_pin']
 )
 
 mail = Mail(app)

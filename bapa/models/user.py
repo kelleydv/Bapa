@@ -6,9 +6,10 @@ class User(Base):
     collection = Base.db.users
 
     @classmethod
-    def create(cls, ushpa, email, password, firstname, lastname):
+    def create(cls, ushpa, ushpa_data, email, password, firstname, lastname):
         return cls.collection.insert({
             'ushpa': ushpa, # pilot number
+            'ushpa_data': ushpa_data, # from the USHPA API
             'email': email,
             'password': get_hash(password),
             'firstname': firstname,
