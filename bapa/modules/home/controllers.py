@@ -1,6 +1,6 @@
 import bapa.models as models
 from bapa.utils import timestamp
-from bapa import app, apis
+from bapa import app, services
 
 def record_user_activity(user_id):
     """
@@ -26,7 +26,7 @@ def authenticate_user(ushpa, password):
 
 def signup(ushpa, email, password, password2, firstname, lastname):
     """Register the user, return error or None."""
-    ushpa_data = apis.ushpa.get_pilot_data(ushpa)
+    ushpa_data = services.ushpa.get_pilot_data(ushpa)
     if 'ERROR' in ushpa_data:
         error = 'You have to enter a valid ushpa number'
     elif not (email and '@' in email and '.' in email):
