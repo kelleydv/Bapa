@@ -1,6 +1,6 @@
 # BAPA
 
-Website for the Bay Area Paragliding Association
+Website for the Bay Area Paragliding Association (Work In Progress)
 
 ### Requirements
 - [mongoDB](http://www.mongodb.org/)
