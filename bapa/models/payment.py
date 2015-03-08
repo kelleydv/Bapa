@@ -1,10 +1,10 @@
-from bapa.utils import timestamp
 from bapa.models import Base
+from bapa.utils import timestamp
 
-class Account(Base):
+class Payment(Base):
     """For modeling user financial contributions"""
     
-    collection = Base.db.accounts
+    collection = Base.db.payments
 
     @classmethod
     def create(cls, user_id, amount):

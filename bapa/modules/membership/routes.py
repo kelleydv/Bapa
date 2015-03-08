@@ -1,23 +1,24 @@
 from . import controllers
-from flask import session, render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, flash
+from flask import session, request
 from flask import Blueprint
 
-acct_bp = Blueprint('account', __name__, template_folder='templates')
+memb_bp = Blueprint('membership', __name__, template_folder='templates')
 
 
-@acct_bp.route('/view', methods=['GET'])
-def view():
-    """View BAPA membership account."""
+@memb_bp.route('/status', methods=['GET'])
+def status():
+    """View BAPA membership status"""
     if not session.get('user_id'):
         return redirect(url_for('home.login'))
     if request.method == 'GET':
-        account = controllers.get_last_payment(session['user_id'])
-        if not account:
-            return redirect(url_for('account.pay'))
-    return render_template('account.html', account=account)
+        payment = controllers.get_last_payment(session['user_id'])
+        if not payment:
+            return redirect(url_for('membership.pay'))
+    return render_template('status.html', payment=payment)
 
 
-@acct_bp.route('/pay', methods=['GET', 'POST'])
+@memb_bp.route('/pay', methods=['GET', 'POST'])
 def pay():
     """Pay club dues"""
     if not session.get('user_id'):
@@ -31,5 +32,5 @@ def pay():
             request.form['amount']
         )
         if not error:
-            return redirect(url_for('account.view'))
+            return redirect(url_for('membership.status'))
     return render_template('pay.html', error=error, session=session)

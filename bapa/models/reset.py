@@ -7,13 +7,13 @@ class ResetPassword(Base):
     collection = Base.db.resets
 
     @classmethod
-    def create(cls, user_id, timestamp, secret):
+    def create(cls, user_id, timestamp, token):
         return cls.collection.insert({
             'user_id': user_id,
             'timestamp': timestamp,
-            'secret': secret
+            'token': token
         })
 
     @classmethod
-    def delete(cls, secret):
-        cls.collection.remove( {'secret':secret} )
+    def delete(cls, token):
+        cls.collection.remove( {'token':token} )

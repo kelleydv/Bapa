@@ -1,8 +1,8 @@
-import bapa.models as models
+from bapa import models
 
 def get_last_payment(user_id):
     """Retrieve latest payment info for user, or return None"""
-    latest = models.Account.latest( user_id=user_id )
+    latest = models.Payment.latest( user_id=user_id )
     if latest:
         return latest[0]
     return
@@ -16,5 +16,5 @@ def make_payment(ushpa, password, amount):
     if not user:
         return "Invalid password"
     else:
-        models.Account.create(user['_id'], amount)
+        models.Payment.create(user['_id'], amount)
         return
