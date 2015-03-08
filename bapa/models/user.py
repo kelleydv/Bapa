@@ -15,10 +15,6 @@ class User(Base):
             'firstname': firstname,
             'lastname': lastname,
             'last_activity': timestamp(),
-            'active': False,    # Is the user's membership active?
-            'current': False,   # Has user paid membership dues?
-            'officer': False,   # Is the user a BAPA officer?
-            'admin': False,     # Does the user have admin priveleges?
         })
 
     @classmethod
