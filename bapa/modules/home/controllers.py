@@ -1,7 +1,6 @@
 import bapa.models as models
 from bapa.utils import timestamp
-from bapa import app
-import requests
+from bapa import app, apis
 
 def record_user_activity(user_id):
     """
@@ -27,7 +26,7 @@ def authenticate_user(ushpa, password):
 
 def signup(ushpa, email, password, password2, firstname, lastname):
     """Register the user, return error or None."""
-    ushpa_data = _get_ushpa_data(ushpa)
+    ushpa_data = apis.ushpa.get_pilot_data(ushpa)
     if 'ERROR' in ushpa_data:
         error = 'You have to enter a valid ushpa number'
     elif not (email and '@' in email and '.' in email):
@@ -53,13 +52,3 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         )
         return
     return error
-
-def _get_ushpa_data(ushpa):
-    """Access the USHPA API and return a dictionary of data"""
-    req = 'https://www.ushpa.aero/ushpa_validation_ratings.asp?chapter=%s&pin=%s&ushpa=%s' 
-    data = requests.get( req % (app.config['USHPA_CHAPTER'], app.config['USHPA_PIN'], ushpa) )
-    #Parse plain text
-    data = ( x for x in data.text.strip().split('\n') )
-    data = ( x.split(':') for x in data )
-    data = { k:v.strip() for k,v in data }
-    return data
