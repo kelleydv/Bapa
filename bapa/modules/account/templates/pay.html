@@ -2,34 +2,52 @@
 {% block title %}Pay Member Dues{% endblock %}
 {% block body %}
 
-	<h2>Pay Member Dues</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
 
-	{% if error %}
-		<div class="error">
-			<strong>Error:</strong> {{ error }}
+				{% if error %}
+					<div class="alert alert-danger" role="alert">
+						<strong>Error</strong> {{ error }}
+					</div>
+				{% endif %}
+
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Pay Member Dues</h3>
+					</div>
+					<div class="panel-body">
+						<form action="{{ url_for('account.pay') }}" method="POST">
+
+							<div class="form-group">
+								<label>USHPA Pilot Number</label>
+								<input type="text" name="ushpa" value="{{ session['user_ushpa'] }}" readonly class="form-control">
+							</div>
+
+							<div class="form-group">
+								<label for="amount">Amount</label>
+								<div class="input-group">
+									<span class="input-group-addon">$</span>
+									<input type="text" class="form-control" name="amount" id="amount" aria-label="Amount (to the nearest dollar)">
+									<span class="input-group-addon">.00</span>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" name="password" id="password" class="form-control">
+							</div>
+
+							<div class="form-group">
+								<input type="submit" value="Make Payment" class="btn btn-success pull-right">
+							</div>
+
+						</form>
+					</div>
+				</div>
+
+			</div>
 		</div>
-	{% endif %}
-
-	<form action="{{ url_for('account.pay') }}" method="POST">
-
-		<div class="form-control">
-			<label>USHPA Pilot Number: </label>
-			<input type="text" name="ushpa" value="{{ session['user_ushpa'] }}" readonly>
-		</div>
-
-		<div class="form-control">
-			<label for="password">Password: </label>
-			<input type="password" name="password" id="password">
-		</div>
-
-		<div class="form-control">
-			<label for="amount">Amount: </label>
-			<input type="text" name="amount" id="amount">
-		</div>
-
-		<div class="form-control">
-			<input type="submit" value="Make Payment">
-		</div>
-	</form>
+	</div>
 
 {% endblock %}

@@ -1,34 +1,51 @@
+
 {% extends "layout.html" %}
 {% block title %}Account{% endblock %}
 {% block body %}
 
-	<h2>Account</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
 
-	<table>
-		<tbody>
-			<tr>
-				<td>USHPA Number: </td>
-				<td>{{ session['user_ushpa'] }}</td>
-			</tr>
-			<tr>
-				<td>First Name: </td>
-				<td>{{ session['firstname'] }}</td>
-			</tr>
-			<tr>
-				<td>Last Name: </td>
-				<td>{{ session['lastname'] }}</td>
-			</tr>
-			<tr>
-				<td>Last Payment: </td>
-				<td>${{ account['amount'] }}</td>
-			</tr>
-			<tr>
-				<td>Date of Last Payment: </td>
-				<td>{{ account['date'] }}</td>
-			</tr>
-		</tbody>
-	</table>
-	
-	<a href="{{ url_for('account.pay') }}">Make Payment</a>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Account</h3>
+					</div>
+					<div class="panel-body">
+						<p>Your account is not current, <a href="{{ url_for('account.pay') }}">Make a Payment</a></p>
+						<table class="table">
+							<thead>
+								<tr>
+									<th colspan="2">Details</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>USHPA Number: </td>
+									<td>{{ session['user_ushpa'] }}</td>
+								</tr>
+								<tr>
+									<td>First Name: </td>
+									<td>{{ session['firstname'] }}</td>
+								</tr>
+								<tr>
+									<td>Last Name: </td>
+									<td>{{ session['lastname'] }}</td>
+								</tr>
+								<tr>
+									<td>Last Payment: </td>
+									<td>${{ account['amount'] }}</td>
+								</tr>
+								<tr>
+									<td>Date of Last Payment: </td>
+									<td>{{ account['date'] }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 {% endblock %}

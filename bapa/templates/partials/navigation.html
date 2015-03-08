@@ -1,13 +1,45 @@
 {% block navigation %}
-<h1>BAPA</h1>
-<div class="navigation">
-	<a href="{{ url_for('home.index') }}">home</a> |
-	{% if session['user_id'] %}
-		<a href="{{ url_for('account.view') }}">account</a> |
-		<a href="{{ url_for('home.logout') }}">sign out [{{ session['firstname'] }}]</a>
-	{% else %}
-		<a href="{{ url_for('home.register') }}">sign up</a> |
-		<a href="{{ url_for('home.login') }}">sign in</a>
-	{% endif %}
+<nav class="navbar navbar-inverse navbar-static-top">
+	<div class="container">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="{{ url_for('home.index') }}">BAPA</a>
+		</div>
+
+		<div class="collapse navbar-collapse" id="nav-collapse">
+
+			{% if session['user_id'] %}
+			<ul class="nav navbar-nav">
+				<li><a href="#">News</a></li>
+				<li><a href="#">Classes</a></li>
+				<li><a href="#">Weather</a></li>
+				<li><a href="#">Videos</a></li>
+				<li><a href="#">Membership</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ session['firstname'] }} <span class="caret"></span></a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a href="{{ url_for('account.view') }}">Account</a></li>
+						<li><a href="{{ url_for('home.logout') }}">Sign Out</a></li>
+					</ul>
+				</li>
+			</ul>
+			{% else %}
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="{{ url_for('home.register') }}">Register</a></li>
+				<li><a href="{{ url_for('home.login') }}">Login</a></li>
+			</ul>
+			{% endif %}
+
+		</div> <!-- / navbar.collapse -->
+
 	</div>
+</nav>
 {% endblock %}
