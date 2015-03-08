@@ -2,3 +2,5 @@ venv
 sandbox*
 __pycache__
 .DS_Store
+bapa/config/*
+!bapa/config/default.cfg
