@@ -1,10 +1,13 @@
 from flask import Flask, url_for
 from flask_mail import Mail
-from flask import json
+from datetime import date
 
 app = Flask(__name__)
 
 app.config.from_envvar('BAPA_CONF')
+
+# Template Globals
+app.jinja_env.globals['year'] = date.today().year
 
 mail = Mail(app)
 
