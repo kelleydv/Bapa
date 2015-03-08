@@ -21,7 +21,10 @@ def authenticate_user(ushpa, password):
     Authenticate and return user document from
     database, None on failed auth.
     """
-    return models.User.auth(ushpa, password)
+    user = models.User.auth(ushpa, password)
+    officer = models.Officer.from_user(user['_id'])
+    user.update(officer=officer)
+    return user
 
 
 def signup(ushpa, email, password, password2, firstname, lastname):
