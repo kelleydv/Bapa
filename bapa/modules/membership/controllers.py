@@ -1,4 +1,4 @@
-import bapa.models as models
+from bapa import models
 
 def get_last_payment(user_id):
     """Retrieve latest payment info for user, or return None"""

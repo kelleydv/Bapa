@@ -1,5 +1,6 @@
 from . import controllers
-from flask import session, render_template, redirect, url_for, request, flash
+from flask import render_template, redirect, url_for, flash
+from flask import session, request
 from flask import Blueprint
 
 home_bp = Blueprint('home', __name__, template_folder='templates')

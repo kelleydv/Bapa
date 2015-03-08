@@ -1,5 +1,5 @@
-from bapa.utils import timestamp
 from bapa.models import Base
+from bapa.utils import timestamp
 
 class Payment(Base):
     """For modeling user financial contributions"""

@@ -1,6 +1,6 @@
-import bapa.models as models
-from bapa.utils import timestamp
+from bapa import models
 from bapa import app, services
+from bapa.utils import timestamp
 
 def record_user_activity(user_id):
     """

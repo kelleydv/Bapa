@@ -1,8 +1,8 @@
 from . import controllers
-from flask import session, flash
-from flask import render_template, redirect, url_for, request
-from flask import Blueprint
 from bapa.utils import timestamp, is_too_old
+from flask import render_template, redirect, url_for, flash
+from flask import session, request
+from flask import Blueprint
 
 pass_bp = Blueprint('password', __name__, template_folder='templates')
 

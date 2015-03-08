@@ -1,8 +1,6 @@
 from passlib.hash import pbkdf2_sha256
-import datetime
-import os
 from base64 import b64decode, b64encode
-import binascii
+import datetime, os, binascii
 
 def get_hash(m):
     """One hundred thousand applications of sha256"""

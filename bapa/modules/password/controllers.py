@@ -1,7 +1,7 @@
 from bapa import models
+from bapa import app, mail
 from bapa.utils import timestamp,is_too_old, get_salt
 from bapa.utils import object_from_timestamp, get_hash
-from bapa import app, mail
 from flask_mail import Message
 
 
