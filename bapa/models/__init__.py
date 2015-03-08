@@ -1,4 +1,4 @@
 from .base import Base
-from .account import Account
+from .payment import Payment
 from .user import User
 from .reset import ResetPassword

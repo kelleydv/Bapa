@@ -1,1 +1,1 @@
-from .routes import acct_bp
+from .routes import memb_bp
