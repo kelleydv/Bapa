@@ -16,7 +16,5 @@ class Payment(Base):
 
     @classmethod
     def from_user(cls, user_id):
-        return cls.collection.find_one(
-            {'user_id': user_id}
-        )
+        return cls.latest(user_id=user_id)
 

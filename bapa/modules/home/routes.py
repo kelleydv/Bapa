@@ -46,8 +46,7 @@ def login():
             session['user_id'] = str(user['_id'])
             session['user_ushpa'] = user['ushpa']
             session['firstname'] = user['firstname']
-            if user['officer']:
-                session['office'] = user['officer']['office']
+            session.permissions = user['permissions']
             return redirect(url_for('home.index'))
         else:
             error = 'Invalid username or password'
