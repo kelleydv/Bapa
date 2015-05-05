@@ -4,7 +4,10 @@ from bson.objectid import ObjectId
 
 class Base:
 
-    db = MongoClient()['bapa']
+    if os.environ.get('HEROKU'):
+        db = MongoClient(host=os.environ.get('MONGOLAB_URI'))['bapa']
+    else:
+        db = MongoClient()['bapa']
 
     @classmethod
     def update(cls, id, **kwargs):
