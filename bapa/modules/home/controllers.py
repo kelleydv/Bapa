@@ -27,9 +27,9 @@ def authenticate_user(ushpa, password):
 def signup(ushpa, email, password, password2, firstname, lastname):
     """Register the user, return error or None."""
     ushpa_data = services.ushpa.get_pilot_data(ushpa)
-    if 'ERROR' in ushpa_data:
-        error = 'You have to enter a valid ushpa number'
-    elif not (email and '@' in email and '.' in email):
+    #if 'ERROR' in ushpa_data:
+    #    error = 'You have to enter a valid ushpa number'
+    if not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
     elif models.User.match(ushpa=ushpa):
         error = 'This USHPA pilot number is already in use by a current BAPA member'
