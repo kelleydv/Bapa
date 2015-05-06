@@ -5,7 +5,8 @@ from bson.objectid import ObjectId
 class Base:
 
     if os.environ.get('HEROKU'):
-        db = MongoClient(host=os.environ.get('MONGOLAB_URI'))['bapa']
+        uri = os.environ.get('MONGOLAB_URI')
+        db = MongoClient(host=uri).get_default_database()
     else:
         db = MongoClient()['bapa']
 
