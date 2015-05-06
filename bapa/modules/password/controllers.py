@@ -4,6 +4,8 @@ from bapa.utils import timestamp,is_too_old, get_salt
 from bapa.utils import object_from_timestamp, get_hash
 from flask_mail import Message
 
+import os
+
 
 def reset_password_request(ushpa, email, url):
     """Send an email to the user with a token"""
@@ -27,7 +29,7 @@ def reset_password_request(ushpa, email, url):
                 recipients=[email]
             )
             
-            if app.debug:
+            if app.debug and not os.environ.get('HEROKU'):
                 print(body)
             else:
                 with app.app_context():
