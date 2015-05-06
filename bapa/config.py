@@ -27,4 +27,4 @@ class Develop(Debug):
     MAIL_DEFAULT_SENDER = os.environ.get('bapa_mail_default_sender')
 
     USHPA_CHAPTER = os.environ.get('bapa_ushpa_chapter')
-    USHPA_PIN = os.environ.get('bapa_ushap_host')
+    USHPA_PIN = os.environ.get('bapa_ushap_pin')
