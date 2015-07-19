@@ -1,6 +1,6 @@
 from bapa import models
 from bapa import app, services
-from bapa.utils import timestamp
+from bapa.utils import timestamp, is_too_old
 
 def record_user_activity(user_id):
     """
@@ -21,7 +21,24 @@ def authenticate_user(ushpa, password):
     Authenticate and return user document from
     database, None on failed auth.
     """
-    return models.User.auth(ushpa, password)
+    user = models.User.auth(ushpa, password)
+    # Permissions
+    if user:
+        permissions = {
+            'officer': False,
+            'memeber': False,
+            'admin': False
+        }
+        if models.Officer.from_user(user['_id']):
+            permissions['officer'] = True
+        if models.Administrator.from_user(user['_id']):
+            permissions['admin'] = True
+        payment = models.Payment.from_user(user['_id'])
+        if payment:
+            if not is_too_old(payment['date'], years=1):
+                permissions['member'] = True 
+        user.update(permissions=permissions)
+    return user
 
 
 def signup(ushpa, email, password, password2, firstname, lastname):

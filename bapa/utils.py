@@ -26,11 +26,11 @@ def object_from_timestamp(date_str):
     """Create an object from a timestamp string"""
     return datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S.%f")
 
-def is_too_old(time_obj, limit=5):
-    """Return True if a timestamp is older than limit, False otherwise"""
+def is_too_old(time_obj, minutes=5, years=0):
+    """Return True if a timestamp is older than specified time, False otherwise"""
     if not time_obj:
         return True
     elapsed = datetime.datetime.utcnow() - time_obj
-    if elapsed > datetime.timedelta(minutes=limit):
+    if elapsed > datetime.timedelta(minutes=minutes, years=years):
         return True
     return False
