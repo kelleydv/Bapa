@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% block title %}Members{% endblock %}
+{% block body %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-md-offset-4">
+
+				{% for first, last, rating in members %}
+				{{ first }} {{ last }}  {{ rating }}
+				{% endfor %}
+
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

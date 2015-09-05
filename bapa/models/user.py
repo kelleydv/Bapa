@@ -14,15 +14,15 @@ class User(Base):
             'password': get_hash(password),
             'firstname': firstname,
             'lastname': lastname,
-            'last_activity': timestamp(),
-            'active': False,    # Is the user's membership active?
-            'current': False,   # Has user paid membership dues?
-            'officer': False,   # Is the user a BAPA officer?
-            'admin': False,     # Does the user have admin priveleges?
+            'last_auth': timestamp()
         })
 
     @classmethod
     def auth(cls, ushpa, password):
         user = cls.collection.find_one( {'ushpa':ushpa} )
         if user and verify_hash(password, user['password']):
+            cls.collection.update(
+                {'_id': user['_id']},
+                {'$set': {'last_auth': timestamp()} }
+            )
             return user

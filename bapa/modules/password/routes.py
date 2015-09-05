@@ -9,7 +9,7 @@ pass_bp = Blueprint('password', __name__, template_folder='templates')
 
 @pass_bp.route('/reset/request', methods=['GET', 'POST'])
 def reset_request():
-    if session.get('user_id'):
+    if session.get('user'):
         return redirect(url_for('home.index'))
     error = None
     if request.method == 'POST':
@@ -26,7 +26,7 @@ def reset_request():
 
 @pass_bp.route('/reset/auth/<secret>', methods=['GET', 'POST'])
 def reset_auth(secret):
-    if session.get('user_id') or not secret:
+    if session.get('user') or not secret:
         return redirect(url_for('home.index'))
     if request.method == 'POST':
         user = controllers.reset_password_auth(
@@ -37,7 +37,7 @@ def reset_auth(secret):
         if not user:
             flash('Password Reset Failed')
             return redirect(url_for('home.login'))
-        session['user_id'] = str(user['_id'])
+        session['user']['_id'] = str(user['_id'])
         session['authed'] = timestamp(object=True)
         return redirect(url_for('password.reset'))
     return render_template('reset_auth.html', secret=secret)
@@ -45,11 +45,11 @@ def reset_auth(secret):
 
 @pass_bp.route('/auth', methods=['GET', 'POST'])
 def simple_auth():
-    if not session.get('user_id'):
+    if not session.get('user'):
         return redirect(url_for('home.login'))
     error = None
     if request.method == 'POST':
-        if controllers.auth(session['user_ushpa'], request.form['password']):
+        if controllers.auth(session['user']['ushpa'], request.form['password']):
             session['authed'] = timestamp(object=True)
             return redirect(url_for('password.reset'))
         error = 'Enter your current password'
@@ -58,14 +58,14 @@ def simple_auth():
 
 @pass_bp.route('/reset', methods=['GET', 'POST'])
 def reset():
-    if not session.get('user_id'):
+    if not session.get('user'):
         return redirect(url_for('home.login'))
     if is_too_old(session.get('authed')):
         return redirect(url_for('password.simple_auth'))
     error = None
     if request.method == 'POST':
         error = controllers.reset_password(
-            session['user_id'],
+            session['user']['_id'],
             request.form['password'],
             request.form['password2']
         )
@@ -73,4 +73,3 @@ def reset():
             flash('Your password has been reset')
             return redirect(url_for('home.logout'))
     return render_template('reset.html', error=error)
-

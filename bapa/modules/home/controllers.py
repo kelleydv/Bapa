@@ -2,26 +2,22 @@ from bapa import models
 from bapa import app, services
 from bapa.utils import timestamp
 
-def record_user_activity(user_id):
-    """
-    Return True if last activity is successfully
-    recorded in the database for user_id.
-    """
-    res = models.User.update(
-                user_id,
-                last_activity=timestamp()
-            )
-    if not res['updatedExisting']:
-        return
-    return True
-
 
 def authenticate_user(ushpa, password):
     """
     Authenticate and return user document from
-    database, None on failed auth.
+    database, None on failed auth.  Prepare for
+    use as session data.
     """
-    return models.User.auth(ushpa, password)
+    user = models.User.auth(ushpa, password)
+    if not user:
+        return
+    user['_id'] = str(user['_id'])
+    if models.Officer.match(user_id=user['_id']):
+        user['officer'] = True
+    if models.Admin.match(user_id=user['_id']):
+        user['admin'] = True
+    return user
 
 
 def signup(ushpa, email, password, password2, firstname, lastname):

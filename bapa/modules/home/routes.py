@@ -14,7 +14,7 @@ def index():
 @home_bp.route('/register', methods=['GET', 'POST'])
 def register():
     """Register the user."""
-    if session.get('user_id'):
+    if session.get('user'):
         return redirect(url_for('home.index'))
     error = None
     if request.method == 'POST':
@@ -26,7 +26,7 @@ def register():
             request.form['firstname'],
             request.form['lastname']
         )
-        if not error:    
+        if not error:
             flash('You were successfully registered and can login now')
             return redirect(url_for('home.login'))
     return render_template('register.html', error=error)
@@ -36,17 +36,16 @@ def register():
 @home_bp.route('/login', methods=['GET', 'POST'])
 def login():
     """User login"""
-    if session.get('user_id'):
+    if session.get('user'):
         return redirect(url_for('home.index'))
     error = None
     if request.method == 'POST':
         user = controllers.authenticate_user(request.form['ushpa'], request.form['password'])
         if user:
+            import pprint
+            pprint.pprint(user)
             flash('Welcome back, %s' % user['firstname'])
-            session['user_id'] = str(user['_id'])
-            session['user_ushpa'] = user['ushpa']
-            session['firstname'] = user['firstname']
-            session['lastname'] = user['lastname']
+            session['user'] = user
             return redirect(url_for('home.index'))
         else:
             error = 'Invalid username or password'
