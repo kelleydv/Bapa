@@ -27,6 +27,6 @@ class Develop(Debug):
     MAIL_DEFAULT_SENDER = os.environ.get('bapa_mail_default_sender')
 
     USHPA_CHAPTER = os.environ.get('bapa_ushpa_chapter')
-    USHPA_PIN = os.environ.get('bapa_ushap_pin')
+    USHPA_PIN = os.environ.get('bapa_ushpa_pin')
 
     PAYPAL_ENDPOINT = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
