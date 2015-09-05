@@ -3,15 +3,17 @@ from bapa.utils import timestamp
 
 class Payment(Base):
     """For modeling user financial contributions"""
-    
+
     collection = Base.db.payments
 
     @classmethod
-    def create(cls, user_id, amount):
+    def create(cls, user_id, item, amount, date, ipn_id):
         return cls.collection.insert({
             'user_id': user_id,
+            'item': item, # Dues, donation, etc.
             'amount': amount,
-            'date': timestamp(),
+            'date': date,
+            'ipn_id': ipn_id
         })
 
     @classmethod
@@ -19,4 +21,3 @@ class Payment(Base):
         return cls.collection.find_one(
             {'user_id': user_id}
         )
-

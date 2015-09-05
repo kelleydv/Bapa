@@ -1,5 +1,5 @@
 from . import controllers
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, jsonify
 from flask import session, request
 from flask import Blueprint
 
@@ -23,14 +23,12 @@ def pay():
     """Pay club dues"""
     if not session.get('user_id'):
         return redirect(url_for('home.login'))
-    error = None
-    if request.method == 'POST':
-
-        error = controllers.make_payment(
-            session['user_ushpa'],
-            request.form['password'],
-            request.form['amount']
-        )
-        if not error:
-            return redirect(url_for('membership.status'))
+    error=None
     return render_template('pay.html', error=error, session=session)
+
+@memb_bp.route('/ipnlistener', methods=['POST'])
+def listener():
+    """IPN listener for paypal payments"""
+    ipn = request.form
+    controllers.record_payment(ipn)
+    return ''

@@ -1,1 +1,1 @@
-from . import ushpa
+from . import ushpa, paypal
