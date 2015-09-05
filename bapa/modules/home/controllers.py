@@ -1,6 +1,6 @@
 from bapa import models
 from bapa import app, services
-from bapa.utils import timestamp
+from bapa.utils import timestamp, is_too_old, object_from_timestamp
 
 
 def authenticate_user(ushpa, password):
@@ -13,10 +13,19 @@ def authenticate_user(ushpa, password):
     if not user:
         return
     user['_id'] = str(user['_id'])
+
+    # Add officer and admin data
     if models.Officer.match(user_id=user['_id']):
         user['officer'] = True
     if models.Admin.match(user_id=user['_id']):
         user['admin'] = True
+
+    # Add membership status
+    dues = models.Payment.latest(user_id=user['_id'], item='Membership Dues')
+    if dues:
+        t = object_from_timestamp(dues[0]['timestamp'])
+        if not is_too_old(t, years=1):
+            user['member'] = True
     return user
 
 

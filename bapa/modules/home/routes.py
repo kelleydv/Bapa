@@ -42,8 +42,6 @@ def login():
     if request.method == 'POST':
         user = controllers.authenticate_user(request.form['ushpa'], request.form['password'])
         if user:
-            import pprint
-            pprint.pprint(user)
             flash('Welcome back, %s' % user['firstname'])
             session['user'] = user
             return redirect(url_for('home.index'))

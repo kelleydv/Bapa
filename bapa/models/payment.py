@@ -13,6 +13,7 @@ class Payment(Base):
             'item': item, # Dues, donation, etc.
             'amount': amount,
             'date': date,
+            'timestamp': timestamp(), # todo: parse paypal date for datetime obj
             'ipn_id': ipn_id
         })
 

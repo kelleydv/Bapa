@@ -40,5 +40,5 @@ class Base:
     @classmethod
     def latest(cls, n=1, **kwargs):
         """Return the latest n documents matched by kwargs"""
-        kwargs = cls._ensure_ObjectIds(kwargs)
+        #kwargs = cls._ensure_ObjectIds(kwargs)
         return [ x for x in cls.collection.find(kwargs).sort('_id',-1)[0:n] ]
