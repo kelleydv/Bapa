@@ -3,6 +3,9 @@ from flask import render_template, redirect, url_for, flash
 from flask import session, request
 from flask import Blueprint
 
+import markdown2
+import os
+
 home_bp = Blueprint('home', __name__, template_folder='templates')
 
 
@@ -57,3 +60,20 @@ def logout(msg='You were logged out'):
     flash(msg)
     session.clear()
     return redirect(url_for('home.index'))
+
+
+@home_bp.route('/page/<name>')
+def page(name=None):
+    path = os.path.join(os.getcwd(), 'bapa', 'content', name + '.md')
+
+    if not os.path.isfile(path):
+        # TODO Create a 404 page
+        flash('Page not found')
+        return redirect(url_for('home.index'))
+
+    with open(path) as f:
+        text = f.read()
+        content = markdown2.markdown(text)
+        title = text.split('\n').pop(0)[2:].strip()
+
+    return render_template('pages/page.html', title=title, content=content)

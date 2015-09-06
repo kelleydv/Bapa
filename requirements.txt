@@ -3,3 +3,5 @@ Flask-Mail
 pymongo
 passlib
 requests
+markdown2
+

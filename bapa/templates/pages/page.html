@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block title %} {{ title }} {% endblock %}
+
+{% block body %}
+
+<div class=container>
+  <div class="col-md-12 bg-paper m-bottom-more">
+    <div class="page">
+      {{ content|safe }}
+    </div>
+  </div>
+</div>
+
+{% endblock %}
