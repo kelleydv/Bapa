@@ -16,7 +16,7 @@ def reset_request():
         error = controllers.reset_password_request(
             request.form['ushpa'],
             request.form['email'],
-            '/password/reset/auth'
+            url_for('password.reset_auth')
         )
         if not error:
             flash('Email sent')
@@ -24,8 +24,9 @@ def reset_request():
     return render_template('reset_req.html', error=error)
 
 
+@pass_bp.route('/reset/auth/')
 @pass_bp.route('/reset/auth/<secret>', methods=['GET', 'POST'])
-def reset_auth(secret):
+def reset_auth(secret=None):
     if session.get('user') or not secret:
         return redirect(url_for('home.index'))
     if request.method == 'POST':

@@ -4,7 +4,7 @@ from bapa.utils import timestamp,is_too_old, get_salt
 from bapa.utils import object_from_timestamp, get_hash
 from flask_mail import Message
 
-import os
+import os, string
 
 
 def reset_password_request(ushpa, email, url):
@@ -16,19 +16,27 @@ def reset_password_request(ushpa, email, url):
     else:
         user = models.User.match(email=email)
         if user and user['ushpa'] == ushpa:
-            token = get_salt()
+            token = get_salt()[:32]
             models.ResetPassword().create(
                     user['_id'],
                     timestamp(),
                     token
             )
-            body = '%s/%s' % (url,token)
+
+            url = app.config['HOST'] + url
+            url = url + token
+            email_path = os.path.join(os.getcwd(), 'bapa', 'emails', 'reset.txt')
+            name = user['firstname']
+            with open(email_path, 'r') as f:
+                t = f.read()
+                body = string.Template(t).substitute(url=url, name=name, host=app.config['HOST'])
+
             msg = Message(
                 subject='Password Reset - sfbapa.org',
                 body=body,
                 recipients=[email]
             )
-            
+
             if app.debug and not os.environ.get('HEROKU'):
                 print(body)
             else:
@@ -62,4 +70,3 @@ def reset_password(user_id, password, password2):
     if password != password2:
         return 'Passwords must match'
     models.User.update(user_id, password=get_hash(password))
-

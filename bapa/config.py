@@ -13,6 +13,8 @@ class Config():
     USHPA_CHAPTER = '1000'
     USHPA_PIN = '2000'
 
+    HOST = 'http://localhost:5000'
+
 class Debug(Config):
     DEBUG = True
 
@@ -28,5 +30,7 @@ class Develop(Debug):
 
     USHPA_CHAPTER = os.environ.get('bapa_ushpa_chapter')
     USHPA_PIN = os.environ.get('bapa_ushpa_pin')
+
+    HOST = os.environ.get('bapa_host') or Config.HOST
 
     PAYPAL_ENDPOINT = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
