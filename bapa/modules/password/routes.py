@@ -37,6 +37,7 @@ def reset_auth(secret):
         if not user:
             flash('Password Reset Failed')
             return redirect(url_for('home.login'))
+        session['user'] = {}
         session['user']['_id'] = str(user['_id'])
         session['authed'] = timestamp(object=True)
         return redirect(url_for('password.reset'))
