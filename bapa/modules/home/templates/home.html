@@ -16,8 +16,10 @@
 				<div class="col-md-12 text-center">
 					<h1>Join BAPA and Take Flight</h1>
 					<hr>
+					{% if not session.get('user') %}
 					<a href="{{ url_for('home.register') }}" class="btn btn-default btn-lg">Register</a>
 					<a href="{{ url_for('home.login') }}" class="btn btn-default btn-lg">Login</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>

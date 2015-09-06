@@ -1,4 +1,4 @@
-from bapa import models
+from bapa import models, services
 
 def get_last_payment(user_id):
     """Retrieve latest payment info for user, or return None"""
@@ -7,14 +7,29 @@ def get_last_payment(user_id):
         return latest[0]
     return
 
-def make_payment(ushpa, password, amount):
+def record_payment(ipn):
     """
-    Authenticate and record user payment.  Return error string
-    on failure.
+    Handle an instant payment notification from paypal.
     """
-    user = models.User.auth(ushpa, password)
+    if not services.paypal.verify_ipn(ipn):
+        return 'Invalid IPN'
+
+    user = models.User.from_id(ipn['custom'])
     if not user:
-        return "Invalid password"
-    else:
-        models.Payment.create(user['_id'], amount)
-        return
+        return 'Invalid user'
+
+    # Save all IPNs
+    ipn_id = models.Ipn.create(ipn['custom'], ipn)
+
+    if ipn['payment_status'] == 'Completed':
+        if ipn['item_name'] == 'Membership Dues':
+            models.Payment.create(
+                ipn['custom'], # user_id
+                ipn['item_name'],
+                ipn['payment_gross'],
+                ipn['payment_date'],
+                ipn_id
+            )
+        else:
+            # todo, Donation, etc.
+            pass

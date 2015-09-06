@@ -1,6 +1,6 @@
 
 {% extends "layout.html" %}
-{% block title %}Account{% endblock %}
+{% block title %}Status{% endblock %}
 {% block body %}
 
 	<div class="container">
@@ -9,10 +9,14 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="panel-title">Membership Account</h3>
+						<h3 class="panel-title">Membership Status</h3>
 					</div>
 					<div class="panel-body">
-						<p>Your membership is not current, <a href="{{ url_for('membership.pay') }}">Make a Payment</a></p>
+						{% if session['user'].get('member') %}
+						<p>Your membership is active, you can still <a href="{{ url_for('membership.pay') }}">Make a Payment</a></p>
+						{% else %}
+						<p>Your membership is not active, <a href="{{ url_for('membership.pay') }}">Make a Payment</a></p>
+						{% endif %}
 						<table class="table">
 							<thead>
 								<tr>
@@ -22,15 +26,15 @@
 							<tbody>
 								<tr>
 									<td>USHPA Number: </td>
-									<td>{{ session['user_ushpa'] }}</td>
+									<td>{{ session['user']['ushpa'] }}</td>
 								</tr>
 								<tr>
 									<td>First Name: </td>
-									<td>{{ session['firstname'] }}</td>
+									<td>{{ session['user']['firstname'] }}</td>
 								</tr>
 								<tr>
 									<td>Last Name: </td>
-									<td>{{ session['lastname'] }}</td>
+									<td>{{ session['user']['lastname'] }}</td>
 								</tr>
 								<tr>
 									<td>Last Payment: </td>
