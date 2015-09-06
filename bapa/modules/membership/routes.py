@@ -2,6 +2,7 @@ from . import controllers
 from flask import render_template, redirect, url_for, flash, jsonify
 from flask import session, request
 from flask import Blueprint
+from bson.objectid import ObjectId
 
 memb_bp = Blueprint('membership', __name__, template_folder='templates')
 
@@ -12,7 +13,7 @@ def status():
     if not session.get('user'):
         return redirect(url_for('home.login'))
     if request.method == 'GET':
-        payment = controllers.get_last_payment(session['user']['_id'])
+        payment = controllers.get_last_payment(ObjectId(session['user']['_id']))
         if not payment:
             return redirect(url_for('membership.pay'))
     return render_template('status.html', payment=payment)

@@ -9,16 +9,10 @@ class Payment(Base):
     @classmethod
     def create(cls, user_id, item, amount, date, ipn_id):
         return cls.collection.insert({
-            'user_id': user_id,
+            'user_id': cls.object_id(user_id),
             'item': item, # Dues, donation, etc.
             'amount': amount,
             'date': date,
             'timestamp': timestamp(), # todo: parse paypal date for datetime obj
-            'ipn_id': ipn_id
+            'ipn_id': ipn_id # passed as ObjectId
         })
-
-    @classmethod
-    def from_user(cls, user_id):
-        return cls.collection.find_one(
-            {'user_id': user_id}
-        )

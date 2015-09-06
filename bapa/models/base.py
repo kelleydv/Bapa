@@ -10,6 +10,8 @@ class Base:
     else:
         db = MongoClient()['bapa']
 
+    object_id = ObjectId # for use in subclasses
+
     @classmethod
     def update(cls, id, **kwargs):
         if isinstance(id, str):
@@ -25,10 +27,6 @@ class Base:
             id = ObjectId(id)
         return cls.collection.find_one( {'_id':id} )
 
-    @staticmethod
-    def _ensure_ObjectIds(doc):
-        return { k:ObjectId(v) for k,v in doc.items() if k.endswith('_id') and isinstance(v, str) }
-
     @classmethod
     def match(cls, **kwargs):
         return cls.collection.find_one(kwargs)
@@ -40,5 +38,5 @@ class Base:
     @classmethod
     def latest(cls, n=1, **kwargs):
         """Return the latest n documents matched by kwargs"""
-        #kwargs = cls._ensure_ObjectIds(kwargs)
+        print(kwargs)
         return [ x for x in cls.collection.find(kwargs).sort('_id',-1)[0:n] ]

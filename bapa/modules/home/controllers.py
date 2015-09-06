@@ -12,7 +12,6 @@ def authenticate_user(ushpa, password):
     user = models.User.auth(ushpa, password)
     if not user:
         return
-    user['_id'] = str(user['_id'])
 
     # Add officer and admin data
     if models.Officer.match(user_id=user['_id']):
@@ -26,6 +25,8 @@ def authenticate_user(ushpa, password):
         t = object_from_timestamp(dues[0]['timestamp'])
         if not is_too_old(t, years=1):
             user['member'] = True
+
+    user['_id'] = str(user['_id']) # For session data
     return user
 
 

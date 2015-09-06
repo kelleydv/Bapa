@@ -9,12 +9,6 @@ class Ipn(Base):
     @classmethod
     def create(cls, user_id, ipn):
         return cls.collection.insert({
-            'user_id': user_id,
+            'user_id': cls.object_id(user_id),
             'ipn': ipn
         })
-
-    @classmethod
-    def from_user(cls, user_id):
-        return cls.collection.find_one(
-            {'user_id': user_id}
-        )

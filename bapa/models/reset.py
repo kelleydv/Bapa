@@ -9,7 +9,7 @@ class ResetPassword(Base):
     @classmethod
     def create(cls, user_id, timestamp, token):
         return cls.collection.insert({
-            'user_id': user_id,
+            'user_id': cls.object_id(user_id),
             'timestamp': timestamp,
             'token': token
         })
