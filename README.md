@@ -20,9 +20,8 @@ $ pip3 install -r requirements.txt
 ```
 $ source venv/bin/activate
 $ sudo mongod
-$ export BAPA_CONF=config/default.cfg
 $ python3 server.py 
- * Running on http://127.0.0.1:5000/
+ * Running on http://0.0.0.0:5000/
 ```
 
 ### Contributing
