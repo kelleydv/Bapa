@@ -1,6 +1,6 @@
 from bapa import models
 from bapa import app, mail
-from bapa.utils import timestamp,is_too_old, get_salt
+from bapa.utils import timestamp, is_too_old, get_salt
 from bapa.utils import object_from_timestamp, get_hash
 from flask_mail import Message
 
@@ -18,9 +18,9 @@ def reset_password_request(ushpa, email, url):
         if user and user['ushpa'] == ushpa:
             token = get_salt()[:32]
             models.ResetPassword().create(
-                    user['_id'],
-                    timestamp(),
-                    token
+                user['_id'],
+                timestamp(),
+                token
             )
 
             url = app.config['HOST'] + url

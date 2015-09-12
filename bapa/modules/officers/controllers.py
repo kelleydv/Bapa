@@ -15,7 +15,7 @@ def get_members():
     Return first name, last name, and rating
     for each registered user of the site.
     """
-    users =  models.User.match_all()
+    users = models.User.match_all()
     f = lambda a: 'Active' if _is_member(a) else 'Not Active'
     members = [(x['firstname'], x['lastname'], x['ushpa_data'].get('pg_pilot_rating'), f(x['_id'])) for x in users]
     return members

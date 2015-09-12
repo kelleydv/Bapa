@@ -1,5 +1,4 @@
 from bapa.models import Base
-from bapa.utils import get_salt, timestamp
 
 class Officer(Base):
     """Club officers"""

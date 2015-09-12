@@ -1,5 +1,5 @@
 from passlib.hash import pbkdf2_sha256
-from base64 import b64decode, b64encode
+from base64 import b64encode
 import datetime, os, binascii
 
 def get_hash(m):

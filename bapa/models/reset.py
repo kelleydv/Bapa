@@ -1,5 +1,4 @@
 from bapa.models import Base
-from bapa.utils import get_salt, timestamp
 
 class ResetPassword(Base):
     """Records inserted when a user requests a password reset"""
@@ -16,4 +15,4 @@ class ResetPassword(Base):
 
     @classmethod
     def delete(cls, token):
-        cls.collection.remove( {'token':token} )
+        cls.collection.remove({'token': token})

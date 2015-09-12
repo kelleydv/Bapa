@@ -2,7 +2,7 @@ from bapa import models, services
 
 def get_last_payment(user_id):
     """Retrieve latest payment info for user, or return None"""
-    latest = models.Payment.latest( user_id=user_id )
+    latest = models.Payment.latest(user_id=user_id)
     if latest:
         return latest[0]
     return

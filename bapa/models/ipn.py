@@ -1,5 +1,4 @@
 from bapa.models import Base
-from bapa.utils import timestamp
 
 class Ipn(Base):
     """Paypal IPNs"""

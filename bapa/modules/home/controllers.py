@@ -1,6 +1,6 @@
 from bapa import models
-from bapa import app, services
-from bapa.utils import timestamp, is_too_old, object_from_timestamp
+from bapa import services
+from bapa.utils import is_too_old, object_from_timestamp
 
 
 def authenticate_user(ushpa, password):
@@ -32,9 +32,6 @@ def authenticate_user(ushpa, password):
 
 def signup(ushpa, email, password, password2, firstname, lastname):
     """Register the user, return error or None."""
-    ushpa_data = services.ushpa.get_pilot_data(ushpa)
-    #if 'ERROR' in ushpa_data:
-    #    error = 'You have to enter a valid ushpa number'
     if not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
     elif models.User.match(ushpa=ushpa):
@@ -47,7 +44,7 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         error = 'The two passwords do not match'
     else:
         # Insert user into database.
-        # See models.User for full schema
+        ushpa_data = services.ushpa.get_pilot_data(ushpa)
         models.User.create(
             ushpa,
             ushpa_data,

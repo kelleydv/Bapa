@@ -18,14 +18,14 @@ class Base:
             id = ObjectId(id)
         return cls.collection.update(
             {'_id': id},
-            {'$set': kwargs }
+            {'$set': kwargs}
         )
 
     @classmethod
     def from_id(cls, id):
         if isinstance(id, str):
             id = ObjectId(id)
-        return cls.collection.find_one( {'_id':id} )
+        return cls.collection.find_one({'_id': id})
 
     @classmethod
     def match(cls, **kwargs):
@@ -38,5 +38,4 @@ class Base:
     @classmethod
     def latest(cls, n=1, **kwargs):
         """Return the latest n documents matched by kwargs"""
-        print(kwargs)
-        return [ x for x in cls.collection.find(kwargs).sort('_id',-1)[0:n] ]
+        return [x for x in cls.collection.find(kwargs).sort('_id', -1)[0:n]]

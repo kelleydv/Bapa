@@ -1,5 +1,5 @@
 from . import controllers
-from flask import render_template, redirect, url_for, flash, jsonify
+from flask import render_template, redirect, url_for
 from flask import session, request
 from flask import Blueprint
 from bson.objectid import ObjectId
@@ -24,7 +24,7 @@ def pay():
     """Pay club dues"""
     if not session.get('user'):
         return redirect(url_for('home.login'))
-    error=None
+    error = None
     return render_template('pay.html', error=error, session=session)
 
 @memb_bp.route('/ipnlistener', methods=['POST'])

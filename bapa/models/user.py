@@ -19,10 +19,12 @@ class User(Base):
 
     @classmethod
     def auth(cls, ushpa, password):
-        user = cls.collection.find_one( {'ushpa':ushpa} )
+        user = cls.collection.find_one({'ushpa': ushpa})
         if user and verify_hash(password, user['password']):
             cls.collection.update(
                 {'_id': user['_id']},
-                {'$set': {'last_auth': timestamp()} }
+                {
+                    '$set': {'last_auth': timestamp()}
+                }
             )
             return user
