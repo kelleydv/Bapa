@@ -5,13 +5,39 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
-
-				{% for first, last, rating, status in members %}
-				<p>{{ first }} {{ last }}  {{ rating }} {{ status }}</p>
-				{% endfor %}
-
+				<div class="panel panel-default">
+					<div class="panel-heading">Members</div>
+					{% for first, last, rating, status in members %} {% endfor %}
+					<table id="member-table" class="table">
+						<thead>
+							<tr>
+								<th>First Name</th>
+								<th>Last Name</th>
+								<th>Pilot Rating</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="{{ 'success' if status=='Active' else 'danger' }}">
+								<td>{{ first }}</td>
+								<td>{{ last }}</td>
+								<td>{{ rating }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
+
+{% endblock %}
+{% block post_body %}
+
+	<script type="text/javascript">
+		$(document).ready(function()
+				{
+						$("#member-table").tablesorter();
+				}
+		);
+	</script>
 
 {% endblock %}
