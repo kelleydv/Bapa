@@ -7,7 +7,6 @@
 			<div class="col-md-4 col-md-offset-4">
 				<div class="panel panel-default">
 					<div class="panel-heading">Members</div>
-					{% for first, last, rating, status in members %} {% endfor %}
 					<table id="member-table" class="table">
 						<thead>
 							<tr>
@@ -17,11 +16,13 @@
 							</tr>
 						</thead>
 						<tbody>
+							{% for first, last, rating, status in members %}
 							<tr class="{{ 'success' if status=='Active' else 'danger' }}">
 								<td>{{ first }}</td>
 								<td>{{ last }}</td>
 								<td>{{ rating }}</td>
 							</tr>
+							{% endfor %}
 						</tbody>
 					</table>
 				</div>
