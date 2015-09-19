@@ -24,11 +24,13 @@
 			{% if session['user'] %}
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown">
-					{% if session['user'].get('member') %}
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span style="color: dodgerblue">&#9679;</span> {{ session['user']['firstname'] }} <span class="caret"></span></a>
-					{% else %}
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ session['user']['firstname'] }} <span class="caret"></span></a>
-					{% endif %}
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+						{% if session['user'].get('member') %}
+						<span class="disk"></span>
+						{% endif %}
+						{{ session['user']['firstname'] }}
+						<span class="caret"></span>
+					</a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="{{ url_for('membership.status') }}">Membership Status</a></li>
 						{% if session['user'].get('officer') %}
