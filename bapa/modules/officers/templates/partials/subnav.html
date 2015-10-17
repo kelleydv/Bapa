@@ -1,0 +1,18 @@
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+						<ul class="nav nav-tabs">
+							<li role="presentation" class="{{ 'active' if page=='news' }}">
+								<a href="{{ url_for('officers.post_news') }}">Post News</a>
+							</li>
+						  <li role="presentation" class="{{ 'active' if page=='members' }}">
+								<a href="{{ url_for('officers.view_members') }}">Members</a>
+							</li>
+						  <li role="presentation" class="{{ 'active' if page=='other' }}">
+								<a href="#">Other</a>
+							</li>
+						</ul>
+			</div>
+		</div>
+	</div>

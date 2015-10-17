@@ -19,3 +19,9 @@ def get_members():
     f = lambda a: 'Active' if _is_member(a) else 'Not Active'
     members = [(x['firstname'], x['lastname'], x['ushpa_data'].get('pg_pilot_rating'), f(x['_id'])) for x in users]
     return members
+
+def news_update(subject, body, user_id):
+    """
+    Insert news entry into database
+    """
+    return models.News.create(user_id, subject, body)

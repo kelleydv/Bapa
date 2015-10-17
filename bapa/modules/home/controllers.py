@@ -55,3 +55,14 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         )
         return
     return error
+
+
+def get_news_entries():
+    """Retrieve news entries from database"""
+    entries = models.News.latest(10)
+    for entry in entries:
+        author = models.User.from_id(entry['user_id'])
+        name = '%s %s' % (author['firstname'], author['lastname'])
+        entry.update(name=name)
+    print(entries)
+    return entries

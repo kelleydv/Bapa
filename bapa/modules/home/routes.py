@@ -77,3 +77,9 @@ def page(name=None):
         title = text.split('\n').pop(0)[2:].strip()
 
     return render_template('pages/page.html', title=title, content=content)
+
+
+@home_bp.route('/news', methods=['GET'])
+def news():
+    entries = controllers.get_news_entries()
+    return render_template('news.html', entries=entries)
