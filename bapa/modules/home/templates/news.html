@@ -6,18 +6,7 @@
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
           {% for entry in entries %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">{{ entry['subject'] }}</h3>
-            </div>
-            <div class="panel-body">
-              {{ entry['body'] }}
-            </div>
-            <div class="panel-footer">
-              <small class="text-left">Posted by {{ entry['name'] }}</small>
-              <small class="text-right">Last updated {{ entry['timestamp'] }}</small>
-            </div>
-          </div>
+            {% include "partials/news_entry.html" %}
           {% endfor %}
         </div>
       </div>

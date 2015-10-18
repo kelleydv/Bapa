@@ -2,6 +2,8 @@ from bapa import models
 from bapa import services
 from bapa.utils import is_too_old, object_from_timestamp
 
+import markdown2
+
 
 def authenticate_user(ushpa, password):
     """
@@ -63,6 +65,7 @@ def get_news_entries():
     for entry in entries:
         author = models.User.from_id(entry['user_id'])
         name = '%s %s' % (author['firstname'], author['lastname'])
+        body = entry['body']
         entry.update(name=name)
-    print(entries)
+        entry.update(body=markdown2.markdown(body))
     return entries

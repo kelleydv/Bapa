@@ -1,0 +1,19 @@
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">{{ entry['subject'] }}</h3>
+    </div>
+    <div class="panel-body">
+      <div class="news">
+        {{ entry['body']|safe }}
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="footer-name text-left">
+        <small>Posted by {{ entry['name'] }}</small>
+      </div>
+      <div class="footer-date text-right">
+        <small>Last updated {{ entry.get('timestamp') }}</small>
+      </div>
+    </div>
+  </div>

@@ -28,10 +28,6 @@ def post_news():
         )
         return redirect(url_for('home.news'))
 
-@offic_bp.route('/news/preview', methods=['GET', 'POST'])
-def preview_post():
-    """TODO: markdown preview"""
-    return redirect(url_for('.post_news'))
 
 @offic_bp.route('/members', methods=['GET'])
 def view_members():
