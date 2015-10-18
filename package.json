@@ -1,0 +1,10 @@
+{
+  "name": "bapa",
+  "version": "0.0.0",
+  "dependencies": {
+    "bower": "latest"
+  },
+  "scripts": {
+    "postinstall": "bower install"
+  }
+}
