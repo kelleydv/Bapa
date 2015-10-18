@@ -59,9 +59,9 @@ def signup(ushpa, email, password, password2, firstname, lastname):
     return error
 
 
-def get_news_entries():
+def get_news_entries(page, n):
     """Retrieve news entries from database"""
-    entries = models.News.latest(10)
+    entries = models.News.paginate(page, n)
     for entry in entries:
         author = models.User.from_id(entry['user_id'])
         name = '%s %s' % (author['firstname'], author['lastname'])

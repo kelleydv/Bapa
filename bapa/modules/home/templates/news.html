@@ -8,8 +8,40 @@
           {% for entry in entries %}
             {% include "partials/news_entry.html" %}
           {% endfor %}
+          <nav>
+            <ul class="pager">
+              {% if page==0 %}
+              <li class="previous disabled">
+                <a href="#">
+                  <span aria-hidden="true">&larr;</span> Newer
+                </a>
+              </li>
+              {% else %}
+              <li class="previous">
+                <a href="{{ url_for('home.news', page=page-1) }}">
+                  <span aria-hidden="true">&larr;</span> Newer
+                </a>
+              </li>
+              {% endif %}
+              {% if n>entries|count %}
+              <li class="next disabled">
+                <a href="#">
+                  Older <span aria-hidden="true">&rarr;</span>
+                </a>
+              </li>
+              {% else %}
+              <li class="next">
+                <a href="{{ url_for('home.news', page=page+1) }}">
+                  Older <span aria-hidden="true">&rarr;</span>
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </nav>
         </div>
       </div>
     </div>
+
+
 
 {% endblock %}
