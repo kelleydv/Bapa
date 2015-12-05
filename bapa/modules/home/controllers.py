@@ -2,6 +2,8 @@ from bapa import models
 from bapa import services
 from bapa.utils import is_too_old, object_from_timestamp
 
+import markdown2
+
 
 def authenticate_user(ushpa, password):
     """
@@ -55,3 +57,15 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         )
         return
     return error
+
+
+def get_news_entries(page, n):
+    """Retrieve news entries from database"""
+    entries = models.News.paginate(page, n)
+    for entry in entries:
+        author = models.User.from_id(entry['user_id'])
+        name = '%s %s' % (author['firstname'], author['lastname'])
+        body = entry['body']
+        entry.update(name=name)
+        entry.update(body=markdown2.markdown(body))
+    return entries

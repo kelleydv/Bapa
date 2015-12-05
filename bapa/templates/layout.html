@@ -8,7 +8,8 @@
 
 		<title>{% block title %}Welcome{% endblock %} | Bay Area Paragliders Association</title>
 
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/bootstrap-markdown/css/bootstrap-markdown.min.css') }}">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bapa.css') }}">
 		{% block post_head %}{% endblock %}
 	</head>
@@ -22,9 +23,12 @@
 
 		{% include "partials/footer.html" %}
 
-		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery-1.11.2.min.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-		<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.tablesorter.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.min.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='bower_components/bootstrap-markdown/js/bootstrap-markdown.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='bower_components/markdown/lib/markdown.js') }}"></script>
+		<script type="text/javascript" src="{{ url_for('static', filename='bower_components/to-markdown/dist/to-markdown.js') }}"></script>
 		{% block post_body %}{% endblock %}
 	</body>
 </html>

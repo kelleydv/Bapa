@@ -77,3 +77,15 @@ def page(name=None):
         title = text.split('\n').pop(0)[2:].strip()
 
     return render_template('pages/page.html', title=title, content=content)
+
+
+@home_bp.route('/news', methods=['GET'])
+def news():
+    page = request.args.get('page')
+    n=3 #per page
+    if page:
+        page = int(page)
+    if not page or page<0:
+        page = 0
+    entries = controllers.get_news_entries(int(page), n)
+    return render_template('news.html', entries=entries, page=page, n=n)
