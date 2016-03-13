@@ -3,6 +3,9 @@ import os
 class Config():
     SECRET_KEY = 'ilovetofly'
 
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/bapa-local'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
     MAIL_SERVER = 'smtp.dummy.com'
     MAIL_PORT = '123'
     MAIL_USERNAME = 'uname'
@@ -20,7 +23,9 @@ class Debug(Config):
 
 
 class Develop(Debug):
-    SECRET_KEY = os.environ.get('bapa_secret_key')
+    SECRET_KEY = os.environ.get('bapa_secret_key') or Config.SECRET_KEY
+
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or Config.SQLALCHEMY_DATABASE_URI
 
     MAIL_SERVER = os.environ.get('bapa_mail_server')
     MAIL_PORT = os.environ.get('bapa_mail_port')

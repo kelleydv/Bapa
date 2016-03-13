@@ -13,7 +13,7 @@ def status():
     if not session.get('user'):
         return redirect(url_for('home.login'))
     if request.method == 'GET':
-        payment = controllers.get_last_payment(ObjectId(session['user']['_id']))
+        payment = controllers.get_last_payment(session['user']['id'])
         if not payment:
             return redirect(url_for('membership.pay'))
     return render_template('status.html', payment=payment)

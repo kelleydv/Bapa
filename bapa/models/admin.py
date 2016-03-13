@@ -1,12 +1,19 @@
-from bapa.models import Base
+from bapa import db
+from bapa.utils import timestamp
 
-class Admin(Base):
+class Admin(db.Model):
     """Website administrators"""
 
-    collection = Base.db.administrators
+    __tablename__ = 'administrators'
 
-    @classmethod
-    def create(cls, user_id):
-        return cls.collection.insert({
-            'user_id': cls.object_id(user_id)
-        })
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer())
+    appointer_id = db.Column(db.Integer())
+    created_at = db.Column(db.DateTime, default=lambda:timestamp(object=True))
+
+    def __init__(self, user_id, appointer_id):
+        self.user_id = user_id
+        self.appointer_id = appointer_id
+
+    def __repr__(self):
+        return '<Administrator {}>'.format(self.user_id)

@@ -1,34 +1,34 @@
-from bapa import models
-from bapa import services
-from bapa.utils import is_too_old, object_from_timestamp
+from bapa import db, services
+from bapa.models import User, Officer, Admin, News, Payment
+from bapa.utils import is_too_old, object_from_timestamp, verify_hash
 
 import markdown2
 
 
 def authenticate_user(ushpa, password):
     """
-    Authenticate and return user document from
+    Authenticate and return user record from
     database, None on failed auth.  Prepare for
     use as session data.
     """
-    user = models.User.auth(ushpa, password)
-    if not user:
+    user = User.query.filter_by(ushpa=ushpa).first()
+    if not user and verify_hash(password, user.password):
         return
+    user = user.__dict__
+    del user['_sa_instance_state'] #non-serializable
 
     # Add officer and admin data
-    if models.Officer.match(user_id=user['_id']):
+    if Officer.query.filter_by(user_id=user['id']).first():
         user['officer'] = True
-    if models.Admin.match(user_id=user['_id']):
+    if Admin.query.filter_by(user_id=user['id']).first():
         user['admin'] = True
 
     # Add membership status
-    dues = models.Payment.latest(user_id=user['_id'], item='Membership Dues')
+    dues = Payment.query.filter_by(user_id=user['id'], item='Membership Dues').order_by(Payment.created_at.desc()).first()
     if dues:
-        t = object_from_timestamp(dues[0]['timestamp'])
-        if not is_too_old(t, years=1):
+        if not is_too_old(dues.created_at, years=1):
             user['member'] = True
-
-    user['_id'] = str(user['_id']) # For session data
+    print(user)
     return user
 
 
@@ -36,9 +36,9 @@ def signup(ushpa, email, password, password2, firstname, lastname):
     """Register the user, return error or None."""
     if not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
-    elif models.User.match(ushpa=ushpa):
+    elif User.query.filter_by(ushpa=ushpa).first():
         error = 'This USHPA pilot number is already in use by a current BAPA member'
-    elif models.User.match(email=email):
+    elif User.query.filter_by(email=email).first():
         error = 'This email is already in use by a current BAPA member'
     elif not password:
         error = 'You have to enter a password'
@@ -47,7 +47,7 @@ def signup(ushpa, email, password, password2, firstname, lastname):
     else:
         # Insert user into database.
         ushpa_data = services.ushpa.get_pilot_data(ushpa)
-        models.User.create(
+        user = User(
             ushpa,
             ushpa_data,
             email,
@@ -55,17 +55,23 @@ def signup(ushpa, email, password, password2, firstname, lastname):
             firstname,
             lastname
         )
+        db.session.add(user)
+        db.session.commit()
         return
     return error
 
 
 def get_news_entries(page, n):
     """Retrieve news entries from database"""
-    entries = models.News.paginate(page, n)
-    for entry in entries:
-        author = models.User.from_id(entry['user_id'])
-        name = '%s %s' % (author['firstname'], author['lastname'])
-        body = entry['body']
+    entries = News.query.paginate(page, n)
+    print(dir(entries))
+    news_entries = []
+    for entry in entries.items:
+        author = User.query.get(entry.user_id)
+        name = '%s %s' % (author.firstname, author.lastname)
+        body = entry.body
+        entry = entry.__dict__
         entry.update(name=name)
         entry.update(body=markdown2.markdown(body))
-    return entries
+        news_entries.append(entry)
+    return news_entries

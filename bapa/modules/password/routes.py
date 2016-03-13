@@ -39,7 +39,7 @@ def reset_auth(secret=None):
             flash('Password Reset Failed')
             return redirect(url_for('home.login'))
         session['user'] = {}
-        session['user']['_id'] = str(user['_id'])
+        session['user']['id'] = user.id
         session['authed'] = timestamp(object=True)
         return redirect(url_for('password.reset'))
     return render_template('reset_auth.html', secret=secret)
@@ -67,7 +67,7 @@ def reset():
     error = None
     if request.method == 'POST':
         error = controllers.reset_password(
-            session['user']['_id'],
+            session['user']['id'],
             request.form['password'],
             request.form['password2']
         )

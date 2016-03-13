@@ -1,7 +1,8 @@
 Flask
 Flask-Mail
-pymongo
+psycopg2
+Flask-SQLAlchemy
+Flask-Migrate
 passlib
 requests
 markdown2
-

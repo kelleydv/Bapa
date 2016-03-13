@@ -85,7 +85,7 @@ def news():
     n=3 #per page
     if page:
         page = int(page)
-    if not page or page<0:
-        page = 0
-    entries = controllers.get_news_entries(int(page), n)
+    if not page or page<1:
+        page = 1
+    entries = controllers.get_news_entries(page, n)
     return render_template('news.html', entries=entries, page=page, n=n)

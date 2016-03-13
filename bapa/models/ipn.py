@@ -1,13 +1,19 @@
-from bapa.models import Base
+from bapa import db
+from bapa.utils import timestamp
 
-class Ipn(Base):
+class Ipn(db.Model):
     """Paypal IPNs"""
 
-    collection = Base.db.ipns
+    __tablename__ = 'ipns'
 
-    @classmethod
-    def create(cls, user_id, ipn):
-        return cls.collection.insert({
-            'user_id': cls.object_id(user_id),
-            'ipn': ipn
-        })
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer())
+    ipn = db.Column(db.String())
+    created_at = db.Column(db.DateTime, default=lambda:timestamp(object=True))
+
+    def __init__(self, user_id, ipn):
+        self.user_id = user_id
+        self.ipn = ipn
+
+    def __repr__(self):
+        return '<IPN {} {} {}>'.format(self.id, self.user_id, self.ipn)

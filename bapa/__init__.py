@@ -1,12 +1,14 @@
 from flask import Flask, url_for
+from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from datetime import date
 from . import config
 
 app = Flask(__name__)
 
-
 app.config.from_object('bapa.config.Develop')
+
+db = SQLAlchemy(app)
 
 mail = Mail(app)
 

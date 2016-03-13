@@ -1,11 +1,10 @@
-from bapa import models, services
+from bapa import db, services
+from bapa.models import User, Ipn, Payment
 
 def get_last_payment(user_id):
     """Retrieve latest payment info for user, or return None"""
-    latest = models.Payment.latest(user_id=user_id)
-    if latest:
-        return latest[0]
-    return
+    latest = Payment.query.filter_by(user_id=user_id).order_by(Payment.created_at.desc()).first()
+    return latest
 
 def record_payment(ipn):
     """
@@ -14,22 +13,26 @@ def record_payment(ipn):
     if not services.paypal.verify_ipn(ipn):
         return 'Invalid IPN'
 
-    user = models.User.from_id(ipn['custom'])
+    user = User.query.get(useripn['custom'])
     if not user:
         return 'Invalid user'
 
     # Save all IPNs
-    ipn_id = models.Ipn.create(ipn['custom'], ipn)
+    this_ipn = Ipn(ipn['custom'], ipn)
+    db.session.add(this_ipn)
+    db.session.commit()
 
     if ipn['payment_status'] == 'Completed':
         if ipn['item_name'] == 'Membership Dues':
-            models.Payment.create(
+            payment = Payment(
                 ipn['custom'], # user_id
                 ipn['item_name'],
                 ipn['payment_gross'],
                 ipn['payment_date'],
-                ipn_id
+                this_ipn.id
             )
+            db.session.add(payment)
+            db.session.commit()
         else:
             # todo, Donation, etc.
             pass

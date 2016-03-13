@@ -1,18 +1,19 @@
-from bapa.models import Base
+from bapa import db
+from bapa.utils import timestamp
 
-class ResetPassword(Base):
+class ResetPassword(db.Model):
     """Records inserted when a user requests a password reset"""
 
-    collection = Base.db.resets
+    __tablename__ = 'resets'
 
-    @classmethod
-    def create(cls, user_id, timestamp, token):
-        return cls.collection.insert({
-            'user_id': cls.object_id(user_id),
-            'timestamp': timestamp,
-            'token': token
-        })
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer())
+    token = db.Column(db.String())
+    created_at = db.Column(db.DateTime, default=lambda:timestamp(object=True))
 
-    @classmethod
-    def delete(cls, token):
-        cls.collection.remove({'token': token})
+    def __init__(self, user_id, token):
+        self.user_id = user_id
+        self.token = token
+
+    def __repr__(self):
+        return '<Reset {} {}>'.format(self.user_id, self.created_at)
