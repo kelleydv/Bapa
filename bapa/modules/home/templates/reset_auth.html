@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Authenticate{% endblock %}
+{% block title %}Reset Password{% endblock %}
 {% block body %}
 
     <div class="container">
@@ -14,18 +14,23 @@
 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">Authenticate</h3>
+                        <h3 class="panel-title">Reenter Credentials</h3>
                     </div>
                     <div class="panel-body">
-                        <form action="{{ url_for('password.simple_auth') }}" method="POST">
+                        <form action="{{ url_for('home.reset_auth', secret=secret) }}" method="POST">
 
                             <div class="form-group">
-                                <label for="password">Enter Password: </label>
-                                <input type="password" name="password" id="password" class="form-control">
+                                <label for="ushpa">USHPA Pilot Number: </label>
+                                <input type="text" name="ushpa" id="ushpa" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" value="Authenticate" class="btn btn-primary pull-right">
+                                <label for="email">Email: </label>
+                                <input type="email" name="email" id="email" class="form-control">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Confirm" class="btn btn-primary pull-right">
                             </div>
                         </form>
                     </div>

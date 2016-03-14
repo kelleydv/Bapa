@@ -3,17 +3,17 @@ from flask import render_template, redirect, url_for, flash
 from flask import session, request
 from flask import Blueprint
 
-offic_bp = Blueprint('officers', __name__, template_folder='templates')
+bp = Blueprint('officers', __name__, template_folder='templates')
 
 
-@offic_bp.route('/', methods=['GET'])
+@bp.route('/', methods=['GET'])
 def index():
     """"""
     if not session.get('user') or not session['user'].get('officer'):
         return redirect(url_for('home.login'))
     return redirect(url_for('officers.post_news'))
 
-@offic_bp.route('/news/post', methods=['GET', 'POST'])
+@bp.route('/news/post', methods=['GET', 'POST'])
 def post_news():
     """"""
     if not session.get('user') or not session['user'].get('officer'):
@@ -29,7 +29,7 @@ def post_news():
         return redirect(url_for('home.news'))
 
 
-@offic_bp.route('/members', methods=['GET'])
+@bp.route('/members', methods=['GET'])
 def view_members():
     """Main Officers page"""
     if not session.get('user') or not session['user'].get('officer'):
@@ -39,8 +39,8 @@ def view_members():
     return render_template('members.html', members=members, page='members')
 
 
-@offic_bp.route('/appoint/')
-@offic_bp.route('/appoint/<key>', methods=['GET'])
+@bp.route('/appoint/')
+@bp.route('/appoint/<key>', methods=['GET'])
 def appoint(key=None):
     """Appoint an officer"""
     if not session.get('user'):
@@ -51,7 +51,7 @@ def appoint(key=None):
         user_id = int(request.args.get('user_id') or appointer_id)
         message = controllers.appoint(appointer_id, user_id, key)
         if user_id == appointer_id and 'added' in message:
-            session['user']['officer'] = True #TODO: this is actually ineffective in the interface 
+            session['user']['officer'] = True #TODO: this is actually ineffective in the interface
     else:
         appointer_id = session['user'].get('id')
         user_id = request.args.get('user_id')

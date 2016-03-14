@@ -2,12 +2,11 @@ from . import controllers
 from flask import render_template, redirect, url_for
 from flask import session, request
 from flask import Blueprint
-from bson.objectid import ObjectId
 
-memb_bp = Blueprint('membership', __name__, template_folder='templates')
+bp = Blueprint('membership', __name__, template_folder='templates')
 
 
-@memb_bp.route('/status', methods=['GET'])
+@bp.route('/status', methods=['GET'])
 def status():
     """View BAPA membership status"""
     if not session.get('user'):
@@ -19,7 +18,7 @@ def status():
     return render_template('status.html', payment=payment)
 
 
-@memb_bp.route('/pay', methods=['GET', 'POST'])
+@bp.route('/pay', methods=['GET', 'POST'])
 def pay():
     """Pay club dues"""
     if not session.get('user'):
@@ -27,7 +26,7 @@ def pay():
     error = None
     return render_template('pay.html', error=error, session=session)
 
-@memb_bp.route('/ipnlistener', methods=['POST'])
+@bp.route('/ipnlistener', methods=['POST'])
 def listener():
     """IPN listener for paypal payments"""
     ipn = request.form

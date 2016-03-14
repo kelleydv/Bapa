@@ -3,10 +3,10 @@ from flask import render_template, redirect, url_for
 from flask import session, request
 from flask import Blueprint
 
-admin_bp = Blueprint('admin', __name__, template_folder='templates')
+bp = Blueprint('admin', __name__, template_folder='templates')
 
 
-@admin_bp.route('/', methods=['GET'])
+@bp.route('/', methods=['GET'])
 def index():
     """Main Administrators page"""
     if not session.get('user') or not session['user'].get('admin'):
