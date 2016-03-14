@@ -14,7 +14,7 @@ def authenticate_user(ushpa, password):
     use as session data.
     """
     user = User.query.filter_by(ushpa=ushpa).first()
-    if not user and verify_hash(password, user.password):
+    if not (user and verify_hash(password, user.password)):
         return
     user = user.__dict__
     del user['_sa_instance_state'] #non-serializable
@@ -127,8 +127,10 @@ def reset_password(user_id, password, password2):
     """Reset password for an authenticated user"""
     if password != password2:
         return 'Passwords must match'
-    User.user_id = get_hash(password)
-    db.session.commit
+    user = User.query.get(user_id)
+    user.password = get_hash(password)
+    db.session.add(user)
+    db.session.commit()
 
 
 def get_news_entries(page, n):
