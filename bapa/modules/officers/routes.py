@@ -49,7 +49,7 @@ def appoint(key=None):
     if key:
         appointer_id = int(session['user'].get('id'))
         user_id = int(request.args.get('user_id') or appointer_id)
-        message = controllers.appoint(appointer_id, user_id, key)
+        message = controllers.appoint(user_id, appointer_id, key)
         if user_id == appointer_id and 'added' in message:
             session['user']['officer'] = True #TODO: this is actually ineffective in the interface
     else:

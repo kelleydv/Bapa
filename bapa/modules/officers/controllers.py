@@ -40,7 +40,6 @@ def appoint(user_id, appointer_id, token=None):
     `bapa.utils.get_salt()`.
     """
     new_officer = User.query.get(user_id)
-    appointer = User.query.get(appointer_id)
     if Officer.query.filter_by(user_id=user_id):
         return '%s %s is aready an officer.' % (new_officer.firstname, new_officer.lastname)
     success = '%s %s has been added as an officer.' % (new_officer.firstname, new_officer.lastname)
