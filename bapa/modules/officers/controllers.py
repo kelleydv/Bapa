@@ -1,6 +1,6 @@
 from bapa import db
 from bapa.models import Payment, User, News, Officer
-from bapa.utils import object_from_timestamp, is_too_old
+from bapa.utils import is_too_old
 import os
 
 def _is_member(user_id):

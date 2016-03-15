@@ -3,7 +3,8 @@ from bapa.utils import timestamp, is_too_old
 from flask import render_template, redirect, url_for, flash
 from flask import session, request
 from flask import Blueprint
-import markdown2, os
+import markdown2
+import os
 
 bp = Blueprint('home', __name__, template_folder='templates')
 
@@ -154,10 +155,10 @@ def page(name=None):
 @bp.route('/news', methods=['GET'])
 def news():
     page = request.args.get('page')
-    n=3 #per page
+    n = 3 #per page
     if page:
         page = int(page)
-    if not page or page<1:
+    if not page or page < 1:
         page = 1
     entries = controllers.get_news_entries(page, n)
     return render_template('news.html', entries=entries, page=page, n=n)

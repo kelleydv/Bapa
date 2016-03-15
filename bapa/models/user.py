@@ -1,5 +1,5 @@
 from bapa import db
-from bapa.utils import get_hash, verify_hash, timestamp
+from bapa.utils import get_hash, timestamp
 from sqlalchemy.dialects.postgresql import JSON
 
 class User(db.Model):
@@ -13,9 +13,9 @@ class User(db.Model):
     password = db.Column(db.String())
     firstname = db.Column(db.String())
     lastname = db.Column(db.String())
-    created_at = db.Column(db.DateTime, default=lambda:timestamp(object=True))
-    updated_at = db.Column(db.DateTime, default=lambda:timestamp(object=True),
-                           onupdate=lambda:timestamp(object=True))
+    created_at = db.Column(db.DateTime, default=lambda: timestamp(object=True))
+    updated_at = db.Column(db.DateTime, default=lambda: timestamp(object=True),
+                           onupdate=lambda: timestamp(object=True))
 
     def __init__(self, ushpa, ushpa_data, email, password, firstname, lastname):
         self.ushpa = ushpa

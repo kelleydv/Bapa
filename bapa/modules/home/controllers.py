@@ -1,10 +1,11 @@
 from bapa import app, mail, db, services
 from bapa.models import User, ResetPassword, Officer, Admin, News, Payment
-from bapa.utils import timestamp, object_from_timestamp, is_too_old
+from bapa.utils import is_too_old
 from bapa.utils import get_salt, get_hash, verify_hash
 from flask_mail import Message
 import markdown2
-import os, string
+import string
+import os
 
 
 def authenticate_user(ushpa, password):

@@ -9,7 +9,7 @@ class Ipn(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer())
     ipn = db.Column(db.String())
-    created_at = db.Column(db.DateTime, default=lambda:timestamp(object=True))
+    created_at = db.Column(db.DateTime, default=lambda: timestamp(object=True))
 
     def __init__(self, user_id, ipn):
         self.user_id = user_id
