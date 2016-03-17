@@ -2,11 +2,17 @@ from flask import Flask, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from datetime import date
-from . import config
+import os
 
 app = Flask(__name__)
 
-app.config.from_object('bapa.config.Develop')
+env = os.environ.get('env')
+conf = {
+    'dev': 'bapa.config.Develop',
+    'prod': 'bapa.config.Production',
+    'test': 'bapa.config.Testing'
+}[env]
+app.config.from_object(conf)
 
 db = SQLAlchemy(app)
 

@@ -39,3 +39,7 @@ class Develop(Debug):
     HOST = os.environ.get('bapa_host') or Config.HOST
 
     PAYPAL_ENDPOINT = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+
+class Testing(Develop):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/bapa-local-testing'

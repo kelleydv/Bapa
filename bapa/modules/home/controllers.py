@@ -93,7 +93,10 @@ def reset_password_request(ushpa, email, url):
                 body=body,
                 recipients=[email]
             )
-            if app.debug and not os.environ.get('HEROKU'):
+
+            if app.config['TESTING']:
+                return
+            elif app.debug and not os.environ.get('HEROKU'):
                 print(body)
             else:
                 with app.app_context():
@@ -110,6 +113,7 @@ def reset_password_auth(ushpa, email, token):
             return
         ResetPassword.query.filter_by(token=token).delete()
         user = User.query.get(reset.user_id)
+        db.session.commit()
         if user.email == email and str(user.ushpa) == ushpa:
             time_requested = reset.created_at
             if not is_too_old(time_requested):
@@ -123,6 +127,7 @@ def auth(ushpa, password):
     if not user and verify_hash(password, user.password):
         return
     return True
+
 
 def reset_password(user_id, password, password2):
     """Reset password for an authenticated user"""

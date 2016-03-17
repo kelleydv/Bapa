@@ -53,10 +53,11 @@ def login():
 
 
 @bp.route('/logout')
+@bp.route('/logout/<msg>')
 def logout(msg='You were logged out'):
     """Logs the user out."""
-    flash(msg)
     session.clear()
+    flash(msg)
     return redirect(url_for('home.index'))
 
 
@@ -130,8 +131,7 @@ def reset():
             request.form['password2']
         )
         if not error:
-            flash('Your password has been reset')
-            return redirect(url_for('home.logout'))
+            return redirect(url_for('home.logout', msg='Your password has been reset'))
     return render_template('reset.html', error=error)
 
 
