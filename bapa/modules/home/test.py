@@ -4,12 +4,6 @@ import unittest
 
 class HomeTestCase(BaseTest):
 
-    def register(self, **kwargs):
-        return self.app.post('/register', data=kwargs, follow_redirects=True)
-
-    def login(self, **kwargs):
-        return self.app.post('/login', data=kwargs, follow_redirects=True)
-
     def test_home_page(self):
         resp = self.app.get('/')
         self.assertEqual(resp.status_code, 200)

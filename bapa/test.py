@@ -16,3 +16,10 @@ class BaseTest(unittest.TestCase):
 
     def tearDown(self):
         pass
+
+
+    def register(self, **kwargs):
+        return self.app.post('/register', data=kwargs, follow_redirects=True)
+
+    def login(self, **kwargs):
+        return self.app.post('/login', data=kwargs, follow_redirects=True)
