@@ -14,5 +14,5 @@ def get_pilot_data(ushpa):
         data = {k:v.strip() for k, v in data}
     except:
         #ushpa api is broken
-        data = ''
+        data = {}
     return data

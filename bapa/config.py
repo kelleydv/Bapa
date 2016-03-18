@@ -12,7 +12,7 @@ class Config():
     MAIL_PASSWORD = 'pass'
     MAIL_DEFAULT_SENDER = 'awesome@awesome.com'
 
-    USHPA_HOST = 'https://www.ushpa.aero'
+    USHPA_HOST = 'https://old.ushpa.aero'
     USHPA_CHAPTER = '1000'
     USHPA_PIN = '2000'
 

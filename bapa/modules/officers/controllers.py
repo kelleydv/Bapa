@@ -18,7 +18,7 @@ def get_members():
     """
     users = User.query.all()
     f = lambda a: 'Active' if _is_member(a) else 'Not Active'
-    users = [(x['firstname'], x['lastname'], x['ushpa_data'].get('pg_pilot_rating'), f(x['id'])) for x in users]
+    users = [(x.firstname, x.lastname, x.ushpa_data.get('pg_pilot_rating'), f(x.id)) for x in users]
     return users
 
 def news_update(subject, body, user_id):
