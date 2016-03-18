@@ -23,8 +23,15 @@ run `$ npm install` or just `$ bower install`, if you already have bower install
 ### Database Management
 TODO: Document this!
 
+### Testing
+```
+export env=test
+python3 test.py
+```
+
 ### Run locally
 ```
+$ export env=dev
 $ source venv/bin/activate
 $ python3 server.py
  * Running on http://0.0.0.0:5000/
