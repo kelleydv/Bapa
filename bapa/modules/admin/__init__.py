@@ -1,1 +1,1 @@
-from .routes import admin_bp
+from .routes import bp

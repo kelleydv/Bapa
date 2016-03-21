@@ -1,1 +1,1 @@
-from .routes import memb_bp
+from .routes import bp

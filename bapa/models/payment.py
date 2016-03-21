@@ -1,18 +1,28 @@
-from bapa.models import Base
+from bapa import db
 from bapa.utils import timestamp
 
-class Payment(Base):
+class Payment(db.Model):
     """For modeling user financial contributions"""
 
-    collection = Base.db.payments
+    __tablename__ = 'payments'
 
-    @classmethod
-    def create(cls, user_id, item, amount, date, ipn_id):
-        return cls.collection.insert({
-            'user_id': cls.object_id(user_id),
-            'item': item, # Dues, donation, etc.
-            'amount': amount,
-            'date': date,
-            'timestamp': timestamp(), # todo: parse paypal date for datetime obj
-            'ipn_id': ipn_id # passed as ObjectId
-        })
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer())
+    item = db.Column(db.String())
+    amount = db.Column(db.Float())
+    date = db.Column(db.String())
+    #TODO: Parse paypal date for datetime object
+    created_at = db.Column(db.DateTime, default=lambda: timestamp(object=True))
+    ipn_id = db.Column(db.Integer())
+
+    def __init__(self, user_id, item, amount, date, ipn_id):
+        self.user_id = user_id
+        self.item = item
+        self.amount = amount
+        self.date = date
+        self.ipn_id = ipn_id
+
+    def __repr__(self):
+        return '<Payment {} {} {} {} {}>'.format(
+            self.id, self.user_id, self.item, self.amount, self.date
+        )

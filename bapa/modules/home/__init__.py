@@ -1,1 +1,2 @@
-from .routes import home_bp
+from .routes import bp
+from .test import HomeTestCase
