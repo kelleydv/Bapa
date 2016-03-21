@@ -1,8 +1,0 @@
-Hi $name,
-
-A request has been made to reset the password for your account at $host .  The link below will allow you to reset your password within a limited time frame.  If you did not issue this request, ignore this message and protect your passwords!
-
-$url
-
-Thanks!
-BAPA

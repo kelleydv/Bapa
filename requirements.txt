@@ -1,7 +1,0 @@
-Flask
-Flask-Mail
-pymongo
-passlib
-requests
-markdown2
-

@@ -2,10 +2,6 @@
   "name": "bapa",
   "dependencies": {
     "bootstrap": "3.3.5",
-    "jquery": "2.1.4",
-    "jquery.tablesorter": "2.23.5",
-    "bootstrap-markdown": "2.9.0",
-    "markdown": "*",
-    "to-markdown": "*"
+    "jquery": "2.1.4"
   }
 }
