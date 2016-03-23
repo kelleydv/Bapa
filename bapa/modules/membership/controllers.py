@@ -13,7 +13,7 @@ def record_payment(ipn):
     if not services.paypal.verify_ipn(ipn):
         return 'Invalid IPN'
 
-    user = User.query.get(useripn['custom'])
+    user = User.query.get(ipn['custom'])
     if not user:
         return 'Invalid user'
 
