@@ -6,6 +6,7 @@ import os
 
 app = Flask(__name__)
 
+#`env` must be set to dev, prod, or test
 env = os.environ.get('env')
 conf = {
     'dev': 'bapa.config.Develop',
