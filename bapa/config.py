@@ -3,7 +3,7 @@ import os
 class Config():
     SECRET_KEY = 'ilovetofly'
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/bapa-local'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/bapa.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_SERVER = 'smtp.dummy.com'

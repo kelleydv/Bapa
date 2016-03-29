@@ -1,5 +1,6 @@
 from bapa import db
 from bapa.utils import timestamp
+from sqlalchemy import PickleType
 
 class Ipn(db.Model):
     """Paypal IPNs"""
@@ -8,7 +9,7 @@ class Ipn(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer())
-    ipn = db.Column(db.String())
+    ipn = db.Column(PickleType)
     created_at = db.Column(db.DateTime, default=lambda: timestamp(object=True))
 
     def __init__(self, user_id, ipn):
@@ -16,4 +17,4 @@ class Ipn(db.Model):
         self.ipn = ipn
 
     def __repr__(self):
-        return '<IPN {} {} {}>'.format(self.id, self.user_id, self.ipn)
+        return '<IPN {} {}>'.format(self.id, self.user_id)

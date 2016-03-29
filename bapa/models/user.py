@@ -1,6 +1,6 @@
 from bapa import db
 from bapa.utils import get_hash, timestamp
-from sqlalchemy.dialects.postgresql import JSON
+from sqlalchemy import PickleType
 
 class User(db.Model):
 
@@ -8,7 +8,7 @@ class User(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     ushpa = db.Column(db.Integer)
-    ushpa_data = db.Column(JSON)
+    ushpa_data = db.Column(PickleType)
     email = db.Column(db.String())
     password = db.Column(db.String())
     firstname = db.Column(db.String())
