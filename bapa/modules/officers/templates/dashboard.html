@@ -30,8 +30,12 @@
     								<textarea name="body" id="news-body" data-provide="markdown" data-hidden-buttons='["cmdPreview","cmdQuote", "cmdCode"]' class="form-control" rows="12" placeholder="Body"></textarea>
     							</div>
     							<div class="form-group">
-                    <div class="col-md-4 col-md-offset-4">
-    								  <input type="submit" value="Post" class="btn btn-primary btn-block" id="post-news">
+                    <div class="col-md-6 col-md-offset-4">
+                      <div class="btn-block">
+                        <button id="preview" class="btn" type="button"><span class="glyphicon glyphicon-search"></span> Preview</button>
+                        <button id="edit" style="display: none;" class="btn" type="button"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+    								    <input type="submit" value="Post" class="btn btn-primary" id="post-news">
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -86,6 +90,23 @@
 
 {% block post_body %}
 <script type=text/javascript>
+
+  $(document).ready(function() {
+        $("#member-table").tablesorter();
+  });
+
+  $(document).on('click', '#preview', function() {
+    $('#news-body').data('markdown').showPreview();
+    $('#preview').hide();
+    $('#edit').show();
+  });
+
+  $(document).on('click', '#edit', function() {
+    $('#news-body').data('markdown').hidePreview();
+    $('#edit').hide();
+    $('#preview').show();
+  });
+
   $(document).on('click', "#post-news", function() {
     $.ajax({
       url: "{{ url_for('officers.post_news') }}",
@@ -104,14 +125,6 @@
       }
     });
   });
-
-
-	$(document).ready(function()
-			{
-					$("#member-table").tablesorter();
-			}
-	);
-
 
 </script>
 {% endblock %}
