@@ -141,14 +141,19 @@ def reset_password(user_id, password, password2):
 
 def get_news_entries(page, n):
     """Retrieve news entries from database"""
-    entries = News.query.paginate(page, n)
+    entries = News.query.order_by(News.created_at.desc()).paginate(page, n)
     news_entries = []
     for entry in entries.items:
         author = User.query.get(entry.user_id)
         name = '%s %s' % (author.firstname, author.lastname)
         body = entry.body
+        time = entry.created_at
         entry = entry.__dict__
-        entry.update(name=name)
-        entry.update(body=markdown2.markdown(body))
+        entry.update(
+            name=name,
+            body=markdown2.markdown(body),
+            timestamp=time.strftime('%b %d, %Y')
+        )
+        entry.update()
         news_entries.append(entry)
     return news_entries

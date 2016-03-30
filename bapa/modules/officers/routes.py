@@ -8,18 +8,17 @@ bp = Blueprint('officers', __name__, template_folder='templates')
 
 @bp.route('/', methods=['GET'])
 def index():
-    """"""
+    """Display Officer's Dashboard"""
     if not session.get('user') or not session['user'].get('officer'):
         return redirect(url_for('home.login'))
-    return redirect(url_for('officers.post_news'))
+    members = controllers.get_members()
+    return render_template('dashboard.html', members=members)
 
-@bp.route('/news/post', methods=['GET', 'POST'])
+@bp.route('/news/post', methods=['POST'])
 def post_news():
     """"""
     if not session.get('user') or not session['user'].get('officer'):
         return redirect(url_for('home.login'))
-    if request.method == 'GET':
-        return render_template('new_post.html', page='news')
     if request.method == 'POST':
         controllers.news_update(
             request.form['subject'],
@@ -27,17 +26,6 @@ def post_news():
             session['user']['id']
         )
         return redirect(url_for('home.news'))
-
-
-@bp.route('/members', methods=['GET'])
-def view_members():
-    """Main Officers page"""
-    if not session.get('user') or not session['user'].get('officer'):
-        return redirect(url_for('home.login'))
-    if request.method == 'GET':
-        members = controllers.get_members()
-    return render_template('members.html', members=members, page='members')
-
 
 @bp.route('/appoint/')
 @bp.route('/appoint/<key>', methods=['GET'])

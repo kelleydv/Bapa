@@ -4,6 +4,11 @@ from bapa.utils import is_too_old
 import os
 
 def _is_member(user_id):
+    """
+    Determine if someone is a member.
+    If they have payed dues in the last year,
+    they are a member.
+    """
     dues = Payment.query.filter_by(user_id=user_id, item='Membership Dues').order_by(Payment.created_at.desc()).first()
     if dues:
         if not is_too_old(dues.created_at, years=1):

@@ -56,7 +56,7 @@ class OfficersTestCase(BaseTest):
         self.assertEqual(len(officers), 1)
         resp = self.app.get('/officers', follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(b'New Post' in resp.data)
+        self.assertTrue(b'Members' in resp.data)
 
         #appoint another officer
         self.app.get(
