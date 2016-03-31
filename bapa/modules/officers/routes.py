@@ -27,6 +27,15 @@ def post_news():
         )
         return redirect(url_for('home.news'))
 
+@bp.route('/news/delete', methods=['POST'])
+def delete_news():
+    """"""
+    if not session.get('user') or not session['user'].get('officer'):
+        return redirect(url_for('home.login'))
+    if request.method == 'POST':
+        controllers.delete_news(request.form['post_id'])
+        return redirect(url_for('home.news'))
+
 @bp.route('/appoint/')
 @bp.route('/appoint/<key>', methods=['GET'])
 def appoint(key=None):

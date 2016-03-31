@@ -9,11 +9,12 @@
       </div>
     </div>
     <div class="panel-footer">
-      <div class="footer-name text-left">
-        <small>Posted by {{ entry['name'] }}</small>
-      </div>
-      <div class="footer-date text-right">
-        <small>Last updated {{ entry.get('timestamp') }}</small>
-      </div>
+      <small class="pull-left">Posted by {{ entry['name'] }}</small>
+      <small class="pull-right">Last updated {{ entry.get('timestamp') }}</small>
+      <br/>
+      {% if session['user'].get('officer') or session['user'].get('admin') %}
+      <button data-delete-post data-post-id="{{ entry['id'] }}" type="button" class="btn btn-sm btn-danger-outline pull-right">Delete</button>
+      <br/>
+      {% endif %}
     </div>
   </div>

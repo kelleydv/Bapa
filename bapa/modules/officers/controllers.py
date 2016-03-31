@@ -35,6 +35,13 @@ def news_update(subject, body, user_id):
     db.session.commit()
     return update.id
 
+def delete_news(post_id):
+    """"
+    Delete a news update from the db
+    """
+    News.query.filter_by(id=post_id).delete()
+    db.session.commit()
+
 def appoint(user_id, appointer_id, token=None):
     """
     Appoint an officer. Only officers can appoint officers,
