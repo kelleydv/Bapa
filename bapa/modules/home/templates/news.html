@@ -3,42 +3,40 @@
 {% block body %}
 
     <div class="container">
+      {% for entry in entries %}
+        {% include "partials/news_entry.html" %}
+      {% endfor %}
       <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          {% for entry in entries %}
-            {% include "partials/news_entry.html" %}
-          {% endfor %}
-          <nav>
-            <ul class="pager">
-              {% if page==0 %}
-              <li class="previous disabled">
-                <a href="#">
-                  <span aria-hidden="true">&larr;</span> Newer
-                </a>
-              </li>
-              {% else %}
-              <li class="previous">
-                <a href="{{ url_for('home.news', page=page-1) }}">
-                  <span aria-hidden="true">&larr;</span> Newer
-                </a>
-              </li>
-              {% endif %}
-              {% if n>entries|count %}
-              <li class="next disabled">
-                <a href="#">
-                  Older <span aria-hidden="true">&rarr;</span>
-                </a>
-              </li>
-              {% else %}
-              <li class="next">
-                <a href="{{ url_for('home.news', page=page+1) }}">
-                  Older <span aria-hidden="true">&rarr;</span>
-                </a>
-              </li>
-              {% endif %}
-            </ul>
-          </nav>
-        </div>
+        <nav>
+          <ul class="pager">
+            {% if page==0 %}
+            <li class="previous disabled">
+              <a href="#">
+                <span aria-hidden="true">&larr;</span> Newer
+              </a>
+            </li>
+            {% else %}
+            <li class="previous">
+              <a href="{{ url_for('home.news', page=page-1) }}">
+                <span aria-hidden="true">&larr;</span> Newer
+              </a>
+            </li>
+            {% endif %}
+            {% if n>entries|count %}
+            <li class="next disabled">
+              <a href="#">
+                Older <span aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            {% else %}
+            <li class="next">
+              <a href="{{ url_for('home.news', page=page+1) }}">
+                Older <span aria-hidden="true">&rarr;</span>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </nav>
       </div>
     </div>
 
@@ -51,9 +49,8 @@
 <script type=text/javascript>
 
   $(document).on('click', '[data-delete-post]', function() {
-    console.log('wtf');
     var post_id = $(this).data('post-id');
-    r = confirm('Are you sure you want to delete this post?')
+    r = confirm('Are you sure you want to delete this post?');
     if (r == true) {
       $.ajax({
         url: "{{ url_for('officers.delete_news') }}",
@@ -70,6 +67,7 @@
       });
     }
   });
+
 
 </script>
 {% endblock %}

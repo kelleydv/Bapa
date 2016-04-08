@@ -42,4 +42,4 @@ class Develop(Debug):
 
 class Testing(Develop):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost:5432/bapa-local-testing'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/bapa.db-testing'

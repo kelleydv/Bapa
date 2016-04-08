@@ -1,0 +1,27 @@
+
+  <div class="col-md-12">
+    <br>
+    <div class="form-group">
+      <input type="text" id="news-subject" name="subject" class="form-control" placeholder="Subject" value="{{ news_subject }}">
+    </div>
+    <div class="form-group">
+      <textarea name="body" id="news-body" data-provide="markdown" data-hidden-buttons='["cmdPreview","cmdQuote", "cmdCode"]' class="form-control" rows="12" placeholder="Body">{{ news_body }}</textarea>
+    </div>
+    <div class="form-group">
+      <div class="col-md-6 col-md-offset-4">
+        <div class="btn-block">
+          <button id="preview" class="btn" type="button"><span class="glyphicon glyphicon-search"></span> Preview</button>
+          <button id="edit" style="display: none;" class="btn" type="button"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+          <input type="submit" value="Post" class="btn btn-primary" id="post-news">
+        </div>
+      </div>
+    </div>
+    {% if news_id %}
+    <br>
+    <div class="row">
+      <div class="alert alert-warning">
+        <strong>Warning</strong> You are editing a post
+      </div>
+    </div>
+    {% endif %}
+  </div>

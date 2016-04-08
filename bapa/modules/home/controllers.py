@@ -147,13 +147,16 @@ def get_news_entries(page, n):
         author = User.query.get(entry.user_id)
         name = '%s %s' % (author.firstname, author.lastname)
         body = entry.body
-        time = entry.created_at
+        created = entry.created_at
         entry = entry.__dict__
         entry.update(
             name=name,
             body=markdown2.markdown(body),
-            timestamp=time.strftime('%b %d, %Y')
+            timestamp=created.strftime('%m/%d/%y')
         )
-        entry.update()
+        if entry['updated_by']:
+            print(entry['updated_by'])
+            entry.update(updated_at=entry['updated_at'].strftime('%m/%d/%y'))
+            entry['updated_by'] = User.query.get(entry['updated_by']).firstname
         news_entries.append(entry)
     return news_entries

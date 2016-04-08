@@ -160,5 +160,11 @@ def news():
         page = int(page)
     if not page or page < 1:
         page = 1
+
+    #officers may need to edit posts
+    editable = False
+    if request.args.get('edit'):
+        if session.get('user') and session['user'].get('officer'):
+            editable = True
     entries = controllers.get_news_entries(page, n)
-    return render_template('news.html', entries=entries, page=page, n=n)
+    return render_template('news.html', entries=entries, page=page, n=n, editable=editable)

@@ -1,5 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Officer Dashboard{% endblock %}
+
+{% block post_head %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/css/theme.bootstrap.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/css/jquery.tablesorter.pager.min.css') }}">
+{% endblock %}
+
 {% block body %}
 
 <div class="container">
@@ -21,50 +27,13 @@
           <div class="tab-content">
             <div class="tab-pane active" role="tabpanel" id="post">
               <div class="row">
-                <div class="col-md-12">
-                  <br/>
-                  <div class="form-group">
-    								<input type="text" id="news-subject" name="subject" class="form-control" placeholder="Subject">
-    							</div>
-    							<div class="form-group">
-    								<textarea name="body" id="news-body" data-provide="markdown" data-hidden-buttons='["cmdPreview","cmdQuote", "cmdCode"]' class="form-control" rows="12" placeholder="Body"></textarea>
-    							</div>
-    							<div class="form-group">
-                    <div class="col-md-6 col-md-offset-4">
-                      <div class="btn-block">
-                        <button id="preview" class="btn" type="button"><span class="glyphicon glyphicon-search"></span> Preview</button>
-                        <button id="edit" style="display: none;" class="btn" type="button"><span class="glyphicon glyphicon-edit"></span> Edit</button>
-    								    <input type="submit" value="Post" class="btn btn-primary" id="post-news">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {% include "partials/post.html" %}
               </div>
             </div>
 
             <div role="tabpanel" class="tab-pane" id="members">
               <div class="row">
-                <div class="col-md-12">
-                  <br/>
-                  <table id="member-table" class="table tablesorter">
-        						<thead>
-        							<tr>
-        								<th>First Name</th>
-        								<th>Last Name</th>
-        								<th>Pilot Rating</th>
-        							</tr>
-        						</thead>
-        						<tbody>
-        							{% for first, last, rating, status in members %}
-        							<tr class="{{ 'success' if status=='Active' else 'danger' }}">
-        								<td>{{ first }}</td>
-        								<td>{{ last }}</td>
-        								<td>{{ rating }}</td>
-        							</tr>
-        							{% endfor %}
-        						</tbody>
-        					</table>
-                </div>
+              {% include "partials/members_table.html" %}
               </div>
             </div>
 
@@ -89,10 +58,70 @@
 {% endblock %}
 
 {% block post_body %}
+
+<script type="text/javascript" src="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.widgets.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/js/extras/jquery.tablesorter.pager.min.js') }}"></script>
+
 <script type=text/javascript>
 
   $(document).ready(function() {
-        $("#member-table").tablesorter();
+
+    // NOTE: $.tablesorter.theme.bootstrap is ALREADY INCLUDED in the jquery.tablesorter.widgets.js
+    // file; it is included here to show how you can modify the default classes
+    $.tablesorter.themes.bootstrap = {
+      // these classes are added to the table. To see other table classes available,
+      // look here: http://getbootstrap.com/css/#tables
+      table        : 'table table-hover',
+      caption      : 'caption',
+      // header class names
+      header       : 'bootstrap-header', // give the header a gradient background (theme.bootstrap_2.css)
+      sortNone     : '',
+      sortAsc      : '',
+      sortDesc     : '',
+      active       : '', // applied when column is sorted
+      hover        : '', // custom css required - a defined bootstrap style may not override other classes
+      // icon class names
+      icons        : '', // add "icon-white" to make them white; this icon class is added to the <i> in the header
+      iconSortNone : 'bootstrap-icon-unsorted', // class name added to icon when column is not sorted
+      iconSortAsc  : 'glyphicon glyphicon-chevron-up', // class name added to icon when column has ascending sort
+      iconSortDesc : 'glyphicon glyphicon-chevron-down', // class name added to icon when column has descending sort
+      filterRow    : '', // filter row class; use widgetOptions.filter_cssFilter for the input/select element
+      footerRow    : '',
+      footerCells  : '',
+      even         : '', // even row zebra striping
+      odd          : ''  // odd row zebra striping
+    };
+
+    // call the tablesorter plugin and apply the uitheme widget
+    $("#member-table").tablesorter({
+      // this will apply the bootstrap theme if "uitheme" widget is included
+      // the widgetOptions.uitheme is no longer required to be set
+      theme : "bootstrap",
+      widthFixed: true,
+      headerTemplate : '{content} {icon}', // new in v2.7. Needed to add the bootstrap icon!
+      // widget code contained in the jquery.tablesorter.widgets.js file
+      // use the zebra stripe widget if you plan on hiding any rows (filter widget)
+      widgets : [ "uitheme", "filter"],
+      widgetOptions : {
+        // reset filters button
+        filter_reset : ".reset",
+        // extra css class name (string or array) added to the filter element (input or select)
+        filter_cssFilter: "form-control",
+      }
+    })
+    .tablesorterPager({
+      // target the pager markup - see the HTML block below
+      container: $(".ts-pager"),
+      // target the pager page select dropdown - choose a page
+      cssGoto  : ".pagenum",
+      // remove rows from the table to speed up the sort of large tables.
+      // setting this to false, only hides the non-visible rows; needed if you plan to add/remove rows with the pager enabled.
+      removeRows: false,
+      // output string - default is '{page}/{totalPages}';
+      // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
+      output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
+    });
   });
 
   $(document).on('click', '#preview', function() {
@@ -114,7 +143,8 @@
       data: {
         subject: $('#news-subject').val(),
         body: $('#news-body').val(),
-        user_id: "{{ session['user']['id'] }}"
+        user_id: "{{ session['user']['id'] }}",
+        news_id: "{{ news_id }}"
       },
       success: function(response) {
         $('#message-body').val('');

@@ -15,6 +15,28 @@ def _is_member(user_id):
             return True
         return False
 
+def _ratings(ushpa_data):
+    """
+    Parse ushpa data from bapa.services.ushpa.get_pilot_data
+    to return a string such as 'P2, H3'.
+    """
+    rating_dict = {
+        'BEGINNER': '1',
+        'NOVICE': '2',
+        'INTERMEDIATE': '3',
+        'ADVANCED': '4',
+        'MASTER': '5'
+    }
+    pg = ushpa_data.get('pg_pilot_rating')
+    hg = ushpa_data.get('hg_pilot_rating')
+    ratings = ''
+    if pg:
+        ratings += 'P-%s' % rating_dict[pg]
+    if hg:
+        ratings += ' H-%s' % rating_dict[hg]
+    if ratings:
+        return ratings.strip()
+    return
 
 def get_members():
     """
@@ -23,23 +45,40 @@ def get_members():
     """
     users = User.query.all()
     f = lambda a: 'Active' if _is_member(a) else 'Not Active'
-    users = [(x.firstname, x.lastname, x.ushpa_data.get('pg_pilot_rating'), f(x.id)) for x in users]
+    users = [(x.firstname, x.lastname, 3,
+        _ratings(x.ushpa_data), f(x.id)) for x in users]
     return users
 
-def news_update(subject, body, user_id):
+def news_update(subject, body, user_id, news_id=None):
     """
-    Insert news entry into database
+    Insert news entry into database. If a news_id is provided,
+    update that record in the database.
     """
-    update = News(user_id, subject, body, True)
-    db.session.add(update)
+    if news_id:
+        update = News.query.filter_by(id=news_id).first()
+        update.subject = subject
+        update.body = body
+        update.updated_by = user_id
+    else:
+        update = News(user_id, subject, body, True)
+        db.session.add(update)
     db.session.commit()
     return update.id
 
-def delete_news(post_id):
+def get_news(id):
+    """
+    Return the subject and body of a news update
+    """
+    post = News.query.filter_by(id=id).first()
+    if post:
+        return post.subject, post.body
+
+
+def delete_news(id):
     """"
     Delete a news update from the db
     """
-    News.query.filter_by(id=post_id).delete()
+    News.query.filter_by(id=id).delete()
     db.session.commit()
 
 def appoint(user_id, appointer_id, token=None):

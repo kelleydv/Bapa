@@ -1,5 +1,5 @@
 from . import controllers
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, g
 from flask import session, request
 from flask import Blueprint
 
@@ -23,7 +23,8 @@ def post_news():
         controllers.news_update(
             request.form['subject'],
             request.form['body'],
-            session['user']['id']
+            session['user']['id'],
+            request.form.get('news_id')
         )
         return redirect(url_for('home.news'))
 
@@ -35,6 +36,17 @@ def delete_news():
     if request.method == 'POST':
         controllers.delete_news(request.form['post_id'])
         return redirect(url_for('home.news'))
+
+@bp.route('/news/edit', methods=['GET'])
+def edit_news():
+    """"""
+    if not session.get('user') or not session['user'].get('officer'):
+        return redirect(url_for('home.login'))
+    news_id = request.args.get('news_id')
+    news_subject, news_body = controllers.get_news(news_id)
+    members = controllers.get_members()
+    return render_template('dashboard.html',
+        members=members, news_subject=news_subject, news_body=news_body, news_id=news_id)
 
 @bp.route('/appoint/')
 @bp.route('/appoint/<key>', methods=['GET'])

@@ -1,20 +1,29 @@
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h3 class="panel-title">{{ entry['subject'] }}</h3>
-    </div>
-    <div class="panel-body">
-      <div class="news">
-        {{ entry['body']|safe }}
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{ entry['subject'] }}</h3>
+        </div>
+        <div class="panel-body">
+          <div class="news">
+            {{ entry['body']|safe }}
+          </div>
+        </div>
+        <div class="panel-footer">
+          <small class="pull-left">Posted by {{ entry['name'] }} {{ entry.get('timestamp') }}</small>
+          {% if entry.get('updated_by') %}
+          <small class="pull-right">Updated by {{ entry.get('updated_by').split()[0] }} {{ entry.get('updated_at') }}</small>
+          {% endif %}
+          <br>
+        </div>
       </div>
     </div>
-    <div class="panel-footer">
-      <small class="pull-left">Posted by {{ entry['name'] }}</small>
-      <small class="pull-right">Last updated {{ entry.get('timestamp') }}</small>
-      <br/>
-      {% if session['user'].get('officer') or session['user'].get('admin') %}
-      <button data-delete-post data-post-id="{{ entry['id'] }}" type="button" class="btn btn-sm btn-danger-outline pull-right">Delete</button>
-      <br/>
-      {% endif %}
+    {% if session['user'].get('officer') or session['user'].get('admin') %}
+    <div class="col-md-2">
+      <a class="btn btn-default btn-sm btn-warning-outline" type="button" href="{{ url_for('officers.edit_news', news_id=entry['id']) }}" >Edit</a>
+      <button class="btn btn-default btn-sm btn-danger-outline" type="button" data-delete-post data-post-id="{{ entry['id'] }}">Delete</button>
     </div>
+    <br>
+    {% endif %}
   </div>
