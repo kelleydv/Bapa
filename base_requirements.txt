@@ -1,0 +1,8 @@
+Flask
+Flask-Mail
+psycopg2
+Flask-SQLAlchemy
+Flask-Migrate
+passlib
+requests
+markdown2
