@@ -1,7 +1,7 @@
 from bapa import db
 from bapa.models import Payment, User, News, Officer
 from bapa.utils import is_too_old, timestamp
-import os
+import os, json
 
 def _is_member(user_id):
     """
@@ -15,7 +15,7 @@ def _is_member(user_id):
             return True
         return False
 
-def _ratings(ushpa_data):
+def _ratings(ushpa_data, id):
     """
     Parse ushpa data from bapa.services.ushpa.get_pilot_data
     to return a string such as 'P2, H3'.
@@ -27,6 +27,9 @@ def _ratings(ushpa_data):
         'ADVANCED': '4',
         'MASTER': '5'
     }
+    # if type(ushpa_data) == str:
+    #     print(ushpa_data, type(ushpa_data), id)
+    #     return
     pg = ushpa_data.get('pg_pilot_rating')
     hg = ushpa_data.get('hg_pilot_rating')
     ratings = ''
@@ -46,7 +49,7 @@ def get_members():
     users = User.query.all()
     f = lambda a: 'Active' if _is_member(a) else 'Not Active'
     users = [(x.firstname, x.lastname, 3,
-        _ratings(x.ushpa_data), f(x.id)) for x in users]
+        _ratings(x.ushpa_data, x.id), f(x.id)) for x in users]
     return users
 
 def news_update(subject, body, user_id, news_id=None):

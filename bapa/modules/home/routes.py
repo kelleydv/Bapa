@@ -73,7 +73,7 @@ def reset_request():
     error = None
     if request.method == 'POST':
         error = controllers.reset_password_request(
-            request.form['email'],
+            request.form['ushpa_or_email'],
             url_for('home.reset_auth')
         )
         if not error:
@@ -89,7 +89,7 @@ def reset_auth(secret=None):
         return redirect(url_for('home.index'))
     if request.method == 'POST':
         user = controllers.reset_password_auth(
-            request.form['email'],
+            request.form['ushpa_or_email'],
             secret
         )
         if not user:

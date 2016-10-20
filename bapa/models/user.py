@@ -7,8 +7,8 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
-    ushpa = db.Column(db.Integer)
-    ushpa_data = db.Column(PickleType)
+    ushpa = db.Column(db.String())
+    ushpa_data = db.Column(PickleType, default={})
     email = db.Column(db.String())
     password = db.Column(db.String())
     firstname = db.Column(db.String())

@@ -58,10 +58,10 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         user = User(
             ushpa,
             ushpa_data,
-            email,
+            email.lower(),
             get_hash(password),
-            firstname,
-            lastname
+            firstname.capitalize(),
+            lastname.capitalize()
         )
         db.session.add(user)
         db.session.commit()
@@ -69,14 +69,17 @@ def signup(ushpa, email, password, password2, firstname, lastname):
     return error
 
 
-def reset_password_request(email, url):
+def reset_password_request(ushpa_or_email, url):
     """Send an email to the user with a token"""
-    if not email:
-        return 'Please enter the email address associated with your account'
-    elif not (email and '@' in email and '.' in email):
-        return 'You have to enter a valid email address'
+    if not ushpa_or_email:
+        return 'Please enter an email or pilot number associated with your account'
+    elif not ('@' in ushpa_or_email and '.' in ushpa_or_email) and len(ushpa_or_email) != 5:
+        return 'That was not a valid entry'
     else:
-        user = User.query.filter_by(email=email).first()
+        if '@' in ushpa_or_email:
+            user = User.query.filter_by(email=ushpa_or_email.lower()).first()
+        else:
+            user = User.query.filter_by(ushpa=ushpa_or_email).first()
         if user:
             token = get_salt()[:32]
             reset = ResetPassword(
@@ -97,21 +100,24 @@ def reset_password_request(email, url):
             msg = Message(
                 subject='Password Reset - sfbapa.org',
                 body=body,
-                recipients=[email]
+                recipients=[user.email]
             )
 
             if app.config['TESTING']:
+                #no need to send an email
                 return
             elif app.debug and not os.environ.get('HEROKU'):
+                #print to the terminal, copy/paste url
                 print(body)
             else:
+                #send the email
                 with app.app_context():
                     mail.send(msg)
 
 
-def reset_password_auth(email, token):
+def reset_password_auth(ushpa_or_email, token):
     """Authenticate a user using a token"""
-    if not (email and token):
+    if not (ushpa_or_email and token):
         return
     else:
         reset = ResetPassword.query.filter_by(token=token).first()
@@ -120,16 +126,21 @@ def reset_password_auth(email, token):
         ResetPassword.query.filter_by(token=token).delete()
         user = User.query.get(reset.user_id)
         db.session.commit()
-        if user.email == email:
+        if user.email == ushpa_or_email or user.ushpa == ushpa_or_email:
             time_requested = reset.created_at
             if not is_too_old(time_requested):
                 if reset.token == token:
                     return user
 
 
-def auth(ushpa, password):
-    """Authenticate as permission for password reset"""
-    user = User.query.filter_by(ushpa=ushpa).first()
+def auth(email, password):
+    """
+    Authenticate as permission for password reset
+    or other sensitive action. `email` arguments do
+    not need to be validated, as they should always
+    come from session data.
+    """
+    user = User.query.filter_by(email=email).first()
     if not user and verify_hash(password, user.password):
         return
     return True
