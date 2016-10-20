@@ -1,6 +1,17 @@
+/* Because of our fixed footer */
+body { padding-bottom: 70px; }
 
 form .form-group:last-child{ margin-bottom: 0; }
 .copyright { margin-left: 0; }
+
+fieldset legend {
+	padding-top: 22px;
+}
+
+.form-control:changed {
+  border-color: #4B0082;
+  box-shadow: inset 0 1px 1px rgba(75, 0, 130, 0.075), 0 0 8px rgba(75, 0, 130, 0.6);
+}
 
 
 #hero {
@@ -17,6 +28,10 @@ form .form-group:last-child{ margin-bottom: 0; }
 		opacity: 0.8;
 		}
 	#hero .btn { margin: 10px; }
+
+
+.container-if-fixed-footer
+
 
 /* disk */
 .disk:after {

@@ -42,7 +42,7 @@ def login():
         return redirect(url_for('home.index'))
     error = None
     if request.method == 'POST':
-        user = controllers.authenticate_user(request.form['ushpa'], request.form['password'])
+        user = controllers.authenticate_user(request.form['ushpa_or_email'], request.form['password'])
         if user:
             flash('Welcome back, %s' % user['firstname'])
             session['user'] = user
@@ -73,7 +73,6 @@ def reset_request():
     error = None
     if request.method == 'POST':
         error = controllers.reset_password_request(
-            request.form['ushpa'],
             request.form['email'],
             url_for('home.reset_auth')
         )
@@ -90,7 +89,6 @@ def reset_auth(secret=None):
         return redirect(url_for('home.index'))
     if request.method == 'POST':
         user = controllers.reset_password_auth(
-            request.form['ushpa'],
             request.form['email'],
             secret
         )
@@ -110,7 +108,7 @@ def simple_auth():
         return redirect(url_for('home.login'))
     error = None
     if request.method == 'POST':
-        if controllers.auth(session['user']['ushpa'], request.form['password']):
+        if controllers.auth(session['user']['email'], request.form['password']):
             session['authed'] = timestamp(object=True)
             return redirect(url_for('home.reset'))
         error = 'Enter your current password'

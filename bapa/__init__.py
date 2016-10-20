@@ -16,6 +16,7 @@ conf = {
 app.config.from_object(conf)
 
 db = SQLAlchemy(app)
+db.create_all() #create all tables according to schemae in bapa/models
 
 mail = Mail(app)
 

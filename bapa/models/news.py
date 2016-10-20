@@ -12,7 +12,7 @@ class News(db.Model):
     body = db.Column(db.String())
     public = db.Column(db.Boolean()) #public vs. members only
     created_at = db.Column(db.DateTime, default=lambda: timestamp(object=True))
-    updated_at = db.Column(db.DateTime, onupdate=lambda: timestamp(object=True))
+    updated_at = db.Column(db.DateTime)
     updated_by = db.Column(db.Integer()) #user_id
 
     def __init__(self, user_id, subject, body, public):

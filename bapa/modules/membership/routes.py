@@ -6,6 +6,18 @@ from flask import Blueprint
 bp = Blueprint('membership', __name__, template_folder='templates')
 
 
+@bp.route('/profile', methods=['GET', 'POST'])
+def profile():
+    """View BAPA membership status"""
+    if not session.get('user'):
+        return redirect(url_for('home.login'))
+
+    if request.method == 'POST':
+        controllers.update_user_profile(session['user']['id'], request.form)
+
+    profile = controllers.get_user_profile(session['user']['id'])
+    return render_template('profile.html', user=session['user'], profile=profile)
+
 @bp.route('/status', methods=['GET'])
 def status():
     """View BAPA membership status"""

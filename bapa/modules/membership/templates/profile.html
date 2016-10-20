@@ -1,0 +1,236 @@
+{% extends "layout.html" %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-default">
+
+					<div class="panel-heading">
+						<h3 class="panel-title">Profile</h3>
+					</div>
+
+					<div class="panel-body">
+
+						<form class="form-horizontal">
+
+							<!--
+							unused profile attributes:
+
+							hits
+							joindate
+
+							-->
+
+							<fieldset>
+								<legend>User</legend>
+								<div class="form-group">
+									<label for="firstname" class="col-md-3 control-label">First Name</label>
+									<div class="col-md-9">
+										<input type="text" name="firstname" id="firstname" value="{{ user.firstname }}" class="form-control" placeholder="Jane">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="lastname" class="col-md-3 control-label">Last Name</label>
+									<div class="col-md-9">
+										<input type="text" name="lastname" id="lastname" value="{{ user.lastname }}" class="form-control" placeholder="Doe">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="nickname" class="col-md-3 control-label">Nickname</label>
+									<div class="col-md-9">
+										<input type="text" name="nickname" id="nickname" value="{{ profile.nickname }}" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="email" class="col-md-3 control-label">Email</label>
+									<div class="col-md-9">
+										<input type="email" name="email" id="email" value="{{ user.email }}" class="form-control" placeholder="johndoe@example.com">
+									</div>
+								</div>
+							</fieldset>
+
+
+							<fieldset>
+								<legend>Pilot</legend>
+								<div class="form-group">
+									<label for="ushpa" class="col-md-3 control-label">USHPA Pilot Number</label>
+									<div class="col-md-9">
+										<input type="text" name="ushpa" id="ushpa" value="{{ user.ushpa }}" class="form-control" placeholder="12345" maxlength="5" pattern="[0-9]{5}">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="callsign" class="col-md-3 control-label">Callsign</label>
+									<div class="col-md-9">
+										<input type="text" name="callsign" id="callsign" value="{{ profile.callsign }}" class="form-control" >
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="sites" class="col-md-3 control-label">Sites You Fly</label>
+									<div class="col-md-9">
+										<textarea name="sites" id="sites" value="{{ profile.sites }}" class="form-control" ></textarea>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="wing_info" class="col-md-3 control-label">Wing</label>
+									<div class="col-md-9">
+										<textarea type="text" name="wing_info" id="wing_info" value="{{ profile.wing_info }}" class="form-control" placeholder="model, color, etc."></textarea>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset>
+								<legend>Professional</legend>
+								<div class="form-group">
+									<label for="website" class="col-md-3 control-label">Website</label>
+									<div class="col-md-9">
+										<input type="url" name="website" id="website" value="{{ profile.website }}" class="form-control" >
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="company" class="col-md-3 control-label">Company</label>
+									<div class="col-md-9">
+										<input type="text" name="company" id="company" value="{{ profile.company }}" class="form-control" >
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="prophone" class="col-md-3 control-label">Phone</label>
+									<div class="col-md-9">
+										<input type="tel" name="prophone" id="prophone" value="{{ profile.prophone }}" class="form-control" >
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset>
+								<legend>Contact</legend>
+								<div class="form-group">
+									<label for="address" class="col-md-3 control-label">Address</label>
+									<div class="col-md-9">
+										<input type="text" value="{{ profile.address }}" placeholder="street, number, and apartment" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="city" class="col-md-3 control-label">City</label>
+									<div class="col-md-9">
+										<input type="text" name="city" id="city" value="{{ profile.city }}" placeholder="city" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="state" class="col-md-3 control-label">State</label>
+									<div class="col-md-3">
+										<input type="text" name="state" id="state" value="{{ profile.state }}" placeholder="state" class="form-control">
+									</div>
+
+									<label for="zipcode" class="col-md-2 control-label">ZIP Code</label>
+									<div class="col-md-4">
+										<input type="text" name="zipcode" id="zipcode" value="{{ profile.zipcode }}" placeholder="ZIP" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="country" class="col-md-3 control-label">Country</label>
+									<div class="col-md-9">
+										<input type="text" name="country" id="country" value="{{ profile.country }}" placeholder="country" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="cellphone" class="col-md-3 control-label">Cellphone</label>
+									<div class="col-md-9">
+										<input type="tel" name="cellphone" id="cellphone" value="{{ profile.cellphone }}" placeholder="(888) 888-8888" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="landphone" class="col-md-3 control-label">Landline</label>
+									<div class="col-md-9">
+										<input type="tel" name="landphone" id="landphone" value="{{ profile.landphone }}" placeholder="(888) 888-8888" class="form-control">
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset>
+								<legend>Emergency Contact</legend>
+								<div class="form-group">
+									<label for="emergency_contact" class="col-md-3 control-label">Name + Relationship</label>
+									<div class="col-md-9">
+										<input type="text" name="emergency_contact" id="emergency_contact" value="{{ profile.emergency_contact }}" placeholder="John Doe, husband" class="form-control">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="city" class="col-md-3 control-label">Telephone</label>
+									<div class="col-md-9">
+										<input type="tel" name="emergency_phone" id="emergency_phone" value="{{ profile.emergency_phone }}" placeholder="(888) 888-8888" class="form-control">
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset>
+								<legend></legend>
+								<div class="form-group">
+									<label for="private" class="col-md-3 control-label">
+										Private
+									</label>
+									<div class="col-md-9 checkbox">
+										<label>
+											<input type="checkbox" name="private" id="private" value="{{ profile.private }}">
+											Keep my profile hidden from other users
+										</label>
+									</div>
+								</div>
+								<legend></legend>
+							</fieldset>
+
+							<div class="form-group">
+								<div class="col-md-offset-2 col-md-10">
+									<div class="pull-right">
+										<button type="reset" class="btn btn-default">Reset</button>
+										<button type="submit" class="btn btn-primary">Update</button>
+									</div>
+								</div>
+							</div>
+
+
+					</div> <!-- panel body -->
+
+				</div> <!-- panel -->
+
+			</div> <!-- col -->
+		</div> <!-- row -->
+	</div> <!-- container -->
+
+{% endblock %}
+
+{% block post_body %}
+	<script type="text/javascript">
+	var $form = $('form');
+
+	$form
+	.on('change', '.input', function() {
+		$(this).addClass('changed');
+	})
+	.on('click', 'input[type="reset"]', function() {
+		$form.find('.changed').removeClass('changed');
+	})
+	.on('submit', function (e) {
+		//e.preventDefault(); // Prevent actual form submission
+		var payload = $form.serialize();
+
+		$.post("{{ url_for('membership.profile') }}", payload, function () {
+			// Done
+		});
+	});
+	</script>
+{% endblock %}

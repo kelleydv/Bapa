@@ -33,6 +33,7 @@
 					</a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a href="{{ url_for('membership.status') }}">Membership Status</a></li>
+						<li><a href="{{ url_for('membership.profile') }}">Profile</a></li>
 						{% if session['user'].get('officer') %}
 						<li><a href="{{ url_for('officers.index') }}">Officers</a></li>
 						{% endif %}

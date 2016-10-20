@@ -42,4 +42,4 @@ class Develop(Debug):
 
 class Testing(Develop):
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/bapa.db-testing'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/bapa-test.db'

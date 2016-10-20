@@ -20,8 +20,8 @@
 						<form action="{{ url_for('home.login') }}" method="POST">
 
 							<div class="form-group">
-								<label for="ushpa">USHPA Pilot Number</label>
-								<input type="text" name="ushpa" id="ushpa" value="{{ request.form.ushpa }}" class="form-control" placeholder="12345">
+								<label for="ushpa">USHPA Pilot Number or Email</label>
+								<input type="text" name="ushpa_or_email" id="ushpa_or_email" value="{{ request.form.ushpa_or_email }}" class="form-control">
 							</div>
 
 							<div class="form-group">

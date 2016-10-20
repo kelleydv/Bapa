@@ -13,6 +13,7 @@ class User(db.Model):
     password = db.Column(db.String())
     firstname = db.Column(db.String())
     lastname = db.Column(db.String())
+    last_login = db.Column(db.DateTime, default=lambda: timestamp(object=True))
     created_at = db.Column(db.DateTime, default=lambda: timestamp(object=True))
     updated_at = db.Column(db.DateTime, default=lambda: timestamp(object=True),
                            onupdate=lambda: timestamp(object=True))
@@ -21,7 +22,7 @@ class User(db.Model):
         self.ushpa = ushpa
         self.ushpa_data = ushpa_data
         self.email = email
-        self.password = get_hash(password)
+        self.password = password
         self.firstname = firstname
         self.lastname = lastname
 

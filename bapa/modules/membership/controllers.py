@@ -1,5 +1,33 @@
 from bapa import db, services
-from bapa.models import User, Ipn, Payment
+from bapa.models import User, Profile, Ipn, Payment
+
+def get_user_profile(user_id):
+    """Get a profile record"""
+    return Profile.query.filter_by(user_id=user_id).first()
+
+def update_user_profile(user_id, data):
+    """
+    Update a users information in both the user and profile tables
+    """
+    user = User.query.get(user_id)
+    profile = get_user_profile(user_id)
+    if not profile:
+        profile = Profile(user_id)
+
+    for field in data:
+        #TODO: Validate
+        if hasattr(profile, field):
+            setattr(profile, field, data[field])
+        elif hasattr(user, field):
+            setattr(user, field, data[field])
+        else:
+            raise Exception('fuk dat: ' + field)
+
+    db.session.add(user)
+    db.session.add(profile)
+    db.session.commit()
+
+
 
 def get_last_payment(user_id):
     """Retrieve latest payment info for user, or return None"""
@@ -28,7 +56,7 @@ def record_payment(ipn):
                 ipn['custom'], # user_id
                 ipn['item_name'],
                 ipn['payment_gross'],
-                ipn['payment_date'],
+                datetime.strptime(ipn['payment_date'],'%H:%M:%S %b %d, %Y %Z'),
                 this_ipn.id
             )
             db.session.add(payment)

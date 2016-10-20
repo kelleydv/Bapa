@@ -1,6 +1,6 @@
 from bapa import db
 from bapa.models import Payment, User, News, Officer
-from bapa.utils import is_too_old
+from bapa.utils import is_too_old, timestamp
 import os
 
 def _is_member(user_id):
@@ -59,6 +59,7 @@ def news_update(subject, body, user_id, news_id=None):
         update.subject = subject
         update.body = body
         update.updated_by = user_id
+        update.updated_at = timestamp(object=True)
     else:
         update = News(user_id, subject, body, True)
         db.session.add(update)

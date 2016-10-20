@@ -27,18 +27,37 @@ class HomeTestCase(BaseTest):
                         password='pass', password2='pass',
                         firstname='John', lastname='Doe')
 
+        ##Login with ushpa number
         #bad password
-        resp = self.login(ushpa='12345', password='mass')
+        resp = self.login(ushpa_or_email='12345', password='mass')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(b'Error' in resp.data)
 
         #bad ushpa number
-        resp = self.login(ushpa='12346', password='pass')
+        resp = self.login(ushpa_or_email='12346', password='pass')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(b'Error' in resp.data)
 
         #good login
-        resp = self.login(ushpa='12345', password='pass')
+        resp = self.login(ushpa_or_email='12345', password='pass')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(b'Welcome back' in resp.data)
+
+
+        self.app.get('/logout')
+        ##Login with email
+        #bad password
+        resp = self.login(ushpa_or_email='johndoe@example.com', password='mass')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(b'Error' in resp.data)
+
+        #bad email
+        resp = self.login(ushpa_or_email='johndoe@example.org', password='pass')
+        self.assertEqual(resp.status_code, 200)
+        self.assertTrue(b'Error' in resp.data)
+
+        #good login
+        resp = self.login(ushpa_or_email='johndoe@example.com', password='pass')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(b'Welcome back' in resp.data)
 
@@ -65,22 +84,11 @@ class HomeTestCase(BaseTest):
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(b'Reset Password' in resp.data)
 
-        #wrong ushpa
-        resp = self.app.post(
-            '/password/reset/request',
-            data = dict(ushpa='12346', email='johndoe@example.com'),
-            follow_redirects = True
-        )
-        self.assertEqual(resp.status_code, 200)
-        self.assertTrue(b'Email sent' in resp.data)
-        self.assertTrue(b'Home' in resp.data)
-        reset = ResetPassword.query.all()
-        self.assertEqual(len(reset), 0)
 
         #wrong email
         resp = self.app.post(
             '/password/reset/request',
-            data = dict(ushpa='12345', email='johndoe@example.org'),
+            data = dict(email='johndoe@example.org'),
             follow_redirects = True
         )
         self.assertEqual(resp.status_code, 200)
@@ -92,7 +100,7 @@ class HomeTestCase(BaseTest):
         #valid request for reset token
         resp = self.app.post(
             '/password/reset/request',
-            data = dict(ushpa='12345', email='johndoe@example.com'),
+            data = dict(email='johndoe@example.com'),
             follow_redirects = True
         )
         self.assertEqual(resp.status_code, 200)
@@ -105,7 +113,7 @@ class HomeTestCase(BaseTest):
         self.assertTrue(b'Reenter Credentials' in resp.data)
         resp = self.app.post( #use token
             '/password/reset/auth/%s' % resets[0].token,
-            data = dict(ushpa='12345', email='johndoe@example.com'),
+            data = dict(email='johndoe@example.com'),
             follow_redirects = True
         )
         self.assertEqual(resp.status_code, 200)
@@ -119,9 +127,9 @@ class HomeTestCase(BaseTest):
         )
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(b'has been reset' in resp.data)
-        resp = self.login(ushpa='12345', password='pass') #old password
+        resp = self.login(ushpa_or_email='12345', password='pass') #old password
         self.assertTrue(b'Error' in resp.data)
-        resp = self.login(ushpa='12345', password='password') #new password
+        resp = self.login(ushpa_or_email='12345', password='password') #new password
         self.assertTrue(b'Welcome back' in resp.data)
 
 

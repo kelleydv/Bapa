@@ -24,7 +24,7 @@ class OfficersTestCase(BaseTest):
         jane = User.query.filter_by(ushpa='98765').first()
 
         #login john
-        self.login(ushpa='12345', password='pass')
+        self.login(ushpa_or_email='12345', password='pass')
 
         #redirect to the home page, (no officer permissions)
         resp = self.app.get('/officers', follow_redirects=True)

@@ -10,8 +10,7 @@ class Payment(db.Model):
     user_id = db.Column(db.Integer())
     item = db.Column(db.String())
     amount = db.Column(db.Float())
-    date = db.Column(db.String())
-    #TODO: Parse paypal date for datetime object
+    date = db.Column(db.DateTime())
     created_at = db.Column(db.DateTime, default=lambda: timestamp(object=True))
     ipn_id = db.Column(db.Integer())
 

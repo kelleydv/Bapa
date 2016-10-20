@@ -10,7 +10,12 @@ def get_hash(m):
 
 def verify_hash(password, hash):
     """Verify and return boolean"""
-    return pbkdf2_sha256.verify(password, hash)
+    try:
+        return pbkdf2_sha256.verify(password, hash)
+    except:
+        # In the case of a DB record that is not a valid
+        # pbkdf2_sha256 hash, such as with migrated data
+        return False
 
 def get_salt():
     """Return a salt string"""

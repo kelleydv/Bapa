@@ -5,3 +5,4 @@ from .ipn import Ipn
 from .admin import Admin
 from .officer import Officer
 from .news import News
+from .profile import Profile

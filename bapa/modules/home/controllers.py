@@ -1,22 +1,28 @@
 from bapa import app, mail, db, services
 from bapa.models import User, ResetPassword, Officer, Admin, News, Payment
 from bapa.utils import is_too_old
-from bapa.utils import get_salt, get_hash, verify_hash
+from bapa.utils import get_salt, get_hash, verify_hash, timestamp
 from flask_mail import Message
 import markdown2
 import string
 import os
 
 
-def authenticate_user(ushpa, password):
+def authenticate_user(ushpa_or_email, password):
     """
     Authenticate and return user record from
     database, None on failed auth.  Prepare for
     use as session data.
     """
-    user = User.query.filter_by(ushpa=ushpa).first()
+    if '@' in ushpa_or_email:
+        user = User.query.filter_by(email=ushpa_or_email).first()
+    else:
+        user = User.query.filter_by(ushpa=ushpa_or_email).first()
+
     if not (user and verify_hash(password, user.password)):
         return
+
+    user.last_login = timestamp(object=True)
     user = user.__dict__
     del user['_sa_instance_state'] #non-serializable
 
@@ -53,7 +59,7 @@ def signup(ushpa, email, password, password2, firstname, lastname):
             ushpa,
             ushpa_data,
             email,
-            password,
+            get_hash(password),
             firstname,
             lastname
         )
@@ -63,15 +69,15 @@ def signup(ushpa, email, password, password2, firstname, lastname):
     return error
 
 
-def reset_password_request(ushpa, email, url):
+def reset_password_request(email, url):
     """Send an email to the user with a token"""
-    if not (ushpa and email):
-        return 'Please enter your USHPA pilot number and email address'
+    if not email:
+        return 'Please enter the email address associated with your account'
     elif not (email and '@' in email and '.' in email):
         return 'You have to enter a valid email address'
     else:
         user = User.query.filter_by(email=email).first()
-        if user and str(user.ushpa) == ushpa:
+        if user:
             token = get_salt()[:32]
             reset = ResetPassword(
                 user.id,
@@ -103,9 +109,9 @@ def reset_password_request(ushpa, email, url):
                     mail.send(msg)
 
 
-def reset_password_auth(ushpa, email, token):
+def reset_password_auth(email, token):
     """Authenticate a user using a token"""
-    if not (ushpa and email and token):
+    if not (email and token):
         return
     else:
         reset = ResetPassword.query.filter_by(token=token).first()
@@ -114,7 +120,7 @@ def reset_password_auth(ushpa, email, token):
         ResetPassword.query.filter_by(token=token).delete()
         user = User.query.get(reset.user_id)
         db.session.commit()
-        if user.email == email and str(user.ushpa) == ushpa:
+        if user.email == email:
             time_requested = reset.created_at
             if not is_too_old(time_requested):
                 if reset.token == token:
