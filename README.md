@@ -3,49 +3,26 @@
 Website for the Bay Area Paragliding Association (Work In Progress)
 
 ### Requirements
-- [postgres](https://www.postgresql.org/)
 - [node/npm](https://nodejs.org/) (for front-end dependencies)
 - [Python 3](https://www.python.org/)
-- [pip3](https://pip.pypa.io/en/latest/installing.html)
-- [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) (recommended)
 
-### Set up Python environment (install dependencies via pip)
+### Run Locally
 ```
 $ cd Bapa
-$ virtualenv venv
-$ source venv/bin/activate
-$ pip3 install -r requirements.txt
+$ pip3 install -r requirements.txt #python dependencies
+$ npm install #front-end dependencies
+$ export env=dev
+$ python3 server.py
+ * Running on http://0.0.0.0:5000/
 ```
 
-### Install front-end dependencies
-run `$ npm install` or just `$ bower install`, if you already have bower installed.  See [bower.json](./bower.json) for a list of front-end components.
-
-### Database Management
-Install postgres. [Postgres.app](http://postgresapp.com/) is nice for Mac.
-From a postgres shell, create databases:
-```
-postgres=# create database "bapa-local";
-postgres=# create database "bapa-local-testing";
-```
-Then run the alembic manager:
-```
-$ python3 db.py db init    #only needs to happen if migrations/ doesn't exist
-$ python3 db.py db migrate #create migration file (initially, or after updating model(s))
-$ python3 db.py db upgrade #perform the migration. Do this first if cloning the repo.
-```
+### Front-End
+To install dependencies, run `$ npm install`, or just `$ bower install` if you already have bower installed.  See [bower.json](./bower.json) for a list of front-end components.
 
 ### Testing
 ```
 export env=test
 python3 test.py
-```
-
-### Run locally
-```
-$ export env=dev
-$ source venv/bin/activate
-$ python3 server.py
- * Running on http://0.0.0.0:5000/
 ```
 
 ### Contributing
