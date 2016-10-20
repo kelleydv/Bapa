@@ -27,9 +27,7 @@ def _ratings(ushpa_data, id):
         'ADVANCED': '4',
         'MASTER': '5'
     }
-    # if type(ushpa_data) == str:
-    #     print(ushpa_data, type(ushpa_data), id)
-    #     return
+    
     pg = ushpa_data.get('pg_pilot_rating')
     hg = ushpa_data.get('hg_pilot_rating')
     ratings = ''
