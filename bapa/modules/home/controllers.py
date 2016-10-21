@@ -1,4 +1,6 @@
 from bapa import app, mail, db, services
+from bapa.services.ushpa import get_pilot_data
+from bapa.services.recaptcha import verify_recaptcha
 from bapa.models import User, ResetPassword, Officer, Admin, News, Payment
 from bapa.utils import is_too_old
 from bapa.utils import get_salt, get_hash, verify_hash, timestamp
@@ -40,7 +42,7 @@ def authenticate_user(ushpa_or_email, password):
     return user
 
 
-def signup(ushpa, email, password, password2, firstname, lastname):
+def signup(ushpa, email, password, password2, firstname, lastname, recaptcha_response):
     """Register the user, return error or None."""
     if not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
@@ -52,9 +54,11 @@ def signup(ushpa, email, password, password2, firstname, lastname):
         error = 'You have to enter a password'
     elif password != password2:
         error = 'The two passwords do not match'
+    elif app.config.get('PROTECTION') and not verify_recaptcha(recaptcha_response):
+        error = 'reCAPTCHA test failed'
     else:
         # Insert user into database.
-        ushpa_data = services.ushpa.get_pilot_data(ushpa)
+        ushpa_data = get_pilot_data(ushpa)
         user = User(
             ushpa,
             ushpa_data,

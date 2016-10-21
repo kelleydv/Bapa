@@ -1,4 +1,5 @@
 from . import controllers
+from bapa import app
 from bapa.utils import timestamp, is_too_old
 from flask import render_template, redirect, url_for, flash
 from flask import session, request
@@ -21,18 +22,20 @@ def register():
         return redirect(url_for('home.index'))
     error = None
     if request.method == 'POST':
+
         error = controllers.signup(
             request.form['ushpa'],
             request.form['email'],
             request.form['password'],
             request.form['password2'],
             request.form['firstname'],
-            request.form['lastname']
+            request.form['lastname'],
+            request.form.get('g-recaptcha-response')
         )
         if not error:
             flash('You were successfully registered and can login now')
             return redirect(url_for('home.login'))
-    return render_template('register.html', error=error)
+    return render_template('register.html', error=error, protection=app.config.get('PROTECTION'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
 
 
 @bp.route('/login', methods=['GET', 'POST'])
