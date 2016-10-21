@@ -1,6 +1,5 @@
 from bapa import app, mail, db, services
-from bapa.services.ushpa import get_pilot_data
-from bapa.services.recaptcha import verify_recaptcha
+from bapa.services import get_pilot_data, verify_recaptcha
 from bapa.models import User, ResetPassword, Officer, Admin, News, Payment
 from bapa.utils import is_too_old
 from bapa.utils import get_salt, get_hash, verify_hash, timestamp

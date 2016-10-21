@@ -1,4 +1,5 @@
-from bapa import db, services
+from bapa import db
+from bapa.services import verify_ipn
 from bapa.models import User, Profile, Ipn, Payment
 
 def get_user_profile(user_id):
@@ -38,7 +39,7 @@ def record_payment(ipn):
     """
     Handle an instant payment notification from paypal.
     """
-    if not services.paypal.verify_ipn(ipn):
+    if not verify_ipn(ipn):
         return 'Invalid IPN'
 
     user = User.query.get(ipn['custom'])
