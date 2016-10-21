@@ -7,11 +7,11 @@ import os
 app = Flask(__name__)
 
 #`env` must be set to dev, prod, or test
-env = os.environ.get('env')
+env = os.environ.get('ENV')
 conf = {
-    'dev': 'bapa.config.Develop',
-    'prod': 'bapa.config.Production',
-    'test': 'bapa.config.Testing'
+    'DEV': 'bapa.config.Develop',
+    'PROD': 'bapa.config.Production',
+    'TEST': 'bapa.config.Testing'
 }[env]
 app.config.from_object(conf)
 

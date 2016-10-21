@@ -23,20 +23,20 @@ class Debug(Config):
 
 
 class Develop(Debug):
-    SECRET_KEY = os.environ.get('bapa_secret_key') or Config.SECRET_KEY
+    SECRET_KEY = os.environ.get('SECRET_KEY') or Config.SECRET_KEY
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or Config.SQLALCHEMY_DATABASE_URI
 
-    MAIL_SERVER = os.environ.get('bapa_mail_server')
-    MAIL_PORT = os.environ.get('bapa_mail_port')
-    MAIL_USERNAME = os.environ.get('bapa_mail_username')
-    MAIL_PASSWORD = os.environ.get('bapa_mail_password')
-    MAIL_DEFAULT_SENDER = os.environ.get('bapa_mail_default_sender')
+    MAIL_SERVER = os.environ.get('MAIL_SERVER')
+    MAIL_PORT = os.environ.get('MAIL_PORT')
+    MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
+    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
+    MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
 
-    USHPA_CHAPTER = os.environ.get('bapa_ushpa_chapter')
-    USHPA_PIN = os.environ.get('bapa_ushpa_pin')
+    USHPA_CHAPTER = os.environ.get('USHPA_CHAPTER')
+    USHPA_PIN = os.environ.get('USHPA_PIN')
 
-    HOST = os.environ.get('bapa_host') or Config.HOST
+    HOST = os.environ.get('HOST') or Config.HOST
 
     PAYPAL_ENDPOINT = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 
