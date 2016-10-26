@@ -3,7 +3,7 @@ import os
 class Config():
     SECRET_KEY = 'ilovetofly'
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/bapa.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////var/tmp/bapa.db'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     MAIL_SERVER = 'smtp.dummy.com'
@@ -50,4 +50,4 @@ class Develop(Debug):
 class Testing(Develop):
     TESTING = True #to avoid sending emails
     PROTECTION = False
-    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test-bapa.db'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////var/tmp/test-bapa.db'
