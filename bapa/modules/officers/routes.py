@@ -67,3 +67,12 @@ def appoint(key=None):
         message = controllers.appoint(user_id, appointer_id)
     flash(message)
     return redirect(url_for('membership.profile', user_id=user_id))
+
+@bp.route('/normal', methods=['GET'])
+def view_as_normal():
+    """Remove officer permissions for current session."""
+    if not session.get('user') or not session['user'].get('officer'):
+        return redirect(url_for('home.login'))
+    del session['user']['officer']
+    flash('You are no longer viewing as an officer. Logout to reset your permissions.')
+    return redirect(url_for('home.index'))
