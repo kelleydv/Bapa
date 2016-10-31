@@ -6,6 +6,7 @@
     "jquery.tablesorter": "2.23.5",
     "bootstrap-markdown": "2.9.0",
     "markdown": "*",
-    "to-markdown": "*"
+    "to-markdown": "*",
+    "components-font-awesome": "4.7.0"
   }
 }

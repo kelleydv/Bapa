@@ -1,11 +1,11 @@
 {% block flash %}
 	{% with flashes = get_flashed_messages() %}
 		{% if flashes %}
-			<ul class="flashes">
+			<div class="flashes">
 				{% for message in flashes %}
-					<li>{{ message }}</ul>
+					<p>{{ message }}</p>
 				{% endfor %}
-			</ul>
+			</div>
 		{% endif %}
 	{% endwith %}
 {% endblock %}

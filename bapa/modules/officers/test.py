@@ -40,7 +40,7 @@ class OfficersTestCase(BaseTest):
             follow_redirects = True
         )
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(b'Take Flight' in resp.data)
+        self.assertTrue(b'officer' not in resp.data)
         officers = Officer.query.all()
         self.assertEqual(len(officers), 0)
 

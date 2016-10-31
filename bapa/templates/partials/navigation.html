@@ -32,13 +32,9 @@
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a href="{{ url_for('membership.status') }}">Membership Status</a></li>
 						<li><a href="{{ url_for('membership.profile') }}">Profile</a></li>
 						{% if session['user'].get('officer') %}
 						<li><a href="{{ url_for('officers.index') }}">Officers</a></li>
-						{% endif %}
-						{% if session['user'].get('admin') %}
-						<li><a href="{{ url_for('admin.index') }}">Admin</a></li>
 						{% endif %}
 						<li><a href="{{ url_for('home.logout') }}">Sign Out</a></li>
 					</ul>

@@ -4,6 +4,7 @@ import datetime
 import os
 import binascii
 
+
 def get_hash(m):
     """One hundred thousand applications of sha256"""
     return pbkdf2_sha256.encrypt(m, salt_size=64, rounds=100000)
@@ -41,3 +42,27 @@ def is_too_old(time_obj, minutes=5, years=0):
     if elapsed > datetime.timedelta(minutes=minutes, days=years*365):
         return True
     return False
+
+def parse_ratings(ushpa_data):
+    """
+    Parse ushpa data from bapa.services.ushpa.get_pilot_data
+    to return a string such as 'P2, H3'.
+    """
+    rating_dict = {
+        'BEGINNER': '1',
+        'NOVICE': '2',
+        'INTERMEDIATE': '3',
+        'ADVANCED': '4',
+        'MASTER': '5'
+    }
+
+    pg = ushpa_data.get('pg_pilot_rating')
+    hg = ushpa_data.get('hg_pilot_rating')
+    ratings = ''
+    if pg:
+        ratings += 'P-%s' % rating_dict[pg]
+    if hg:
+        ratings += ' H-%s' % rating_dict[hg]
+    if ratings:
+        return ratings.strip()
+    return

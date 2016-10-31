@@ -9,8 +9,8 @@ fieldset legend {
 }
 
 .form-control:changed {
-  border-color: #4B0082;
-  box-shadow: inset 0 1px 1px rgba(75, 0, 130, 0.075), 0 0 8px rgba(75, 0, 130, 0.6);
+	border-color: #4B0082;
+	box-shadow: inset 0 1px 1px rgba(75, 0, 130, 0.075), 0 0 8px rgba(75, 0, 130, 0.6);
 }
 
 
@@ -18,25 +18,22 @@ fieldset legend {
 	background: url(http://i.imgur.com/a28uWNy.jpg) center center no-repeat;
 	background-size: cover;
 	color: #fff;
-	}
-	#hero h1 {
-		padding-top: 150px;
-		text-shadow: 0 2px 2px rgba(0,0,0,0.4);
-		}
-	#hero hr {
-		width: 50%;
-		opacity: 0.8;
-		}
-	#hero .btn { margin: 10px; }
-
-
-.container-if-fixed-footer
+}
+#hero h1 {
+	padding-top: 150px;
+	text-shadow: 0 2px 2px rgba(0,0,0,0.4);
+}
+#hero hr {
+	width: 50%;
+	opacity: 0.8;
+}
+#hero .btn { margin: 10px; }
 
 
 /* disk */
 .disk:after {
-    content:"●";
-    color: dodgerblue;
+	content:"●";
+	color: dodgerblue;
 }
 
 /* tables */
@@ -57,5 +54,394 @@ table.tablesorter thead tr .headerSortDown {
 	.copyright {
 		display: inline-block;
 		padding-left: 15px;
-		}
+	}
+}
+
+label.required::after {
+	content: "*";
+	color: red;
+}
+
+
+/*remove link style from officer table*/
+td a {
+	color: inherit;
+	text-decoration: none;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+.flashes > p {
+	 font-family: 'Roboto', sans-serif;
+	 font-size: 18px;
+	 font-weight: lighter;
+	 text-align: center;
+ }
+
+
+/* Profile stuff */
+@import url(https://fonts.googleapis.com/css?family=Oswald:400,300);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+.profile * {
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.profile body {
+	background: #2d2c41;
+	font-family: 'Open Sans', Arial, Helvetica, Sans-serif, Verdana, Tahoma;
+}
+
+.profile .prof-pic {
+	position: relative;
+}
+.profile .username {
+	bottom: 0;
+	color: #ffffff;
+	padding: 30px 15px 4px;
+	position: absolute;
+	width: 100%;
+	text-shadow: 1px 1px 2px #000000;
+
+	background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, #2d2c41 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%, #2d2c41 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, #2d2c41 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a64d4d4d',GradientType=0 ); /* IE6-9 */
+}
+.profile .prof {
+	border-radius: 4px 4px 0 0;
+}
+.profile .username > h2 {
+	font-family: oswald;
+	font-size: 22px;
+	font-weight: lighter;
+	margin: 31px 0 4px;
+	position: relative;
+	text-shadow: 1px 1px 2px #000000;
+	text-transform: uppercase;
+}
+.profile .username > h2 small {
+	color: #ffffff;
+	font-family: open sans;
+	font-size: 13px;
+	font-weight: 400;
+	position: relative;
+}
+.profile .username .fa{
+	color: #ffffff;
+	font-size: 14px;
+	margin: 0 0 0 4px;
+	position: static;
+}
+.profile .edit-pic a {
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+	border: 1px solid #ffffff;
+	border-radius: 50%;
+	color: #ffffff;
+	font-size: 21px;
+	height: 39px;
+	line-height: 38px;
+	margin: 8px;
+	text-align: center;
+	width: 39px;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+	text-decoration: none !important;
+	display: list-item;
+	background-color: rgba(255, 255, 255, 0.1)
+}
+.profile .edit-pic a:hover {
+	font-size: 17px;
+	opacity: 0.9;
+}
+.profile .edit-pic a:focus {
+	background:#b63b4d;
+	color: #fff;
+	border: 1px solid #b63b4d;
+}
+.profile a:focus {
+	outline: none;
+	outline-offset: 0px;
+}
+.profile .edit-pic {
+	position: absolute;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.profile .tags {
+	background: rgba(255, 255, 255, 0.1) none repeat scroll 0 0;
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 13px;
+	margin: 4px 0 0;
+	padding: 2px 5px;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.profile .tags:hover {
+	background: rgba(255, 255, 255, 0.3) none repeat scroll 0 0;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: 2px;
+	display: inline-block;
+	font-size: 13px;
+	margin: 4px 0 0;
+	padding: 2px 5px;
+}
+.profile #accordion:hover .edit-pic {
+	opacity: unset;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+
+.profile .btn-o {
+
+	background-color: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: 2px;
+	color: #ffffff !important;
+	display: inline-block;
+	font-family: open sans;
+	font-size: 15px !important;
+	font-weight: normal !important;
+	margin: 0 0 10px;
+	padding: 5px 11px;
+	text-decoration: none !important;
+	text-transform: uppercase;
+
+	background-color: rgba(255, 255, 255, 0.1);
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.profile .btn-o:hover {
+	background-color: rgba(255, 255, 255, 0.4);
+	color: #fff !important;
+}
+.profile .btn-o:focus {
+	background:#b63b4d;
+	color: #fff;
+	border: 1px solid #b63b4d;
+}
+.profile .submenu .prof {
+	background: rgba(255, 255, 255, 0.1) none repeat scroll 0 0 !important;
+	border-radius: 50%;
+	height: 60px;
+	padding: 2px;
+	width: 60px;
+}
+.profile .photosgurdeep > a {
+	background: #ffffff none repeat scroll 0 0;
+	border-radius: 50%;
+	display: inline-block !important;
+	padding: 0 !important;
+}
+.profile .view-all {
+	background: rgba(255, 255, 255, 0.1) none repeat scroll 0 0 !important;
+	border: 1px solid;
+	float: right;
+	font-family: oswald;
+	font-size: 26px;
+	height: 60px;
+	line-height: 61px;
+	text-align: center;
+	width: 60px;
+}
+.profile .photosgurdeep {
+	padding: 10px 9px 4px 35px;
+}
+.profile ul {
+	list-style-type: none;
+}
+
+.profile a {
+	color: #b63b4d;
+	text-decoration: none;
+}
+
+/** =======================
+* Contenedor Principal
+===========================*/
+.profile h1 {
+	color: #FFF;
+	font-size: 24px;
+	font-weight: 400;
+	text-align: center;
+	margin-top: 40px;
+}
+
+.profile h1 a {
+	color: #c12c42;
+	font-size: 16px;
+}
+
+.profile .accordion {
+	width: 100%;
+	max-width: 360px;
+	margin: 30px auto 20px;
+	background: #FFF;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+
+.profile .accordion .link {
+	cursor: pointer;
+	display: block;
+	padding: 15px 15px 15px 42px;
+	color: #4D4D4D;
+	font-size: 14px;
+	font-weight: 700;
+	border-bottom: 1px solid #CCC;
+	position: relative;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+.profile .accordion li:last-child .link {
+	border-bottom: 0;
+}
+
+.profile .accordion li i {
+	position: absolute;
+	top: 16px;
+	left: 12px;
+	font-size: 18px;
+	color: #595959;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+.profile .accordion li i.fa-chevron-down {
+	right: 12px;
+	left: auto;
+	font-size: 16px;
+}
+
+.profile .accordion li.open .link {
+	color: #b63b4d;
+}
+
+.profile .accordion li.open i {
+	color: #b63b4d;
+}
+.profile .accordion li.open i.fa-chevron-down {
+	-webkit-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-o-transform: rotate(180deg);
+	transform: rotate(180deg);
+}
+
+.profile .accordion li.default .submenu {display: block;}
+/**
+* Submenu
+-----------------------------*/
+.profile .submenu {
+	display: none;
+	background: #444359;
+	font-size: 14px;
+}
+
+.profile .submenu li {
+	border-bottom: 1px solid #4b4a5e;
+}
+
+.profile .submenu a {
+	display: block;
+	text-decoration: none;
+	color: #d9d9d9;
+	padding: 12px;
+	padding-left: 42px;
+	-webkit-transition: all 0.25s ease;
+	-o-transition: all 0.25s ease;
+	transition: all 0.25s ease;
+}
+
+.profile .submenu a:hover {
+	background: #b63b4d;
+	color: #FFF;
+}
+
+
+.profile .nav.navbar-nav .dropdown-toggle {
+	padding: 0 !important;
+}
+
+.profile .dropdown-toggle span {
+	background: rgba(255, 255, 255, 0.1) none repeat scroll 0 0;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: 50px;
+	font-size: 23px !important;
+	height: 38px;
+	line-height: 40px;
+	margin: 0 !important;
+	padding: 0 !important;
+	text-align: center;
+	width: 38px;
+	text-shadow:none !important;
+}
+
+.profile .nav.navbar-nav {
+	bottom: 10px;
+	position: absolute;
+	right: 12px;
+	transition: all 0.4s ease 0s;
+}
+
+.profile .navbar-nav > li > .dropdown-menu {
+	border-radius: 2px !important;
+	margin-top: 10px;
+	min-width: 101px;
+	padding: 0;
+}
+.profile .navbar-nav > li > .dropdown-menu li a {
+	color: #333333 !important;
+	font-size: 13px !important;
+	font-weight: 600 !important;
+	padding: 2px 8px !important;
+	text-align: right !important;
+	text-shadow:none !important;
+}
+.dropdown-toggle {
+	background: rgba(0, 0, 0, 0) none repeat scroll 0 0 !important;
+	font-size: 15px !important;
+}
+
+.dropdown {
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.dropdown-menu>li>a {
+	color:#428bca;
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+.dropdown ul.dropdown-menu {
+	border-radius:4px;
+	box-shadow:none;
+}
+.dropdown ul.dropdown-menu:before {
+	content: "";
+	border-bottom: 10px solid #fff;
+	border-right: 10px solid transparent;
+	border-left: 10px solid transparent;
+	position: absolute;
+	top: -8px;
+	right: 8px;
+	z-index: 10;
 }

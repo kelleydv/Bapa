@@ -34,13 +34,17 @@
         </tr>
       </tfoot>
       <tbody>
-        {% for first, last, expiration, rating, status in members %}
-        <tr class="{{ 'success' if status=='Active' else 'danger' }}">
-          <td>{{ first }}</td>
-          <td>{{ last }}</td>
-          <td>{{ expiration }}</td>
-          <td>{{ rating }}</td>
-        </tr>
+        {% for id, first, last, expiration, rating, status in members %}
+          <tr class="{{ 'success' if status=='Active' else 'danger' }}">
+            <td>
+              <a href="{{ url_for('membership.profile', user_id=id) }}">
+                {{ first }}
+              </a>
+            </td>
+            <td>{{ last }}</td>
+            <td>{{ expiration }}</td>
+            <td>{{ rating }}</td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>

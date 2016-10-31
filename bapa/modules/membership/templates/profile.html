@@ -2,235 +2,157 @@
 {% block title %}Profile{% endblock %}
 {% block body %}
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<div class="panel panel-default">
+<div class="container">
+  <div class="row">
+    <div class="profile">
+      <ul id="accordion" class="accordion">
+        <li>
+          <div class="col col_4 prof-pic">
+            <img class="img-responsive prof" alt="prof" src="http://i.imgur.com/jcAOdkU.jpg">
+            <div class="edit-pic">
+              {% if profile.delorme %}
+              <a href="{{ profile.delorme }}" target="_blank" class="fa fa-globe"></a>
+              {% endif %}
+              {% if profile.linkedin %}
+              <a href="{{ profile.linkedin }}" target="_blank" class="fa fa-linkedin"></a>
+              {% endif %}
+              {% if profile.facebook %}
+              <a href="{{ profile.facebook }}" target="_blank" class="fa fa-facebook"></a>
+              {% endif %}
+              {% if profile.instagram %}
+              <a href="{{ profile.instagram }}" target="_blank" class="fa fa-instagram"></a>
+              {% endif %}
+              {% if profile.twitter %}
+              <a href="{{ profile.twitter }}" target="_blank" class="fa fa-twitter"></a>
+              {% endif %}
+              {% if profile.google %}
+              <a href="{{ profile.google }}" target="_blank" class="fa fa-google"></a>
+              {% endif %}
+              {% if profile.github %}
+              <a href="{{ profile.github }}" target="_blank" class="fa fa-github"></a>
+              {% endif %}
+              {% if profile.youtube %}
+              <a href="{{ profile.youtube }}" target="_blank" class="fa fa-youtube"></a>
+              {% endif %}
+              {% if profile.vimeo %}
+              <a href="{{ profile.vimeo }}" target="_blank" class="fa fa-vimeo"></a>
+              {% endif %}
+              {% if profile.soundcloud %}
+              <a href="{{ profile.soundcloud }}" target="_blank" class="fa fa-soundcloud"></a>
+              {% endif %}
+            </div>
+            <div class="username">
+              <h2>{{ profile.nickname or (profile_user_data.firstname + ' ' + profile_user_data.lastname) }} <small><i class="fa fa-map-marker"></i> {{ profile.state }}</small></h2>
 
-					<div class="panel-heading">
-						<h3 class="panel-title">Profile</h3>
-					</div>
-
-					<div class="panel-body">
-
-						<form class="form-horizontal">
-
-							<!--
-							unused profile attributes:
-
-							hits
-							joindate
-
-							-->
-
-							<fieldset>
-								<legend>User</legend>
-								<div class="form-group">
-									<label for="firstname" class="col-md-3 control-label">First Name</label>
-									<div class="col-md-9">
-										<input type="text" name="firstname" id="firstname" value="{{ user.firstname }}" class="form-control" placeholder="Jane">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="lastname" class="col-md-3 control-label">Last Name</label>
-									<div class="col-md-9">
-										<input type="text" name="lastname" id="lastname" value="{{ user.lastname }}" class="form-control" placeholder="Doe">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="nickname" class="col-md-3 control-label">Nickname</label>
-									<div class="col-md-9">
-										<input type="text" name="nickname" id="nickname" value="{{ profile.nickname }}" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="email" class="col-md-3 control-label">Email</label>
-									<div class="col-md-9">
-										<input type="email" name="email" id="email" value="{{ user.email }}" class="form-control" placeholder="johndoe@example.com">
-									</div>
-								</div>
-							</fieldset>
-
-
-							<fieldset>
-								<legend>Pilot</legend>
-								<div class="form-group">
-									<label for="ushpa" class="col-md-3 control-label">USHPA Pilot Number</label>
-									<div class="col-md-9">
-										<input type="text" name="ushpa" id="ushpa" value="{{ user.ushpa }}" class="form-control" placeholder="12345" maxlength="5" pattern="[0-9]{5}">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="callsign" class="col-md-3 control-label">Callsign</label>
-									<div class="col-md-9">
-										<input type="text" name="callsign" id="callsign" value="{{ profile.callsign }}" class="form-control" >
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="sites" class="col-md-3 control-label">Sites You Fly</label>
-									<div class="col-md-9">
-										<textarea name="sites" id="sites" value="{{ profile.sites }}" class="form-control" ></textarea>
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="wing_info" class="col-md-3 control-label">Wing</label>
-									<div class="col-md-9">
-										<textarea type="text" name="wing_info" id="wing_info" value="{{ profile.wing_info }}" class="form-control" placeholder="model, color, etc."></textarea>
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset>
-								<legend>Professional</legend>
-								<div class="form-group">
-									<label for="website" class="col-md-3 control-label">Website</label>
-									<div class="col-md-9">
-										<input type="url" name="website" id="website" value="{{ profile.website }}" class="form-control" >
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="company" class="col-md-3 control-label">Company</label>
-									<div class="col-md-9">
-										<input type="text" name="company" id="company" value="{{ profile.company }}" class="form-control" >
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="prophone" class="col-md-3 control-label">Phone</label>
-									<div class="col-md-9">
-										<input type="tel" name="prophone" id="prophone" value="{{ profile.prophone }}" class="form-control" >
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset>
-								<legend>Contact</legend>
-								<div class="form-group">
-									<label for="address" class="col-md-3 control-label">Address</label>
-									<div class="col-md-9">
-										<input type="text" value="{{ profile.address }}" placeholder="street, number, and apartment" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="city" class="col-md-3 control-label">City</label>
-									<div class="col-md-9">
-										<input type="text" name="city" id="city" value="{{ profile.city }}" placeholder="city" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="state" class="col-md-3 control-label">State</label>
-									<div class="col-md-3">
-										<input type="text" name="state" id="state" value="{{ profile.state }}" placeholder="state" class="form-control">
-									</div>
-
-									<label for="zipcode" class="col-md-2 control-label">ZIP Code</label>
-									<div class="col-md-4">
-										<input type="text" name="zipcode" id="zipcode" value="{{ profile.zipcode }}" placeholder="ZIP" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="country" class="col-md-3 control-label">Country</label>
-									<div class="col-md-9">
-										<input type="text" name="country" id="country" value="{{ profile.country }}" placeholder="country" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="cellphone" class="col-md-3 control-label">Cellphone</label>
-									<div class="col-md-9">
-										<input type="tel" name="cellphone" id="cellphone" value="{{ profile.cellphone }}" placeholder="(888) 888-8888" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="landphone" class="col-md-3 control-label">Landline</label>
-									<div class="col-md-9">
-										<input type="tel" name="landphone" id="landphone" value="{{ profile.landphone }}" placeholder="(888) 888-8888" class="form-control">
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset>
-								<legend>Emergency Contact</legend>
-								<div class="form-group">
-									<label for="emergency_contact" class="col-md-3 control-label">Name + Relationship</label>
-									<div class="col-md-9">
-										<input type="text" name="emergency_contact" id="emergency_contact" value="{{ profile.emergency_contact }}" placeholder="John Doe, husband" class="form-control">
-									</div>
-								</div>
-
-								<div class="form-group">
-									<label for="city" class="col-md-3 control-label">Telephone</label>
-									<div class="col-md-9">
-										<input type="tel" name="emergency_phone" id="emergency_phone" value="{{ profile.emergency_phone }}" placeholder="(888) 888-8888" class="form-control">
-									</div>
-								</div>
-							</fieldset>
-
-							<fieldset>
-								<legend></legend>
-								<div class="form-group">
-									<label for="private" class="col-md-3 control-label">
-										Private
-									</label>
-									<div class="col-md-9 checkbox">
-										<label>
-											<input type="checkbox" name="private" id="private" value="{{ profile.private }}">
-											Keep my profile hidden from other users
-										</label>
-									</div>
-								</div>
-								<legend></legend>
-							</fieldset>
-
-							<div class="form-group">
-								<div class="col-md-offset-2 col-md-10">
-									<div class="pull-right">
-										<button type="reset" class="btn btn-default">Reset</button>
-										<button type="submit" class="btn btn-primary">Update</button>
-									</div>
-								</div>
-							</div>
-
-
-					</div> <!-- panel body -->
-
-				</div> <!-- panel -->
-
-			</div> <!-- col -->
-		</div> <!-- row -->
-	</div> <!-- container -->
-
+              {% if profile.company or profile.website %}
+              <a href="{{ '//'*(not profile.website.startswith('http'))+profile.website or '#'}}" target="_blank"><p><i class="fa fa-briefcase"></i> {{ profile.company }}</p></a>
+              {% endif %}
+              {% if user.id == profile_user_data.id %}
+              <a href="{{ url_for('membership.edit_profile') }}" class="btn-o"> <i class="fa fa-plus"></i> Edit </a>
+              {% endif %}
+              {% if user.get('officer') and user.id != profile_user_data.id %}
+              <a href="{{ url_for('officers.appoint', user_id=profile_user_data.id) }}" class="btn-o"> <i class="fa fa-plus"></i> Appoint </a>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+        {% if user.id == profile_user_data.id %}
+        <li>
+          <div class="link"><i class="fa fa-picture-o"></i>Membership<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            <li><a href="{{ url_for('membership.status')}}">Membership : {{ 'Active' if user.get(is_active) else 'Not Active' }}</a></li>
+            <li><a href="{{ url_for('membership.status') }}">Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        {% if session['user'].get('officer') %}
+        {% if user.id != profile_user_data.id %}
+        <li>
+          <div class="link"><i class="fa fa-picture-o"></i>Membership<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            <li><a href="#">Membership : {{ 'Active' if user.get(is_active) else 'Not Active' }}</a></li>
+            <li><a href="#">Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        <li>
+          <div class="link"><i class="fa fa-address-card-o"></i>Contact<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            <li><a href="#">Name : {{ profile_user_data.firstname + ' ' + profile_user_data.lastname }}</a></li>
+            <li><a href="mailto:{{ profile_user_data.email }}">Email : {{ profile_user_data.email }}</a></li>
+            <li><a href="#">Phone : {{ profile.cellphone }}</a></li>
+            <li>
+              <a href="#">
+                Address : <br>
+                {{ profile.address }}<br>
+                {{ profile.city }}, {{ profile.state }}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <div class="link"><i class="fa fa-address-card"></i>Emergency Contact<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            <li><a href="#">Name : {{ profile_user_data.emergency_contact }}</a></li>
+            <li><a href="#">Phone : {{ profile.emergency_phone }}</a></li>
+          </ul>
+        </li>
+        {% endif %}
+        <li>
+          <div class="link"><i class="fa fa-globe"></i>Sites<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            <li>
+              <a href="#">
+                {% if profile.sites %}
+                {% for x in profile.sites.split(',') %}
+                <span class="tags">{{ x.strip().title() }}</span>
+                {% endfor %}
+                {% endif %}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <div class="link"><i class="fa fa-picture-o"></i>Pilot Data<i class="fa fa-chevron-down"></i></div>
+          <ul class="submenu">
+            <li><a href="#">Ratings : {{ profile.ratings }}</a></li>
+            <li><a href="#">Wing : {{ profile.wing_info }}</a></li>
+            <li><a href="#">Callsign : {{ profile.callsign }}</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block post_body %}
-	<script type="text/javascript">
-	var $form = $('form');
+<script type="text/javascript">
+$(function() {
+  var Accordion = function(el, multiple) {
+    this.el = el || {};
+    this.multiple = multiple || false;
 
-	$form
-	.on('change', '.input', function() {
-		$(this).addClass('changed');
-	})
-	.on('click', 'input[type="reset"]', function() {
-		$form.find('.changed').removeClass('changed');
-	})
-	.on('submit', function (e) {
-		//e.preventDefault(); // Prevent actual form submission
-		var payload = $form.serialize();
+    // Variables privadas
+    var links = this.el.find('.link');
+    // Evento
+    links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+  }
 
-		$.post("{{ url_for('membership.profile') }}", payload, function () {
-			// Done
-		});
-	});
-	</script>
+  Accordion.prototype.dropdown = function(e) {
+    var $el = e.data.el;
+    $this = $(this),
+    $next = $this.next();
+
+    $next.slideToggle();
+    $this.parent().toggleClass('open');
+
+    if (!e.data.multiple) {
+      $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+    };
+  }
+
+  var accordion = new Accordion($('#accordion'), false);
+});
+</script>
 {% endblock %}

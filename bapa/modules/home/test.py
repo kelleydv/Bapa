@@ -161,7 +161,7 @@ class HomeTestCase(BaseTest):
         self.assertTrue(b'Reenter Credentials' in resp.data)
         resp = self.app.post( #use token
             '/password/reset/auth/%s' % resets[0].token,
-            data = dict(ushpa_or_email='johndoe@example.com'),
+            data = dict(ushpa_or_email='12345'),
             follow_redirects = True
         )
         self.assertEqual(resp.status_code, 200)

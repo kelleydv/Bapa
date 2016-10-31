@@ -1,6 +1,6 @@
 from bapa import app, mail, db, services
 from bapa.services import get_pilot_data, verify_recaptcha
-from bapa.models import User, ResetPassword, Officer, Admin, News, Payment
+from bapa.models import User, ResetPassword, Officer, Admin, News, Payment, Profile
 from bapa.utils import is_too_old
 from bapa.utils import get_salt, get_hash, verify_hash, timestamp
 from flask_mail import Message
@@ -68,6 +68,8 @@ def signup(ushpa, email, password, password2, firstname, lastname, recaptcha_res
         )
         db.session.add(user)
         db.session.commit()
+        db.session.add(Profile(user.id))
+        db.session.commit()
         return
     return error
 
@@ -129,7 +131,7 @@ def reset_password_auth(ushpa_or_email, token):
         ResetPassword.query.filter_by(token=token).delete()
         user = User.query.get(reset.user_id)
         db.session.commit()
-        if user.email == ushpa_or_email or user.ushpa == ushpa_or_email:
+        if user.email == ushpa_or_email or str(user.ushpa) == ushpa_or_email:
             time_requested = reset.created_at
             if not is_too_old(time_requested):
                 if reset.token == token:

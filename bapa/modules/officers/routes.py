@@ -66,4 +66,4 @@ def appoint(key=None):
         user_id = request.args.get('user_id')
         message = controllers.appoint(user_id, appointer_id)
     flash(message)
-    return redirect(url_for('home.index'))
+    return redirect(url_for('membership.profile', user_id=user_id))

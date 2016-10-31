@@ -1,0 +1,309 @@
+{% extends "layout.html" %}
+{% block title %}Profile{% endblock %}
+{% block body %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-default">
+
+					<div class="panel-heading">
+						<h3 class="panel-title">Profile</h3>
+					</div>
+
+					<div class="panel-body">
+
+						<form class="form-horizontal" method="post">
+
+							<!--
+							unused profile attributes:
+
+							hits
+							joindate
+
+							-->
+
+							<fieldset>
+								<legend>User</legend>
+								<div class="form-group">
+									<label for="firstname" class="col-md-3 control-label">First Name</label>
+									<div class="col-md-9">
+										<input type="text" name="firstname" id="firstname" value="{{ user.firstname  or '' }}" class="form-control" placeholder="Jane" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="lastname" class="col-md-3 control-label">Last Name</label>
+									<div class="col-md-9">
+										<input type="text" name="lastname" id="lastname" value="{{ user.lastname  or '' }}" class="form-control" placeholder="Doe" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="nickname" class="col-md-3 control-label">Nickname</label>
+									<div class="col-md-9">
+										<input type="text" name="nickname" id="nickname" value="{{ profile.nickname  or '' }}" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="email" class="col-md-3 control-label required">Email</label>
+									<div class="col-md-9">
+										<input type="email" required name="email" id="email" value="{{ user.email }}" class="form-control" placeholder="johndoe@example.com">
+									</div>
+								</div>
+							</fieldset>
+
+
+							<fieldset>
+								<legend>Pilot</legend>
+								<div class="form-group">
+									<label for="ushpa" class="col-md-3 control-label">USHPA Pilot Number</label>
+									<div class="col-md-9">
+										<input type="text" name="ushpa" id="ushpa" value="{{ user.ushpa  or '' }}" class="form-control" placeholder="12345" maxlength="5" pattern="[0-9]{5}">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="callsign" class="col-md-3 control-label">Callsign</label>
+									<div class="col-md-9">
+										<input type="text" name="callsign" id="callsign" value="{{ profile.callsign  or '' }}" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="sites" class="col-md-3 control-label">Sites You Fly</label>
+									<div class="col-md-9">
+										<textarea name="sites" id="sites" class="form-control" >{{ profile.sites or '' }}</textarea>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="wing_info" class="col-md-3 control-label">Wing</label>
+									<div class="col-md-9">
+										<textarea type="text" name="wing_info" id="wing_info" class="form-control" placeholder="model, color, etc.">{{ profile.wing_info }}</textarea>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset title="Add work or business links to your profile">
+								<legend>Professional</legend>
+								<div class="form-group">
+									<label for="website" class="col-md-3 control-label">Website</label>
+									<div class="col-md-9">
+										<input type="url" name="website" id="website" value="{{ profile.website  or '' }}" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="company" class="col-md-3 control-label">Company</label>
+									<div class="col-md-9">
+										<input type="text" name="company" id="company" value="{{ profile.company  or '' }}" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="proemail" class="col-md-3 control-label">Email</label>
+									<div class="col-md-9">
+										<input type="email" name="proemail" id="proemail" value="{{ profile.proemail or '' }}" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="prophone" class="col-md-3 control-label">Phone</label>
+									<div class="col-md-9">
+										<input type="tel" name="prophone" id="prophone" value="{{ profile.prophone }}" placeholder="(888) 888-8888" class="form-control" autocomplete="off">
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset title="Add social media links to your profile">
+								<legend>Social</legend>
+								<div class="form-group">
+								  <label for="linkedin" class="col-md-3 control-label fa fa-linkedin"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="linkedin" id="linkedin" value="{{ profile.linkedin or '' }}" placeholder="LinkedIn" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="facebook" class="col-md-3 control-label fa fa-facebook"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="facebook" id="facebook" value="{{ profile.facebook or '' }}" placeholder="facebook" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="instagram" class="col-md-3 control-label fa fa-instagram"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="instagram" id="instagram" value="{{ profile.instagram or '' }}" placeholder="Instagram"class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="twitter" class="col-md-3 control-label fa fa-twitter"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="twitter" id="twitter" value="{{ profile.twitter or '' }}" placeholder="Twitter" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="google" class="col-md-3 control-label fa fa-google-plus"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="google" id="google" value="{{ profile.google or '' }}" placeholder="Google+" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="github" class="col-md-3 control-label fa fa-github"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="github" id="github" value="{{ profile.github or '' }}" placeholder="GitHub" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="youtube" class="col-md-3 control-label fa fa-youtube"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="youtube" id="youtube" value="{{ profile.youtube or '' }}" placeholder="YouTube" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="vimeo" class="col-md-3 control-label fa fa-vimeo"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="vimeo" id="vimeo" value="{{ profile.vimeo or '' }}" placeholder="Vimeo" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+
+								<div class="form-group">
+								  <label for="soundcloud" class="col-md-3 control-label fa fa-soundcloud"></label>
+								  <div class="col-md-9">
+								    <input type="url" name="soundcloud" id="soundcloud" value="{{ profile.soundcloud or '' }}" placeholder="SoundCloud" class="form-control" autocomplete="off">
+								  </div>
+								</div>
+							</fieldset>
+
+							<fieldset title="Contact info is only visible to BAPA officers">
+								<legend>Contact</legend>
+								<div class="form-group">
+									<label for="address" class="col-md-3 control-label">Address</label>
+									<div class="col-md-9">
+										<input type="text" value="{{ profile.address  or '' }}" placeholder="street, number, and apartment" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="city" class="col-md-3 control-label">City</label>
+									<div class="col-md-9">
+										<input type="text" name="city" id="city" value="{{ profile.city  or '' }}" placeholder="city" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="state" class="col-md-3 control-label">State</label>
+									<div class="col-md-3">
+										<input type="text" name="state" id="state" value="{{ profile.state  or '' }}" placeholder="state" class="form-control" autocomplete="off">
+									</div>
+
+									<label for="zipcode" class="col-md-2 control-label">ZIP Code</label>
+									<div class="col-md-4">
+										<input type="text" name="zipcode" id="zipcode" value="{{ profile.zipcode  or '' }}" placeholder="ZIP" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="country" class="col-md-3 control-label">Country</label>
+									<div class="col-md-9">
+										<input type="text" name="country" id="country" value="{{ profile.country  or '' }}" placeholder="country" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="cellphone" class="col-md-3 control-label">Cellphone</label>
+									<div class="col-md-9">
+										<input type="tel" name="cellphone" id="cellphone" value="{{ profile.cellphone  or '' }}" placeholder="(888) 888-8888" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="landphone" class="col-md-3 control-label">Landline</label>
+									<div class="col-md-9">
+										<input type="tel" name="landphone" id="landphone" value="{{ profile.landphone }}" placeholder="(888) 888-8888" class="form-control" autocomplete="off">
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset title="Emergency contact is only visible to BAPA officers">
+								<legend>Emergency Contact</legend>
+								<div class="form-group">
+									<label for="emergency_contact" class="col-md-3 control-label">Name + Relationship</label>
+									<div class="col-md-9">
+										<input type="text" name="emergency_contact" id="emergency_contact" value="{{ profile.emergency_contact }}" placeholder="John Doe, husband" class="form-control" autocomplete="off">
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label for="city" class="col-md-3 control-label">Telephone</label>
+									<div class="col-md-9">
+										<input type="tel" name="emergency_phone" id="emergency_phone" value="{{ profile.emergency_phone }}" placeholder="(888) 888-8888" class="form-control" autocomplete="off">
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset  title="Still visible to BAPA officers">
+								<legend></legend>
+								<div class="form-group">
+									<label for="private" class="col-md-3 control-label">
+										Private
+									</label>
+									<div class="col-md-9 checkbox">
+										<label>
+											<input type="checkbox" name="private" id="private" value="{{ profile.private }}">
+											Keep my profile hidden from other users
+										</label>
+									</div>
+								</div>
+								<legend></legend>
+							</fieldset>
+
+							<div class="form-group">
+								<div class="col-md-offset-2 col-md-10">
+									<div class="pull-right">
+										<button type="reset" class="btn btn-default">Reset</button>
+										<button type="submit" class="btn btn-primary">Update</button>
+									</div>
+								</div>
+							</div>
+
+
+					</div> <!-- panel body -->
+
+				</div> <!-- panel -->
+
+			</div> <!-- col -->
+		</div> <!-- row -->
+	</div> <!-- container -->
+
+{% endblock %}
+
+{% block post_body %}
+	<script type="text/javascript">
+	var $form = $('form');
+
+	$form
+	.on('change', '.input', function() {
+		$(this).addClass('changed');
+	})
+	.on('click', 'input[type="reset"]', function() {
+		$form.find('.changed').removeClass('changed');
+	})
+	.on('submit', function (e) {
+		//e.preventDefault(); // Prevent actual form submission
+		var payload = $form.serialize();
+
+		$.post("{{ url_for('membership.profile') }}", payload, function () {
+			// Done
+		});
+	});
+	</script>
+{% endblock %}

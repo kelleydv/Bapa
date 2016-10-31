@@ -1,53 +1,21 @@
 from bapa import db
 from bapa.models import Payment, User, News, Officer
-from bapa.utils import is_too_old, timestamp
+from bapa.utils import is_too_old, timestamp, parse_ratings
+from bapa.modules.membership.controllers import is_member
 import os, json
 
-def _is_member(user_id):
-    """
-    Determine if someone is a member.
-    If they have payed dues in the last year,
-    they are a member.
-    """
-    dues = Payment.query.filter_by(user_id=user_id, item='Membership Dues').order_by(Payment.created_at.desc()).first()
-    if dues:
-        if not is_too_old(dues.created_at, years=1):
-            return True
-        return False
 
-def _ratings(ushpa_data, id):
-    """
-    Parse ushpa data from bapa.services.ushpa.get_pilot_data
-    to return a string such as 'P2, H3'.
-    """
-    rating_dict = {
-        'BEGINNER': '1',
-        'NOVICE': '2',
-        'INTERMEDIATE': '3',
-        'ADVANCED': '4',
-        'MASTER': '5'
-    }
-    
-    pg = ushpa_data.get('pg_pilot_rating')
-    hg = ushpa_data.get('hg_pilot_rating')
-    ratings = ''
-    if pg:
-        ratings += 'P-%s' % rating_dict[pg]
-    if hg:
-        ratings += ' H-%s' % rating_dict[hg]
-    if ratings:
-        return ratings.strip()
-    return
+
 
 def get_members():
     """
-    Return first name, last name, and rating
+    Return id, first name, last name, and rating
     for each registered user of the site.
     """
     users = User.query.all()
-    f = lambda a: 'Active' if _is_member(a) else 'Not Active'
-    users = [(x.firstname, x.lastname, 3,
-        _ratings(x.ushpa_data, x.id), f(x.id)) for x in users]
+    f = lambda a: 'Active' if is_member(a) else 'Not Active'
+    users = [(x.id, x.firstname, x.lastname, 3,
+        parse_ratings(x.ushpa_data), f(x.id)) for x in users]
     return users
 
 def news_update(subject, body, user_id, news_id=None):
