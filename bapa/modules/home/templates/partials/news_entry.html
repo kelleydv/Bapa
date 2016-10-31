@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    {% if session['user'].get('officer') or session['user'].get('admin') %}
+    {% if session.get('user') and session['user'].get('officer') %}
     <div class="col-md-2">
       <a class="btn btn-default btn-sm btn-warning-outline" type="button" href="{{ url_for('officers.edit_news', news_id=entry['id']) }}" >Edit</a>
       <button class="btn btn-default btn-sm btn-danger-outline" type="button" data-delete-post data-post-id="{{ entry['id'] }}">Delete</button>
