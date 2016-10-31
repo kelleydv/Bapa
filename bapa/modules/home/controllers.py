@@ -7,6 +7,7 @@ from flask_mail import Message
 import markdown2
 import string
 import os
+from urllib.parse import urljoin
 
 
 def authenticate_user(ushpa_or_email, password):
@@ -94,8 +95,8 @@ def reset_password_request(ushpa_or_email, url):
             db.session.add(reset)
             db.session.commit()
 
-            url = app.config['HOST'] + url
-            url = url + token
+            url = urljoin(app.config['HOST'], url)
+            url = urljoin(url, token)
             email_path = os.path.join(os.getcwd(), 'bapa', 'emails', 'reset.txt')
             name = user.firstname
             with open(email_path, 'r') as f:
