@@ -1,10 +1,12 @@
 alembic==0.8.5
 blinker==1.4
+cloudinary==1.4.0
 Flask==0.10.1
 Flask-Mail==0.9.1
 Flask-Migrate==1.8.0
 Flask-Script==2.0.5
 Flask-SQLAlchemy==2.1
+html2text==2016.4.2
 itsdangerous==0.24
 Jinja2==2.8
 Mako==1.0.4

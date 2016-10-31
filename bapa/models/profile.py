@@ -1,6 +1,6 @@
-
 from bapa import db
 from bapa.utils import timestamp
+from sqlalchemy import PickleType
 
 
 class Profile(db.Model):
@@ -12,6 +12,7 @@ class Profile(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
+    picture = db.Column(PickleType, default={})
     hits = db.Column(db.Integer)
     private = db.Column(db.Boolean)
     joindate = db.Column(db.DateTime)

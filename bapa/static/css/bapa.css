@@ -69,6 +69,10 @@ td a {
 	text-decoration: none;
 }
 
+.hidden {
+	display: none;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 .flashes > p {
 	 font-family: 'Roboto', sans-serif;
@@ -241,12 +245,7 @@ td a {
 	padding: 2px;
 	width: 60px;
 }
-.profile .photosgurdeep > a {
-	background: #ffffff none repeat scroll 0 0;
-	border-radius: 50%;
-	display: inline-block !important;
-	padding: 0 !important;
-}
+
 .profile .view-all {
 	background: rgba(255, 255, 255, 0.1) none repeat scroll 0 0 !important;
 	border: 1px solid;
@@ -258,9 +257,7 @@ td a {
 	text-align: center;
 	width: 60px;
 }
-.profile .photosgurdeep {
-	padding: 10px 9px 4px 35px;
-}
+
 .profile ul {
 	list-style-type: none;
 }

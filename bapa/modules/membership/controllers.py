@@ -4,6 +4,9 @@ from bapa.models import User, Profile, Ipn, Payment
 
 from bapa.utils import parse_ratings
 
+import cloudinary
+import cloudinary.uploader
+
 
 def get_user_profile(user_id):
     """Get a user and profile record"""
@@ -13,6 +16,15 @@ def get_user_profile(user_id):
         setattr(user, 'last_payment', get_last_payment(user_id))
     if profile:
         setattr(profile, 'ratings', parse_ratings(user.ushpa_data))
+        if profile.picture:
+            cloudinary_id = profile.picture.get('public_id')
+            attrs = { #workaround since `class` is a keyword
+                'class': 'img-responsive prof',
+                'width': 360,
+                'crop': 'fill',
+            }
+            html = cloudinary.CloudinaryImage(cloudinary_id).image(**attrs)
+            setattr(profile, 'picture_html', html)
     return user, profile
 
 
@@ -36,6 +48,14 @@ def update_user_profile(user_id, data):
     db.session.add(user)
     db.session.add(profile)
     db.session.commit()
+
+def upload_profile_picture(user_id, image):
+    """Use cloudinary to upload a profile picture"""
+    profile = Profile.query.filter_by(user_id=user_id).first()
+    profile.picture = cloudinary.uploader.upload(image)
+    db.session.add(profile)
+    db.session.commit()
+    return
 
 
 def is_member(user_id):

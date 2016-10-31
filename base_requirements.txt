@@ -6,3 +6,4 @@ Flask-Migrate
 passlib
 requests
 markdown2
+cloudinary

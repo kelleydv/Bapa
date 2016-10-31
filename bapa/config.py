@@ -47,6 +47,9 @@ class Develop(Debug):
     RECAPTCHA_SITEKEY = os.environ.get('RECAPTCHA_SITEKEY')
     #https://developers.google.com/recaptcha/intro
 
+    #profile pictures
+    CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
+
 class Testing(Develop):
     TESTING = True #to avoid sending emails
     PROTECTION = False

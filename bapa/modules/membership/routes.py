@@ -38,6 +38,17 @@ def edit_profile():
     _, profile = controllers.get_user_profile(session['user']['id'])
     return render_template('edit_profile.html', user=session['user'], profile=profile)
 
+@bp.route('/profile/picture', methods=['POST'])
+def profile_picture():
+    """Upload a profile picture"""
+    if not session.get('user'):
+        return redirect(url_for('home.login'))
+
+    if request.method == 'POST':
+        controllers.upload_profile_picture(session['user']['id'], request.files.get('picture'))
+        flash('Your profile picture has been updated')
+    return(redirect(url_for('membership.profile')))
+
 @bp.route('/status', methods=['GET'])
 def status():
     """View BAPA membership status"""

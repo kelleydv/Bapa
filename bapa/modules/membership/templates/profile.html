@@ -8,7 +8,11 @@
       <ul id="accordion" class="accordion">
         <li>
           <div class="col col_4 prof-pic">
-            <img class="img-responsive prof" alt="prof" src="http://i.imgur.com/jcAOdkU.jpg">
+            {% if profile.picture %}
+            {{ profile.picture_html|safe }}
+            {% else %}
+            <img class="img-responsive prof" alt="prof" src="http://i.imgur.com/jcAOdkU.jpg"> -->
+            {% endif %}
             <div class="edit-pic">
               {% if profile.delorme %}
               <a href="{{ profile.delorme }}" target="_blank" class="fa fa-globe"></a>
@@ -48,7 +52,12 @@
               <a href="{{ '//'*(not profile.website.startswith('http'))+profile.website or '#'}}" target="_blank"><p><i class="fa fa-briefcase"></i> {{ profile.company }}</p></a>
               {% endif %}
               {% if user.id == profile_user_data.id %}
-              <a href="{{ url_for('membership.edit_profile') }}" class="btn-o"> <i class="fa fa-plus"></i> Edit </a>
+              <!-- user is viewing their own profile -->
+              <form action="{{ url_for('membership.profile_picture') }}" method="post" style="display:inline;" id="profile-pic-form" enctype="multipart/form-data">
+                <label for="profile-pic-upload"><a class="btn-o"><i class="fa fa-camera"></i> Change</a></label>
+                <input type="file" name="picture" onchange="this.form.submit()" form="profile-pic-form" id="profile-pic-upload" class="hidden">
+              </form>
+              <a href="{{ url_for('membership.edit_profile') }}" class="btn-o"><i class="fa fa-pencil-square-o"></i> Edit</a>
               {% endif %}
               {% if user.get('officer') and user.id != profile_user_data.id %}
               <a href="{{ url_for('officers.appoint', user_id=profile_user_data.id) }}" class="btn-o"> <i class="fa fa-plus"></i> Appoint </a>
@@ -57,6 +66,7 @@
           </div>
         </li>
         {% if user.id == profile_user_data.id %}
+        <!-- user is viewing their own profile -->
         <li>
           <div class="link"><i class="fa fa-picture-o"></i>Membership<i class="fa fa-chevron-down"></i></div>
           <ul class="submenu">
