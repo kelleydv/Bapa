@@ -52,7 +52,7 @@ def login():
             return redirect(url_for('home.index'))
         else:
             error = 'Invalid username or password'
-    return render_template('login.html', error=error, session=session)
+    return render_template('login.html', error=error, session=session, protection=app.config.get('PROTECTION'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
 
 
 @bp.route('/logout')
@@ -82,7 +82,7 @@ def reset_request():
         if not error:
             flash('Email sent')
             return redirect(url_for('home.index'))
-    return render_template('reset_req.html', error=error)
+    return render_template('reset_req.html', error=error, protection=app.config.get('PROTECTION'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
 
 
 @bp.route('/password/reset/auth/')

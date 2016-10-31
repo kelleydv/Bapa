@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Sign In{% endblock %}
+{% include "partials/recaptcha_js_link.html" %}
+
 {% block body %}
 
 	<div class="container">
@@ -28,6 +30,8 @@
 								<label for="password">Password</label>
 								<input type="password" name="password" id="password" class="form-control">
 							</div>
+
+							{% include "partials/recaptcha_widget.html"%}
 
 							<div class="form-group">
 								<a href="{{ url_for('home.reset_request') }}" class="btn btn-default">Forgot Password?</a>

@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Register{% endblock %}
+{% include "partials/recaptcha_js_link.html"%}
+
 {% block body %}
 
 	<div class="container">
@@ -49,11 +51,7 @@
 								<input type="password" name="password2" id="password2" class="form-control" required>
 							</div>
 
-							{% if protection %}
-							<div class="form-group">
-								<div class="g-recaptcha" data-sitekey="{{ sitekey }}" size="compact"></div>
-							</div>
-							{% endif %}
+							{% include "partials/recaptcha_widget.html" %}
 
 							<div class="form-group">
 								<input type="submit" value="Register" class="btn btn-primary pull-right">
