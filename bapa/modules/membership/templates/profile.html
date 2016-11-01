@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block title %}Profile{% endblock %}
+
 {% block body %}
 
 <div class="container">
@@ -46,7 +47,7 @@
               {% endif %}
             </div>
             <div class="username">
-              <h2>{{ profile.nickname or (profile_user_data.firstname + ' ' + profile_user_data.lastname) }} <small><i class="fa fa-map-marker"></i> {{ profile.state }}</small></h2>
+              <h2>{{ profile.nickname or (profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname) }} <small><i class="fa fa-map-marker"></i> {{ profile.state }}</small></h2>
 
               {% if profile.company or profile.website %}
               <a href="{{ '//'*(not profile.website.startswith('http'))+profile.website or '#'}}" target="_blank"><p><i class="fa fa-briefcase"></i> {{ profile.company }}</p></a>
@@ -80,31 +81,74 @@
         <li>
           <div class="link"><i class="fa fa-picture-o"></i>Membership<i class="fa fa-chevron-down"></i></div>
           <ul class="submenu">
-            <li><a href="#">Membership : {{ 'Active' if user.get(is_active) else 'Not Active' }}</a></li>
-            <li><a href="#">Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
+            <li><a>Membership : {{ 'Active' if user.get(is_active) else 'Not Active' }}</a></li>
+            <li><a>Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
           </ul>
         </li>
         {% endif %}
         <li>
           <div class="link"><i class="fa fa-address-card-o"></i>Contact<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu">
-            <li><a href="#">Name : {{ profile_user_data.firstname + ' ' + profile_user_data.lastname }}</a></li>
-            <li><a href="mailto:{{ profile_user_data.email }}">Email : {{ profile_user_data.email }}</a></li>
-            <li><a href="#">Phone : {{ profile.cellphone }}</a></li>
+          <ul class="submenu copy">
             <li>
-              <a href="#">
-                Address : <br>
+              <a>
+                Name : {{ profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname }}
+                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname }}">
+                  <span class="glyphicon glyphicon-copy"></span>
+                </button>
+              </a>
+            </li>
+            <li>
+              <a>
+                Email : {{ profile_user_data.email }}
+                <button class="btn btn-sm btn-default pull-right space" data-clipboard-text="{{ profile_user_data.email }}">
+                  <span class="glyphicon glyphicon-copy"></span>
+                </button>
+                <button class="btn btn-sm btn-default pull-right space">
+                  <span class="glyphicon glyphicon-envelope"></span>
+                </button>
+              </a>
+            </li>
+            <li>
+              <a>
+                Phone : {{ profile.cellphone }}
+                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.cellphone }}">
+                  <span class="glyphicon glyphicon-copy"></span>
+                </button>
+              </a>
+            </li>
+            <li>
+              <a>
+                Address :
+                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.address ~ '\n' ~ profile.city ~ ', ' ~ profile.state ~ '    ' ~ profile.zipcode }}">
+                  <span class="glyphicon glyphicon-copy"></span>
+                </button>
+                <br>
                 {{ profile.address }}<br>
-                {{ profile.city }}, {{ profile.state }}
+                {{ profile.city }}, {{ profile.state }}    {{ profile.zipcode}}
+
               </a>
             </li>
           </ul>
         </li>
         <li>
           <div class="link"><i class="fa fa-address-card"></i>Emergency Contact<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu">
-            <li><a href="#">Name : {{ profile_user_data.emergency_contact }}</a></li>
-            <li><a href="#">Phone : {{ profile.emergency_phone }}</a></li>
+          <ul class="submenu copy">
+            <li>
+              <a>
+                Name : {{ profile.emergency_contact }}
+                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.emergency_contact }}">
+                  <span class="glyphicon glyphicon-copy"></span>
+                </button>
+              </a>
+            </li>
+            <li>
+              <a>
+                Phone : {{ profile.emergency_phone }}
+                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.emergency_phone }}">
+                  <span class="glyphicon glyphicon-copy"></span>
+                </button>
+              </a>
+            </li>
           </ul>
         </li>
         {% endif %}
@@ -112,7 +156,7 @@
           <div class="link"><i class="fa fa-globe"></i>Sites<i class="fa fa-chevron-down"></i></div>
           <ul class="submenu">
             <li>
-              <a href="#">
+              <a>
                 {% if profile.sites %}
                 {% for x in profile.sites.split(',') %}
                 <span class="tags">{{ x.strip().title() }}</span>
@@ -125,9 +169,9 @@
         <li>
           <div class="link"><i class="fa fa-picture-o"></i>Pilot Data<i class="fa fa-chevron-down"></i></div>
           <ul class="submenu">
-            <li><a href="#">Ratings : {{ profile.ratings }}</a></li>
-            <li><a href="#">Wing : {{ profile.wing_info }}</a></li>
-            <li><a href="#">Callsign : {{ profile.callsign }}</a></li>
+            <li><a>Ratings : {{ profile.ratings }}</a></li>
+            <li><a>Wing : {{ profile.wing_info }}</a></li>
+            <li><a>Callsign : {{ profile.callsign }}</a></li>
           </ul>
         </li>
       </ul>
@@ -137,7 +181,18 @@
 {% endblock %}
 
 {% block post_body %}
+<script type="text/javascript" src="{{ url_for('static', filename='bower_components/clipboard/dist/clipboard.min.js') }}">
+</script>
 <script type="text/javascript">
+/* clipboard stuff */
+var clipboard = new Clipboard('.btn');
+    clipboard.on('success', function(e) {
+        console.log(e);
+    });
+    clipboard.on('error', function(e) {
+        console.log(e);
+    });
+/* profile stuff */
 $(function() {
   var Accordion = function(el, multiple) {
     this.el = el || {};

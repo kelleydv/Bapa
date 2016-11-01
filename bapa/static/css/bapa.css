@@ -73,6 +73,15 @@ td a {
 	display: none;
 }
 
+.addy {
+	margin-left: 80px;
+}
+
+.copy button.btn-sm {
+	padding: 3px;
+	margin-left: 4px;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 .flashes > p {
 	 font-family: 'Roboto', sans-serif;
