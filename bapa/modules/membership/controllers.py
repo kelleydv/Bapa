@@ -38,6 +38,7 @@ def update_user_profile(user_id, data):
 
     for field in data:
         #TODO: Validate
+        profile.private = data.get('private')
         if hasattr(profile, field):
             setattr(profile, field, data[field])
         elif hasattr(user, field):
