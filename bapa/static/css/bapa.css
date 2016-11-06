@@ -82,6 +82,11 @@ td a {
 	margin-left: 4px;
 }
 
+a.commit {
+	font-size: .8em;
+	font-family: "Courier New", Courier, monospace;
+}
+
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 .flashes > p {
 	 font-family: 'Roboto', sans-serif;
