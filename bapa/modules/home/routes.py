@@ -1,6 +1,7 @@
 from . import controllers
 from bapa import app
 from bapa.utils import timestamp, is_too_old
+from bapa.decorators.auth import redirect_authenticated, require_auth
 from flask import render_template, redirect, url_for, flash
 from flask import session, request
 from flask import Blueprint
@@ -16,10 +17,10 @@ def index():
 
 
 @bp.route('/register', methods=['GET', 'POST'])
+@redirect_authenticated
 def register():
     """Register the user."""
-    if session.get('user'):
-        return redirect(url_for('home.index'))
+
     error = None
     if request.method == 'POST':
 
@@ -39,10 +40,10 @@ def register():
 
 
 @bp.route('/login', methods=['GET', 'POST'])
+@redirect_authenticated
 def login():
     """User login"""
-    if session.get('user'):
-        return redirect(url_for('home.index'))
+
     error = None
     if request.method == 'POST':
         user = controllers.authenticate_user(request.form['ushpa_or_email'], request.form['password'])
@@ -70,9 +71,10 @@ def logout(msg='You were logged out'):
 ##################
 
 @bp.route('/password/reset/request', methods=['GET', 'POST'])
+@redirect_authenticated
 def reset_request():
-    if session.get('user'):
-        return redirect(url_for('home.index'))
+    """Request a password reset token to be sent via email"""
+
     error = None
     if request.method == 'POST':
         error = controllers.reset_password_request(
@@ -87,8 +89,9 @@ def reset_request():
 
 @bp.route('/password/reset/auth/')
 @bp.route('/password/reset/auth/<secret>', methods=['GET', 'POST'])
+@redirect_authenticated
 def reset_auth(secret=None):
-    if session.get('user') or not secret:
+    if not secret:
         return redirect(url_for('home.index'))
     if request.method == 'POST':
         user = controllers.reset_password_auth(
@@ -106,9 +109,10 @@ def reset_auth(secret=None):
 
 
 @bp.route('/password/auth', methods=['GET', 'POST'])
+@require_auth
 def simple_auth():
-    if not session.get('user'):
-        return redirect(url_for('home.login'))
+    """Authed user re-enters password for critical actions"""
+
     error = None
     if request.method == 'POST':
         if controllers.auth(session['user']['email'], request.form['password']):
@@ -119,9 +123,8 @@ def simple_auth():
 
 
 @bp.route('/password/reset', methods=['GET', 'POST'])
+@require_auth
 def reset():
-    if not session.get('user'):
-        return redirect(url_for('home.login'))
     if is_too_old(session.get('authed')):
         return redirect(url_for('home.simple_auth'))
     error = None

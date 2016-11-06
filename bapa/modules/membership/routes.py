@@ -1,4 +1,5 @@
 from . import controllers
+from bapa.decorators.auth import redirect_authenticated, require_auth
 from flask import render_template, redirect, url_for, flash
 from flask import session, request
 from flask import Blueprint
@@ -8,11 +9,9 @@ bp = Blueprint('membership', __name__, template_folder='templates')
 
 @bp.route('/profile')
 @bp.route('/profile/<user_id>')
+@require_auth
 def profile(user_id=None):
     """View a user profile"""
-    if not session.get('user'):
-        return redirect(url_for('home.login'))
-
     if user_id:
         profile_user_data, profile = controllers.get_user_profile(int(user_id))
     else:
@@ -25,11 +24,9 @@ def profile(user_id=None):
     return render_template('profile.html', user=session['user'], profile=profile, profile_user_data=profile_user_data)
 
 @bp.route('/profile/edit', methods=['GET', 'POST'])
+@require_auth
 def edit_profile():
     """Make changes to profile data"""
-    if not session.get('user'):
-        return redirect(url_for('home.login'))
-
     if request.method == 'POST':
         controllers.update_user_profile(session['user']['id'], request.form)
         flash('Your profile has been updated')
@@ -39,21 +36,18 @@ def edit_profile():
     return render_template('edit_profile.html', user=session['user'], profile=profile)
 
 @bp.route('/profile/picture', methods=['POST'])
+@require_auth
 def profile_picture():
     """Upload a profile picture"""
-    if not session.get('user'):
-        return redirect(url_for('home.login'))
-
     if request.method == 'POST':
         controllers.upload_profile_picture(session['user']['id'], request.files.get('picture'))
         flash('Your profile picture has been updated')
     return(redirect(url_for('membership.profile')))
 
 @bp.route('/status', methods=['GET'])
+@require_auth
 def status():
     """View BAPA membership status"""
-    if not session.get('user'):
-        return redirect(url_for('home.login'))
     if request.method == 'GET':
         payment = controllers.get_last_payment(session['user']['id'])
         if not payment:
@@ -62,10 +56,9 @@ def status():
 
 
 @bp.route('/pay', methods=['GET', 'POST'])
+@require_auth
 def pay():
     """Pay club dues"""
-    if not session.get('user'):
-        return redirect(url_for('home.login'))
     error = None
     return render_template('pay.html', error=error, session=session)
 
