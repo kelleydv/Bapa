@@ -27,6 +27,4 @@ for prefix, bp in blueprints.items():
 
 # Template Globals
 app.jinja_env.globals['year'] = date.today().year
-head = str(subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip(), "utf-8")
-app.jinja_env.globals['commit_hash'] = head[:4]
 app.jinja_env.globals['env'] = env.lower()
