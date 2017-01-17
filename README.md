@@ -5,6 +5,12 @@ Website for the Bay Area Paragliding Association (Work In Progress)
 ### Requirements
 - [node/npm](https://nodejs.org/) (for front-end dependencies)
 - [Python 3](https://www.python.org/)
+[Dyno Metadata](https://devcenter.heroku.com/articles/dyno-metadata)
+```bash
+heroku labs:enable runtime-dyno-metadata -a <app name>
+```
+This allows the app to know the commit hash when using
+github integrations.
 
 ----
 ### Run Locally
