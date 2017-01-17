@@ -40,8 +40,8 @@ class Develop(Debug):
 
     PAYPAL_ENDPOINT = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
 
-    #If PROTECTION is True, the app will implement google's reCAPTCHA
-    PROTECTION = True
+    #If RECAPTCHA is True, the app will implement google's reCAPTCHA
+    RECAPTCHA = True
     RECAPTCHA_ENDPOINT = 'https://www.google.com/recaptcha/api/siteverify'
     RECAPTCHA_SECRET = os.environ.get('RECAPTCHA_SECRET')
     RECAPTCHA_SITEKEY = os.environ.get('RECAPTCHA_SITEKEY')
@@ -52,5 +52,5 @@ class Develop(Debug):
 
 class Testing(Develop):
     TESTING = True #to avoid sending emails
-    PROTECTION = False
+    RECAPTCHA = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:////var/tmp/test-bapa.db'

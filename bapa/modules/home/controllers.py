@@ -10,12 +10,15 @@ import os
 from urllib.parse import urljoin
 
 
-def authenticate_user(ushpa_or_email, password):
+def authenticate_user(ushpa_or_email, password, recaptcha_response):
     """
     Authenticate and return user record from
     database, None on failed auth.  Prepare for
     use as session data.
     """
+    if app.config.get('RECAPTCHA') and not verify_recaptcha(recaptcha_response):
+        return
+
     if '@' in ushpa_or_email:
         user = User.query.filter_by(email=ushpa_or_email).first()
     else:
@@ -54,7 +57,7 @@ def signup(ushpa, email, password, password2, firstname, lastname, recaptcha_res
         error = 'You have to enter a password'
     elif password != password2:
         error = 'The two passwords do not match'
-    elif app.config.get('PROTECTION') and not verify_recaptcha(recaptcha_response):
+    elif app.config.get('RECAPTCHA') and not verify_recaptcha(recaptcha_response):
         error = 'reCAPTCHA test failed'
     else:
         # Insert user into database.

@@ -10,5 +10,5 @@ def verify_recaptcha(response):
 
     resp = requests.post(app.config['RECAPTCHA_ENDPOINT'], data=data)
 
-    if json.loads(resp.text)['success'] == True:
+    if json.loads(resp.text)['success']:
         return True

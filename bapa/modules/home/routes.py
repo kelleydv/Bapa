@@ -36,7 +36,7 @@ def register():
         if not error:
             flash('You were successfully registered and can login now')
             return redirect(url_for('home.login'))
-    return render_template('register.html', error=error, protection=app.config.get('PROTECTION'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
+    return render_template('register.html', error=error, recaptcha=app.config.get('RECAPTCHA'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -46,14 +46,15 @@ def login():
 
     error = None
     if request.method == 'POST':
-        user = controllers.authenticate_user(request.form['ushpa_or_email'], request.form['password'])
+        recaptcha_response = request.form.get('g-recaptcha-response')
+        user = controllers.authenticate_user(request.form['ushpa_or_email'], request.form['password'], recaptcha_response)
         if user:
             flash('Welcome back, %s' % user['firstname'])
             session['user'] = user
             return redirect(url_for('home.index'))
         else:
-            error = 'Invalid username or password'
-    return render_template('login.html', error=error, session=session, protection=app.config.get('PROTECTION'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
+            error = 'Invalid credentials or reCaptcha'
+    return render_template('login.html', error=error, session=session, recaptcha=app.config.get('RECAPTCHA'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
 
 
 @bp.route('/logout')
@@ -84,7 +85,7 @@ def reset_request():
         if not error:
             flash('Email sent')
             return redirect(url_for('home.index'))
-    return render_template('reset_req.html', error=error, protection=app.config.get('PROTECTION'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
+    return render_template('reset_req.html', error=error, recaptcha=app.config.get('RECAPTCHA'), sitekey=app.config.get('RECAPTCHA_SITEKEY'))
 
 
 @bp.route('/password/reset/auth/')
