@@ -5,7 +5,7 @@ def verify_ipn(data):
     """Validate a paypal IPN"""
     data = dict(data)
     data['cmd'] = '_notify-validate'
-    resp = requests.post(app.config['PAYPAL_ENDPOINT'], data=data)
+    resp = requests.post(app.config['PAYPAL']['endpoint'], data=data)
     if resp.text == 'VERIFIED':
         return True
     return False
