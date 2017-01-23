@@ -13,10 +13,11 @@
 					</div>
 					<div class="panel-body">
 						{% if session['user'].get('member') %}
-						<p>Your membership is active, you can still <a href="{{ url_for('membership.pay') }}">Make a Payment</a></p>
+						<p>Your membership is active</p>
 						{% else %}
-						<p>Your membership is not active, <a href="{{ url_for('membership.pay') }}">Make a Payment</a></p>
+						<p>Your membership is not active</p>
 						{% endif %}
+						<p><a href="{{ url_for('membership.pay') }}">Make a Payment</a></p>
 						<table class="table">
 							<thead>
 								<tr>
@@ -26,7 +27,7 @@
 							<tbody>
 								<tr>
 									<td>USHPA Number: </td>
-									<td>{{ session['user']['ushpa'] }}</td>
+									<td>{{ session['user'].get('ushpa') }}</td>
 								</tr>
 								<tr>
 									<td>First Name: </td>

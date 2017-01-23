@@ -36,6 +36,8 @@ python3 test.py
 
 ----
 ### Environment Variables
+reCaptcha, Paypal, and cloudinary environment variables need to be set for full
+functionality.
 
 ###### `ENV` (required)
   - `DEV`, `TEST`, or `PROD`

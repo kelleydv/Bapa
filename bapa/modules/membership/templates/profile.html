@@ -12,7 +12,7 @@
             {% if profile.picture %}
             {{ profile.picture_html|safe }}
             {% else %}
-            <img class="img-responsive prof" alt="prof" src="http://i.imgur.com/jcAOdkU.jpg"> -->
+            <img class="img-responsive prof" alt="profile picture" src="http://i.imgur.com/jcAOdkU.jpg">
             {% endif %}
             <div class="edit-pic">
               {% if profile.delorme %}
@@ -73,6 +73,8 @@
           <ul class="submenu">
             <li><a href="{{ url_for('membership.status')}}">Membership : {{ 'Active' if user.get(is_active) else 'Not Active' }}</a></li>
             <li><a href="{{ url_for('membership.status') }}">Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
+            <li><a href="{{ url_for('membership.pay') }}">Make a Payment</a></li>
+
           </ul>
         </li>
         {% endif %}
@@ -184,40 +186,40 @@
 <script type="text/javascript" src="{{ url_for('static', filename='bower_components/clipboard/dist/clipboard.min.js') }}">
 </script>
 <script type="text/javascript">
-/* clipboard stuff */
-var clipboard = new Clipboard('.btn');
-    clipboard.on('success', function(e) {
-        console.log(e);
-    });
-    clipboard.on('error', function(e) {
-        console.log(e);
-    });
-/* profile stuff */
-$(function() {
-  var Accordion = function(el, multiple) {
-    this.el = el || {};
-    this.multiple = multiple || false;
+  /* clipboard stuff */
+  var clipboard = new Clipboard('.btn');
+      clipboard.on('success', function(e) {
+          console.log(e);
+      });
+      clipboard.on('error', function(e) {
+          console.log(e);
+      });
+  /* profile stuff */
+  $(function() {
+    var Accordion = function(el, multiple) {
+      this.el = el || {};
+      this.multiple = multiple || false;
 
-    // Variables privadas
-    var links = this.el.find('.link');
-    // Evento
-    links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
-  }
+      // Variables privadas
+      var links = this.el.find('.link');
+      // Evento
+      links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
+    }
 
-  Accordion.prototype.dropdown = function(e) {
-    var $el = e.data.el;
-    $this = $(this),
-    $next = $this.next();
+    Accordion.prototype.dropdown = function(e) {
+      var $el = e.data.el;
+      $this = $(this),
+      $next = $this.next();
 
-    $next.slideToggle();
-    $this.parent().toggleClass('open');
+      $next.slideToggle();
+      $this.parent().toggleClass('open');
 
-    if (!e.data.multiple) {
-      $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
-    };
-  }
+      if (!e.data.multiple) {
+        $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
+      };
+    }
 
-  var accordion = new Accordion($('#accordion'), false);
-});
+    var accordion = new Accordion($('#accordion'), false);
+  });
 </script>
 {% endblock %}

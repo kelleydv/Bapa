@@ -38,7 +38,13 @@ class Develop(Debug):
 
     HOST = os.environ.get('HOST') or Config.HOST
 
-    PAYPAL_ENDPOINT = 'https://www.sandbox.paypal.com/cgi-bin/webscr'
+    PAYPAL = {
+        'domain': 'https://www.sandbox.paypal.com',
+        'endpoint': 'https://www.sandbox.paypal.com/cgi-bin/webscr',
+        'button_id': os.environ.get('PAYPAL_BUTTON_ID')
+    }
+
+
 
     #If RECAPTCHA is True, the app will implement google's reCAPTCHA
     RECAPTCHA = True
@@ -54,3 +60,11 @@ class Testing(Develop):
     TESTING = True #to avoid sending emails
     RECAPTCHA = False
     SQLALCHEMY_DATABASE_URI = 'sqlite:////var/tmp/test-bapa.db'
+
+class Production(Develop):
+
+    PAYPAL = {
+        'domain': 'https://www.paypal.com',
+        'endpoint': 'https://www.paypal.com/cgi-bin/webscr',
+        'button_id': os.environ.get('PAYPAL_BUTTON_ID')
+    }

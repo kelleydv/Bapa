@@ -1,4 +1,5 @@
 from . import controllers
+from bapa import app
 from bapa.decorators.auth import redirect_authenticated, require_auth
 from flask import render_template, redirect, url_for, flash
 from flask import session, request
@@ -50,9 +51,7 @@ def status():
     """View BAPA membership status"""
     if request.method == 'GET':
         payment = controllers.get_last_payment(session['user']['id'])
-        if not payment:
-            return redirect(url_for('membership.pay'))
-    return render_template('status.html', payment=payment)
+    return render_template('status.html', payment=payment, session=session)
 
 
 @bp.route('/pay', methods=['GET', 'POST'])
@@ -60,7 +59,7 @@ def status():
 def pay():
     """Pay club dues"""
     error = None
-    return render_template('pay.html', error=error, session=session)
+    return render_template('pay.html', paypal=app.config['PAYPAL'], error=error, session=session)
 
 @bp.route('/ipnlistener', methods=['POST'])
 def listener():
