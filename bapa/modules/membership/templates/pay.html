@@ -32,7 +32,7 @@
 							<div class="form-group">
 								<fieldset title="Become a member of BAPA">
 									<legend>Club Dues</legend>
-									<form action="{{ paypal['endpoint'] }}" method="post" target="_top">
+									<form action="{{ paypal['endpoint'] }}" method="post" target="_blank">
 										<input type="hidden" name="custom" value="{{ session['user']['id']}}">
 										<input type="hidden" name="cmd" value="_s-xclick">
 										<input type="hidden" name="hosted_button_id" value="{{ paypal['button_id'] }}">
@@ -42,7 +42,7 @@
 								</fieldset>
 								<fieldset title="Support the Club">
 									<legend>Donation</legend>
-									<form action="{{ paypal['endpoint'] }}" method="post" target="_top">
+									<form action="{{ paypal['endpoint'] }}" method="post" target="_blank">
 										<input type="hidden" name="custom" value="{{ session['user']['id']}}">
 										<input type="hidden" name="cmd" value="_s-xclick">
 										<input type="hidden" name="hosted_button_id" value="{{ paypal['button_id'] }}">
