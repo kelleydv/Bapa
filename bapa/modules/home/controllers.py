@@ -47,9 +47,10 @@ def authenticate_user(ushpa_or_email, password, recaptcha_response):
 
 def signup(ushpa, email, password, password2, firstname, lastname, recaptcha_response):
     """Register the user, return error or None."""
+    print(ushpa)
     if not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
-    elif User.query.filter_by(ushpa=ushpa).first():
+    elif ushpa and User.query.filter_by(ushpa=ushpa).first():
         error = 'This USHPA pilot number is already in use by a current BAPA member'
     elif User.query.filter_by(email=email).first():
         error = 'This email is already in use by a current BAPA member'
