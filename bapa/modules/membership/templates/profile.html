@@ -60,8 +60,16 @@
               </form>
               <a href="{{ url_for('membership.edit_profile') }}" class="btn-o"><i class="fa fa-pencil-square-o"></i> Edit</a>
               {% endif %}
-              {% if user.get('officer') and user.id != profile_user_data.id %}
-              <a href="{{ url_for('officers.appoint', user_id=profile_user_data.id) }}" class="btn-o"> <i class="fa fa-plus"></i> Appoint </a>
+              {% if is_officer(user.id) and user.id != profile_user_data.id %}
+                {% if is_officer(profile_user_data.id) %}
+                  <a href="#" class="btn-o" onclick="remove_officer()">
+                    <i class="fa fa-minus"></i> Unappoint
+                  </a>
+                {% else %}
+                  <a href="#" class="btn-o" onclick="add_officer()">
+                    <i class="fa fa-plus"></i> Appoint
+                  </a>
+                {% endif %}
               {% endif %}
             </div>
           </div>
@@ -183,9 +191,20 @@
 {% endblock %}
 
 {% block post_body %}
+{% include "partials/modals.html" %}
 <script type="text/javascript" src="{{ url_for('static', filename='bower_components/clipboard/dist/clipboard.min.js') }}">
 </script>
 <script type="text/javascript">
+
+
+  function add_officer() {
+    $('#officer-appoint').modal('show');
+  }
+
+  function remove_officer() {
+    $('#officer-unappoint').modal('show');
+  }
+
   /* clipboard stuff */
   var clipboard = new Clipboard('.btn');
       clipboard.on('success', function(e) {

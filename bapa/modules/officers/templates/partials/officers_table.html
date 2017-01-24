@@ -1,0 +1,26 @@
+
+  <div class="col-md-12">
+    <br/>
+    <table id="officer-table" class="table tablesorter">
+      <thead>
+        <tr>
+          <th>First</th>
+          <th>Last</th>
+          <th>Office</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for id, first, last, office in officers %}
+          <tr class="{{ 'success' if status=='Active' else 'danger' }}">
+            <td>
+              <a href="{{ url_for('membership.profile', user_id=id) }}">
+                {{ first }}
+              </a>
+            </td>
+            <td>{{ last }}</td>
+            <td>{{ office }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>

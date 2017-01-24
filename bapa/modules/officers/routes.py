@@ -12,7 +12,8 @@ bp = Blueprint('officers', __name__, template_folder='templates')
 def index():
     """Display Officer's Dashboard"""
     members = controllers.get_members()
-    return render_template('dashboard.html', members=members)
+    officers = controllers.get_officers()
+    return render_template('dashboard.html', members=members, officers=officers)
 
 @bp.route('/news/post', methods=['POST'])
 @require_officer
@@ -45,22 +46,25 @@ def edit_news():
     return render_template('dashboard.html',
         members=members, news_subject=news_subject, news_body=news_body, news_id=news_id)
 
-@bp.route('/appoint/')
-@bp.route('/appoint/<key>', methods=['GET'])
+@bp.route('/appoint/', methods=['POST'])
+@bp.route('/appoint/<key>', methods=['POST'])
 @require_auth
 def appoint(key=None):
-    """Appoint an officer"""
+    """Appoint an officer, or unappoint if get parameter "un" is marked"""
+
     message = None
-    if key:
-        appointer_id = int(session['user'].get('id'))
-        user_id = int(request.args.get('user_id') or appointer_id)
-        message = controllers.appoint(user_id, appointer_id, key)
-        if user_id == appointer_id and 'added' in message:
-            session['user']['officer'] = True
+
+    #decide if appointing or unappointing
+    appointer_id = int(session['user']['id'])
+    user_id = int(request.form.get('user_id'))
+    if request.form.get('un'):
+        message = controllers.unappoint(user_id, appointer_id, key)
     else:
-        appointer_id = session['user'].get('id')
-        user_id = request.args.get('user_id')
-        message = controllers.appoint(user_id, appointer_id)
+        message = controllers.appoint(user_id, appointer_id, request.form.get('office'), key)
+
+    #in the case of self-appointment
+    if user_id == appointer_id and 'added' in message:
+        session['user']['officer'] = True
     flash(message)
     return redirect(url_for('membership.profile', user_id=user_id))
 

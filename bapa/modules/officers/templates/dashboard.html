@@ -27,7 +27,7 @@
           <ul class="nav nav-tabs">
             <li role="presentation" class="active"><a href="#post" role="tab" data-toggle="tab">Post</a></li>
             <li role="presentation"><a href="#members" role="tab" data-toggle="tab">Members</a></li>
-            <li role="presentation"><a href="#other" role="tab" data-toggle="tab">Other</a></li>
+            <li role="presentation"><a href="#officers" role="tab" data-toggle="tab">Officers</a></li>
           </ul>
 
           <div class="tab-content">
@@ -43,11 +43,11 @@
               </div>
             </div>
 
-            <div role="tabpanel" class="tab-pane" id="other">
+            <div role="tabpanel" class="tab-pane" id="officers">
               <div class="row">
                 <div class="col-md-12">
                   <br/>
-                  <p>Other officer feature(s) here</p>
+                  {% include "partials/officers_table.html" %}
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-from bapa import db
+from bapa import db, app
 from bapa.models import Payment, User, News, Officer
 from bapa.utils import is_too_old, timestamp, parse_ratings
 from bapa.modules.membership.controllers import is_member
@@ -51,7 +51,7 @@ def delete_news(id):
     News.query.filter_by(id=id).delete()
     db.session.commit()
 
-def appoint(user_id, appointer_id, token=None):
+def appoint(user_id, appointer_id, office, token=None):
     """
     Appoint an officer. Only officers can appoint officers,
     unless a token is used, which is stored as an environment
@@ -64,18 +64,52 @@ def appoint(user_id, appointer_id, token=None):
     if Officer.query.filter_by(user_id=user_id).first():
         return '%s %s is aready an officer.' % (new_officer.firstname, new_officer.lastname)
     success = '%s %s has been added as an officer.' % (new_officer.firstname, new_officer.lastname)
-    if token:
-        key = os.environ.get('APPOINTMENT_KEY')
-        if key and key == token:
-            officer = Officer(user_id, appointer_id)
-            db.session.add(officer)
-            db.session.commit()
-            return success
-    else:
-        #check that the appointer_id is an officer
-        if Officer.query.filter_by(user_id=appointer_id).first():
-            officer = Officer(user_id, appointer_id)
-            db.session.add(officer)
-            db.session.commit()
-            return success
+
+    #appointer must be an officer, or use a key
+    key = os.environ.get('APPOINTMENT_KEY')
+    if (key and key == token) or Officer.query.filter_by(user_id=appointer_id).first():
+        officer = Officer(user_id, appointer_id, office)
+        db.session.add(officer)
+        db.session.commit()
+        return success
     return 'Officer addition has failed.'
+
+
+def unappoint(user_id, unappointer_id, token=None):
+    """
+    Unappoint an officer. Only officers can unappoint officers, unless a token is ussed.
+    """
+
+    old_officer = User.query.get(user_id)
+    to_delete = Officer.query.filter_by(user_id=user_id).first()
+    if not to_delete:
+        return '%s %s is not an officer.' % (old_officer.firstname, old_officer.lastname)
+
+    #unappointer must be an officer, or be using a key
+    success = '%s %s has been unappointed as an officer.' % (old_officer.firstname, old_officer.lastname)
+    key = os.environ.get('APPOINTMENT_KEY')
+    if (key and key == token) or Officer.query.filter_by(user_id=unappointer_id).first():
+        db.session.delete(to_delete)
+        db.session.commit()
+        return success
+
+    return 'Unappointment has failed.'
+
+
+def get_officers():
+    """
+    Return a list of officers.
+    """
+    officers = db.session.query(User.id, User.firstname, User.lastname, Officer.office).join(Officer, Officer.user_id==User.id)
+    return officers
+
+def is_officer(user_id):
+    """
+    Return True or False.
+    """
+    if Officer.query.filter_by(user_id=user_id).first():
+        return True
+    return False
+
+#Use this function in the interface!!
+app.jinja_env.globals.update(is_officer=is_officer)

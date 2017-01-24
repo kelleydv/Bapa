@@ -65,5 +65,5 @@ def pay():
 def listener():
     """IPN listener for paypal payments"""
     ipn = request.form
-    controllers.record_payment(ipn)
+    error = controllers.record_payment(ipn)
     return ''

@@ -1,0 +1,57 @@
+
+<div class="modal fade" id="officer-appoint" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Appoint Officer</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('officers.appoint') }}" method="POST" id="new-office">
+          <div class="form-group">
+            <label for="name">Officer Name</label>
+            <input class="form-control" type="text" id="name" value="{{ profile_user_data.firstname + ' ' + profile_user_data.lastname }}" readonly>
+          </div>
+          <div class="form-group">
+            <label for="office">Office (President, Treasurer, etc...)</label>
+            <input class="form-control" type="text" name="office">
+          </div>
+          <input name="user_id" value="{{ profile_user_data.id }}" hidden>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="button submit" form="new-office">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="officer-unappoint" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Unappoint Officer</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('officers.appoint') }}" method="POST" id="remove-office">
+          <div class="form-group">
+            <label for="name">Officer Name</label>
+            <input class="form-control" type="text" id="name" value="{{ profile_user_data.firstname + ' ' + profile_user_data.lastname }}" readonly>
+          </div>
+          <div class="form-group">
+            <p>Are you sure you want to unappoint this officer?</p>
+          </div>
+          <input name="user_id" value="{{ profile_user_data.id }}" hidden>
+          <input name="un" value="{{ True }}" hidden>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="button submit" form="remove-office">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
