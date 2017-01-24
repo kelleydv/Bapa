@@ -65,6 +65,16 @@ def logout(msg='You were logged out'):
     flash(msg)
     return redirect(url_for('home.index'))
 
+@bp.route('/account/delete')
+@require_auth
+def delete_account():
+    """Delete user account. Cannot be undone."""
+    controllers.delete_account(session['user']['id'])
+    flash('Your account has been deleted')
+    return redirect(url_for('home.logout'))
+
+
+
 
 
 ##################

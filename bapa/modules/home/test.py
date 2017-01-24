@@ -74,6 +74,7 @@ class HomeTestCase(BaseTest):
         resp = self.app.get('/logout', follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
         self.assertTrue(b'Home' in resp.data)
+        self.assertTrue(b'logged out' in resp.data)
 
     def test_password_reset(self):
         self.register(ushpa='12345', email='johndoe@example.com',

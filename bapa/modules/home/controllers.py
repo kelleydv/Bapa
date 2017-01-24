@@ -47,7 +47,6 @@ def authenticate_user(ushpa_or_email, password, recaptcha_response):
 
 def signup(ushpa, email, password, password2, firstname, lastname, recaptcha_response):
     """Register the user, return error or None."""
-    print(ushpa)
     if not (email and '@' in email and '.' in email):
         error = 'You have to enter a valid email address'
     elif ushpa and User.query.filter_by(ushpa=ushpa).first():
@@ -77,6 +76,13 @@ def signup(ushpa, email, password, password2, firstname, lastname, recaptcha_res
         db.session.commit()
         return
     return error
+
+def delete_account(user_id):
+    """Delete a user account"""
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    return
 
 
 def reset_password_request(ushpa_or_email, url):

@@ -34,24 +34,26 @@ class OfficersTestCase(BaseTest):
         self.assertEqual(len(officers), 0)
 
         #attempt to appoint another as an officer, get redirected
-        resp = self.app.get(
-            '/officers/appoint',
-            query_string = dict(user_id=jane.id),
+        resp = self.app.post(
+            '/officers/appoint/',
+            data = dict(user_id=jane.id),
             follow_redirects = True
         )
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(b'officer' not in resp.data)
+        self.assertTrue(b'added as an officer' not in resp.data)
         officers = Officer.query.all()
         self.assertEqual(len(officers), 0)
 
         #self-appointment as an officer
         key = os.environ['APPOINTMENT_KEY'] = 'abcd'
         #wrong key
-        self.app.get('/officers/appoint/%s' % 'zyxw', follow_redirects=True)
+        self.app.post(
+            '/officers/appoint/%s' % 'zyxw',
+            follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
         #self.assertTrue(b'failed' in resp.data)
         #correct key
-        self.app.get('/officers/appoint/%s' % key, follow_redirects=True)
+        self.app.post('/officers/appoint/%s' % key, follow_redirects=True)
         officers = Officer.query.all()
         self.assertEqual(len(officers), 1)
         resp = self.app.get('/officers', follow_redirects=True)
@@ -59,9 +61,9 @@ class OfficersTestCase(BaseTest):
         self.assertTrue(b'Members' in resp.data)
 
         #appoint another officer
-        self.app.get(
-            '/officers/appoint',
-            query_string = dict(user_id=jane.id),
+        self.app.post(
+            '/officers/appoint/',
+            data = dict(user_id=jane.id),
             follow_redirects = True
         )
         officers = Officer.query.all()

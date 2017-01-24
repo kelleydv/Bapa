@@ -1,0 +1,22 @@
+
+<div class="modal fade" id="account-delete" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+        <h4 class="modal-title">Delete Account</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('home.delete_account') }}" method="DELETE" id="delete-user">
+          <div class="form-group">
+            <p>Are you sure you want to DELETE your account? This operation cannot be undone.</p>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" type="button submit" form="delete-user">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

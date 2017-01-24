@@ -56,7 +56,11 @@ def appoint(key=None):
 
     #decide if appointing or unappointing
     appointer_id = int(session['user']['id'])
-    user_id = int(request.form.get('user_id'))
+    user_id = request.form.get('user_id')
+    if key and not user_id:
+        #self-appointment
+        user_id = appointer_id
+    user_id = int(user_id)
     if request.form.get('un'):
         message = controllers.unappoint(user_id, appointer_id, key)
     else:

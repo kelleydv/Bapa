@@ -268,6 +268,7 @@
 
 							<div class="form-group">
 								<div class="col-md-offset-2 col-md-10">
+									<button type="reset" class="btn btn-danger" onclick="delete_account()">Delete Account</button>
 									<div class="pull-right">
 										<button type="reset" class="btn btn-default">Reset</button>
 										<button type="submit" class="btn btn-primary">Update</button>
@@ -287,7 +288,13 @@
 {% endblock %}
 
 {% block post_body %}
+	{% include "partials/modals/delete_account.html" %}
 	<script type="text/javascript">
+
+	function delete_account() {
+    $('#account-delete').modal('show');
+  }
+
 	var $form = $('form');
 
 	$form
