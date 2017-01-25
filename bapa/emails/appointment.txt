@@ -1,0 +1,7 @@
+Dear BAPA officers,
+
+$host would like to let you know that $appointer has appointed $new_officer
+to the office of $office.
+
+Thanks!
+BAPA

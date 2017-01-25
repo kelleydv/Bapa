@@ -1,0 +1,7 @@
+Dear BAPA officers,
+
+$host would like to let you know that $unappointer has unappointed $name
+as an officer.
+
+Thanks!
+BAPA

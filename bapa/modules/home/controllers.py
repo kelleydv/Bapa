@@ -1,9 +1,8 @@
 from bapa import app, mail, db, services
-from bapa.services import get_pilot_data, verify_recaptcha
+from bapa.services import get_pilot_data, verify_recaptcha, send_email
 from bapa.models import User, ResetPassword, Officer, Admin, News, Payment, Profile
 from bapa.utils import is_too_old
 from bapa.utils import get_salt, get_hash, verify_hash, timestamp
-from flask_mail import Message
 import markdown2
 import string
 import os
@@ -113,22 +112,11 @@ def reset_password_request(ushpa_or_email, url):
                 t = f.read()
                 body = string.Template(t).substitute(url=url, name=name, host=app.config['HOST'])
 
-            msg = Message(
+            send_email(
                 subject='Password Reset - sfbapa.org',
                 body=body,
                 recipients=[user.email]
             )
-
-            if app.config['TESTING']:
-                #no need to send an email
-                return
-            elif app.debug and not os.environ.get('HEROKU'):
-                #print to the terminal, copy/paste url
-                print(body)
-            else:
-                #send the email
-                with app.app_context():
-                    mail.send(msg)
 
 
 def reset_password_auth(ushpa_or_email, token):
@@ -188,7 +176,6 @@ def get_news_entries(page, n):
             timestamp=created.strftime('%m/%d/%y')
         )
         if entry['updated_by']:
-            print(entry['updated_by'])
             entry.update(updated_at=entry['updated_at'].strftime('%m/%d/%y'))
             entry['updated_by'] = User.query.get(entry['updated_by']).firstname
         news_entries.append(entry)

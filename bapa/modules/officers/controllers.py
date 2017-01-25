@@ -1,8 +1,9 @@
 from bapa import db, app
 from bapa.models import Payment, User, News, Officer
 from bapa.utils import is_too_old, timestamp, parse_ratings
+from bapa.services import send_email
 from bapa.modules.membership.controllers import is_member
-import os, json
+import os, json, string
 
 
 
@@ -61,6 +62,7 @@ def appoint(user_id, appointer_id, office, token=None):
     `bapa.utils.get_salt()`.
     """
     new_officer = User.query.get(user_id)
+    appointer = User.query.get(appointer_id)
     if Officer.query.filter_by(user_id=user_id).first():
         return '%s %s is aready an officer.' % (new_officer.firstname, new_officer.lastname)
     success = '%s %s has been added as an officer.' % (new_officer.firstname, new_officer.lastname)
@@ -71,7 +73,23 @@ def appoint(user_id, appointer_id, office, token=None):
         officer = Officer(user_id, appointer_id, office)
         db.session.add(officer)
         db.session.commit()
+
+        #prepare email for other officers
+        email_path = os.path.join(os.getcwd(), 'bapa', 'emails', 'appointment.txt')
+        name = '%s %s' % (new_officer.firstname, new_officer.lastname)
+        appointer = '%s %s' % (appointer.firstname, appointer.lastname)
+        with open(email_path, 'r') as f:
+            t = f.read()
+            body = string.Template(t).substitute(appointer=appointer,
+                new_officer=name, office=office, host=app.config['HOST'])
+
+        send_email(
+            subject='BAPA Officer Added',
+            body=body,
+            recipients=get_officer_emails()
+        )
         return success
+
     return 'Officer addition has failed.'
 
 
@@ -88,9 +106,25 @@ def unappoint(user_id, unappointer_id, token=None):
     #unappointer must be an officer, or be using a key
     success = '%s %s has been unappointed as an officer.' % (old_officer.firstname, old_officer.lastname)
     key = os.environ.get('APPOINTMENT_KEY')
-    if (key and key == token) or Officer.query.filter_by(user_id=unappointer_id).first():
+    unappointer = db.session.query(User).join(Officer, Officer.user_id==unappointer_id).first()
+    if (key and key == token) or unappointer:
         db.session.delete(to_delete)
         db.session.commit()
+
+        #prepare email for other officers
+        email_path = os.path.join(os.getcwd(), 'bapa', 'emails', 'unappointment.txt')
+        name = '%s %s' % (old_officer.firstname, old_officer.lastname)
+        unappointer = '%s %s' % (unappointer.firstname, unappointer.lastname)
+        with open(email_path, 'r') as f:
+            t = f.read()
+            body = string.Template(t).substitute(unappointer=unappointer,
+                name=name, host=app.config['HOST'])
+
+        send_email(
+            subject='BAPA Officer Removed',
+            body=body,
+            recipients=get_officer_emails()
+        )
         return success
 
     return 'Unappointment has failed.'
@@ -102,6 +136,13 @@ def get_officers():
     """
     officers = db.session.query(User.id, User.firstname, User.lastname, Officer.office).join(Officer, Officer.user_id==User.id)
     return officers
+
+def get_officer_emails():
+    """
+    Return a list of officer emails.
+    """
+    emails = [x[0] for x in db.session.query(User.email).join(Officer, Officer.user_id==User.id).all()]
+    return emails
 
 def is_officer(user_id):
     """
