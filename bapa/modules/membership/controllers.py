@@ -98,11 +98,16 @@ def record_payment(ipn):
 
     if ipn['payment_status'] == 'Completed':
         if 'Membership Dues' in ipn['item_name']:
+            try:
+                date = datetime.strptime(ipn['payment_date'],'%H:%M:%S %b %d, %Y %Z')
+                #ValueError: time data '20:48:35 Jan 24, 2017 PST' does not match format '%H:%M:%S %b %d, %Y %Z'
+            except ValueError:
+                date = datetime.now()
             payment = Payment(
                 ipn['custom'], # user_id
                 ipn['item_name'],
                 ipn['payment_gross'],
-                datetime.strptime(ipn['payment_date'],'%H:%M:%S %b %d, %Y %Z'),
+                date,
                 this_ipn.id
             )
             db.session.add(payment)
