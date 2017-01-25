@@ -2,7 +2,7 @@ from bapa import db
 from bapa.services import verify_ipn
 from bapa.models import User, Profile, Ipn, Payment
 
-from bapa.utils import parse_ratings
+from bapa.utils import parse_ratings, is_too_old
 
 import cloudinary
 import cloudinary.uploader
@@ -67,7 +67,7 @@ def is_member(user_id):
     If they have payed dues in the last year,
     they are a member.
     """
-    dues = Payment.query.filter_by(user_id=user_id, item='Membership Dues').order_by(Payment.created_at.desc()).first()
+    dues = db.session.query(Payment).filter(Payment.user_id==user_id, Payment.item.startswith('Membership Dues')).order_by(Payment.created_at.desc()).first()
     if dues:
         if not is_too_old(dues.created_at, years=1):
             return True

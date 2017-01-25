@@ -151,6 +151,3 @@ def is_officer(user_id):
     if Officer.query.filter_by(user_id=user_id).first():
         return True
     return False
-
-#Use this function in the interface!!
-app.jinja_env.globals.update(is_officer=is_officer)

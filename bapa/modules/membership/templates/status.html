@@ -12,7 +12,7 @@
 						<h3 class="panel-title">Membership Status</h3>
 					</div>
 					<div class="panel-body">
-						{% if session['user'].get('member') %}
+						{% if is_member(session['user']['id']) %}
 						<p>Your membership is active</p>
 						{% else %}
 						<p>Your membership is not active</p>

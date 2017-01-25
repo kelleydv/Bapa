@@ -79,7 +79,7 @@
         <li>
           <div class="link"><i class="fa fa-picture-o"></i>Membership<i class="fa fa-chevron-down"></i></div>
           <ul class="submenu">
-            <li><a href="{{ url_for('membership.status')}}">Membership : {{ 'Active' if user.get(is_active) else 'Not Active' }}</a></li>
+            <li><a href="{{ url_for('membership.status')}}">Membership : {{ 'Active' if is_member(user['id']) else 'Not Active' }}</a></li>
             <li><a href="{{ url_for('membership.status') }}">Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
             <li><a href="{{ url_for('membership.pay') }}">Make a Payment</a></li>
 
