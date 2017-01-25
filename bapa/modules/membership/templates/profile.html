@@ -2,192 +2,139 @@
 {% block title %}Profile{% endblock %}
 
 {% block body %}
-
-<div class="container">
+<!-- http://bootsnipp.com/snippets/featured/flat-user-profile-ui -->
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
+<div class="container-fluid">
   <div class="row">
-    <div class="profile">
-      <ul id="accordion" class="accordion">
-        <li>
-          <div class="col col_4 prof-pic">
-            {% if profile.picture %}
-            {{ profile.picture_html|safe }}
-            {% else %}
-            <img class="img-responsive prof" alt="profile picture" src="http://i.imgur.com/jcAOdkU.jpg">
-            {% endif %}
-            <div class="edit-pic">
-              {% if profile.delorme %}
-              <a href="{{ profile.delorme }}" target="_blank" class="fa fa-globe"></a>
-              {% endif %}
-              {% if profile.linkedin %}
-              <a href="{{ profile.linkedin }}" target="_blank" class="fa fa-linkedin"></a>
-              {% endif %}
-              {% if profile.facebook %}
-              <a href="{{ profile.facebook }}" target="_blank" class="fa fa-facebook"></a>
-              {% endif %}
-              {% if profile.instagram %}
-              <a href="{{ profile.instagram }}" target="_blank" class="fa fa-instagram"></a>
-              {% endif %}
-              {% if profile.twitter %}
-              <a href="{{ profile.twitter }}" target="_blank" class="fa fa-twitter"></a>
-              {% endif %}
-              {% if profile.google %}
-              <a href="{{ profile.google }}" target="_blank" class="fa fa-google"></a>
-              {% endif %}
-              {% if profile.github %}
-              <a href="{{ profile.github }}" target="_blank" class="fa fa-github"></a>
-              {% endif %}
-              {% if profile.youtube %}
-              <a href="{{ profile.youtube }}" target="_blank" class="fa fa-youtube"></a>
-              {% endif %}
-              {% if profile.vimeo %}
-              <a href="{{ profile.vimeo }}" target="_blank" class="fa fa-vimeo"></a>
-              {% endif %}
-              {% if profile.soundcloud %}
-              <a href="{{ profile.soundcloud }}" target="_blank" class="fa fa-soundcloud"></a>
-              {% endif %}
-            </div>
+    <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+      <div class="well profile">
+        <div class="col-sm-12">
+
+          <div class="col-xs-12 col-sm-5">
+
             <div class="username">
-              <h2>{{ profile.nickname or (profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname) }} <small><i class="fa fa-map-marker"></i> {{ profile.state }}</small></h2>
-
-              {% if profile.company or profile.website %}
-              <a href="{{ '//'*(not profile.website.startswith('http'))+profile.website or '#'}}" target="_blank"><p><i class="fa fa-briefcase"></i> {{ profile.company }}</p></a>
-              {% endif %}
-              {% if user.id == profile_user_data.id %}
-              <!-- user is viewing their own profile -->
-              <form action="{{ url_for('membership.profile_picture') }}" method="post" style="display:inline;" id="profile-pic-form" enctype="multipart/form-data">
-                <label for="profile-pic-upload"><a class="btn-o"><i class="fa fa-camera"></i> Change</a></label>
-                <input type="file" name="picture" onchange="this.form.submit()" form="profile-pic-form" id="profile-pic-upload" class="hidden">
-              </form>
-              <a href="{{ url_for('membership.edit_profile') }}" class="btn-o"><i class="fa fa-pencil-square-o"></i> Edit</a>
-              {% endif %}
-              {% if is_officer(user.id) and user.id != profile_user_data.id %}
-                {% if is_officer(profile_user_data.id) %}
-                  <a href="#" class="btn-o" onclick="remove_officer()">
-                    <i class="fa fa-minus"></i> Unappoint
-                  </a>
-                {% else %}
-                  <a href="#" class="btn-o" onclick="add_officer()">
-                    <i class="fa fa-plus"></i> Appoint
-                  </a>
-                {% endif %}
-              {% endif %}
+              <h2>{{ profile.nickname or (profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname) }}</h2>
             </div>
-          </div>
-        </li>
-        {% if user.id == profile_user_data.id %}
-        <!-- user is viewing their own profile -->
-        <li>
-          <div class="link"><i class="fa fa-picture-o"></i>Membership<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu">
-            <li><a href="{{ url_for('membership.status')}}">Membership : {{ 'Active' if is_member(user['id']) else 'Not Active' }}</a></li>
-            <li><a href="{{ url_for('membership.status') }}">Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
-            <li><a href="{{ url_for('membership.pay') }}">Make a Payment</a></li>
 
-          </ul>
-        </li>
-        {% endif %}
-        {% if session['user'].get('officer') %}
-        {% if user.id != profile_user_data.id %}
-        <li>
-          <div class="link"><i class="fa fa-picture-o"></i>Membership<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu">
-            <li><a>Membership : {{ 'Active' if user.get(is_active) else 'Not Active' }}</a></li>
-            <li><a>Last Payment : {{ profile_user_data.last_payment['date'] }}</a></li>
-          </ul>
-        </li>
-        {% endif %}
-        <li>
-          <div class="link"><i class="fa fa-address-card-o"></i>Contact<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu copy">
-            <li>
-              <a>
-                Name : {{ profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname }}
-                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname }}">
-                  <span class="glyphicon glyphicon-copy"></span>
-                </button>
-              </a>
-            </li>
-            <li>
-              <a>
-                Email : {{ profile_user_data.email }}
-                <button class="btn btn-sm btn-default pull-right space" data-clipboard-text="{{ profile_user_data.email }}">
-                  <span class="glyphicon glyphicon-copy"></span>
-                </button>
-                <button class="btn btn-sm btn-default pull-right space">
-                  <span class="glyphicon glyphicon-envelope"></span>
-                </button>
-              </a>
-            </li>
-            <li>
-              <a>
-                Phone : {{ profile.cellphone }}
-                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.cellphone }}">
-                  <span class="glyphicon glyphicon-copy"></span>
-                </button>
-              </a>
-            </li>
-            <li>
-              <a>
-                Address :
-                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.address ~ '\n' ~ profile.city ~ ', ' ~ profile.state ~ '    ' ~ profile.zipcode }}">
-                  <span class="glyphicon glyphicon-copy"></span>
-                </button>
-                <br>
-                {{ profile.address }}<br>
-                {{ profile.city }}, {{ profile.state }}    {{ profile.zipcode}}
-
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <div class="link"><i class="fa fa-address-card"></i>Emergency Contact<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu copy">
-            <li>
-              <a>
-                Name : {{ profile.emergency_contact }}
-                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.emergency_contact }}">
-                  <span class="glyphicon glyphicon-copy"></span>
-                </button>
-              </a>
-            </li>
-            <li>
-              <a>
-                Phone : {{ profile.emergency_phone }}
-                <button class="btn btn-sm btn-default pull-right" data-clipboard-text="{{ profile.emergency_phone }}">
-                  <span class="glyphicon glyphicon-copy"></span>
-                </button>
-              </a>
-            </li>
-          </ul>
-        </li>
-        {% endif %}
-        <li>
-          <div class="link"><i class="fa fa-globe"></i>Sites<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu">
-            <li>
-              <a>
-                {% if profile.sites %}
+            <div class="pilot-data">
+              <p><strong>Ratings: </strong>{{ profile.ratings }}</p>
+              <p><strong>Wing: </strong>{{ profile.wing_info }}</p>
+              <p><strong>Callsign: </strong>{{ profile.callsign }}</p>
+              {% if profile.sites %}
+              <p><strong>Sites: </strong>
                 {% for x in profile.sites.split(',') %}
                 <span class="tags">{{ x.strip().title() }}</span>
                 {% endfor %}
+              </p>
+              {% endif %}
+              {% if profile.company or profile.website %}
+              <p><strong>Website: </strong> <a href="{{ '//'*(not profile.website.startswith('http'))+profile.website or '#'}}" target="_blank"><i class="fa fa-briefcase"></i> {{ profile.company }}</a></p>
+              {% endif %}
+            </div>
+
+            {% if is_officer(user.id)  and user.id != profile_user_data.id %}
+            <div class="officer-actions">
+              <div class="btn-group dropdown btn-block">
+                <button type="button" class="btn btn-primary"><span class="fa fa-gear"></span> Officers </button>
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu text-left" role="menu">
+                  <li><a href="#"><span class="fa fa-envelope pull-right"></span>Appoint Officer</a></li>
+                  <li><a href="#"><span class="fa fa-list pull-right"></span>Appoint Instructor</a></li>
+                  <li class="divider"></li>
+                  <li><a href="#"><span class="fa fa-warning pull-right"></span>Delete user</a></li>
+                </ul>
+              </div>
+            </div>
+            {% endif %}
+
+          </div>
+
+          <div class="col-xs-12 col-sm-1 text-center">
+            <div class="social-media">
+              {% set field_icon_list = [
+              ('delorme', 'globe'),
+              ('linkedin', 'linkedin'),
+              ('facebook', 'facebook'),
+              ('instagram', 'instagram'),
+              ('twitter', 'twitter'),
+              ('google', 'google'),
+              ('github', 'github'),
+              ('youtube', 'youtube'),
+              ('vimeo', 'vimeo'),
+              ('soundcloud', 'soundcloud') ]%}
+              {% for field, icon in field_icon_list %}
+              {% if profile[field] %}
+              <a href="{{ profile[field]}}" target="_blank" class="fa fa-{{ icon }} fa-lg"></a>
+              {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6 text-center">
+            <div class="profile-picture">
+              <figure>
+                {% if profile.picture %}
+                {{ profile.picture_html|safe }}
+                {% else %}
+                <img class="img-responsive prof" alt="profile picture" src="http://i.imgur.com/jcAOdkU.jpg">
                 {% endif %}
-              </a>
-            </li>
-          </ul>
-        </li>
-        <li>
-          <div class="link"><i class="fa fa-picture-o"></i>Pilot Data<i class="fa fa-chevron-down"></i></div>
-          <ul class="submenu">
-            <li><a>Ratings : {{ profile.ratings }}</a></li>
-            <li><a>Wing : {{ profile.wing_info }}</a></li>
-            <li><a>Callsign : {{ profile.callsign }}</a></li>
-          </ul>
-        </li>
-      </ul>
+                {% if user.id == profile_user_data.id %}
+                <!-- user is viewing their own profile -->
+                <div class="edit-icons">
+                  <form action="{{ url_for('membership.profile_picture') }}" method="post" style="display:inline;" id="profile-pic-form" enctype="multipart/form-data">
+                    <label for="profile-pic-upload"><a class="btn-o"><i class="fa fa-camera"></i> Change</a></label>
+                    <input type="file" name="picture" onchange="this.form.submit()" form="profile-pic-form" id="profile-pic-upload" class="hidden">
+                  </form>
+                </div>
+                {% endif %}
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 divider">
+          <div class="col-xs-12 col-sm-4 emphasis">
+            <div class="user-data membership">
+              <h4><i class="fa fa-picture-o"></i> Membership</h4>
+              <p><a href="{{ url_for('membership.status')}}"><strong>Membership :</strong> {{ 'Active' if is_member(user['id']) else 'Not Active' }}</a></p>
+              <p><a href="{{ url_for('membership.status') }}"><strong>Last Payment :</strong> {{ date_parse(profile_user_data.last_payment['date']) }}</a></p>
+              <p><a href="{{ url_for('membership.pay') }}"><strong>Make a Payment</strong></a></p>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4 emphasis">
+            <div class="user-data contact">
+              <h4><i class="fa fa-address-card-o"></i> Contact</h4>
+              <p><strong>Name :</strong> {{ profile_user_data.firstname ~ ' ' ~ profile_user_data.lastname }}</p>
+              <p><strong>Email :</strong> {{ profile_user_data.email }}</p>
+              <p><strong>Phone :</strong> {{ profile.cellphone }}</p>
+              <p><strong>Address :</strong><br>
+                {{ profile.address }}<br>
+                {{ profile.city }}, {{ profile.state }}    {{ profile.zipcode}}
+              </p>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-4 emphasis">
+            <div class="user-data emergency">
+              <h4><i class="fa fa-address-card"></i> Emergency Contact</h4>
+              <p><strong>Name :</strong> {{ profile.emergency_contact }}</p>
+              <p><strong>Phone :</strong> {{ profile.emergency_phone }}</p>
+            </div>
+          </div>
+
+        </div>
+
+        {% if user.id == profile_user_data.id %}
+        <div class="col-sx-12">
+          <a href="{{ url_for('membership.edit_profile') }}" class="btn-o"><i class="fa fa-pencil-square-o fa-lg"></i> Edit Profile</a>
+        </div>
+        {% endif %}
+
+      </div>
     </div>
   </div>
 </div>
+
 {% endblock %}
 
 {% block post_body %}
@@ -195,7 +142,6 @@
 <script type="text/javascript" src="{{ url_for('static', filename='bower_components/clipboard/dist/clipboard.min.js') }}">
 </script>
 <script type="text/javascript">
-
 
   function add_officer() {
     $('#officer-appoint').modal('show');
@@ -207,38 +153,12 @@
 
   /* clipboard stuff */
   var clipboard = new Clipboard('.btn');
-      clipboard.on('success', function(e) {
-          console.log(e);
-      });
-      clipboard.on('error', function(e) {
-          console.log(e);
-      });
-  /* profile stuff */
-  $(function() {
-    var Accordion = function(el, multiple) {
-      this.el = el || {};
-      this.multiple = multiple || false;
-
-      // Variables privadas
-      var links = this.el.find('.link');
-      // Evento
-      links.on('click', {el: this.el, multiple: this.multiple}, this.dropdown)
-    }
-
-    Accordion.prototype.dropdown = function(e) {
-      var $el = e.data.el;
-      $this = $(this),
-      $next = $this.next();
-
-      $next.slideToggle();
-      $this.parent().toggleClass('open');
-
-      if (!e.data.multiple) {
-        $el.find('.submenu').not($next).slideUp().parent().removeClass('open');
-      };
-    }
-
-    var accordion = new Accordion($('#accordion'), false);
+  clipboard.on('success', function(e) {
+      console.log(e);
   });
+  clipboard.on('error', function(e) {
+      console.log(e);
+  });
+
 </script>
 {% endblock %}
