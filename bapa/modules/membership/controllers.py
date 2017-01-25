@@ -7,6 +7,8 @@ from bapa.utils import parse_ratings
 import cloudinary
 import cloudinary.uploader
 
+from datetime import datetime
+
 
 def get_user_profile(user_id):
     """Get a user and profile record"""
@@ -95,7 +97,7 @@ def record_payment(ipn):
     db.session.commit()
 
     if ipn['payment_status'] == 'Completed':
-        if ipn['item_name'] == 'Membership Dues':
+        if 'Membership Dues' in ipn['item_name']:
             payment = Payment(
                 ipn['custom'], # user_id
                 ipn['item_name'],
