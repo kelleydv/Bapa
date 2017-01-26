@@ -41,8 +41,14 @@
                 <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu text-left" role="menu">
-                  <li><a href="#"><span class="fa fa-envelope pull-right"></span>Appoint Officer</a></li>
-                  <li><a href="#"><span class="fa fa-list pull-right"></span>Appoint Instructor</a></li>
+                  {% if is_officer(user.id) and user.id != profile_user_data.id %}
+                    {% if not is_officer(profile_user_data.id) %}
+                    <li><a href="#" onclick="add_officer()"><span class="fa fa-plus pull-right"></span>Appoint Officer</a></li>
+                    {% else %}
+                    <li><a href="#" onclick="remove_officer()"><span class="fa fa-minus pull-right"></span>Unappoint Officer</a></li>
+                    {% endif %}
+                  {% endif %}
+                  <li><a href="#"><span class="fa fa-plus pull-right"></span>Appoint Instructor</a></li>
                   <li class="divider"></li>
                   <li><a href="#"><span class="fa fa-warning pull-right"></span>Delete user</a></li>
                 </ul>
