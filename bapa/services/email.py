@@ -1,4 +1,4 @@
-from bapa import app
+from bapa import app, mail
 from flask_mail import Message
 import os
 
