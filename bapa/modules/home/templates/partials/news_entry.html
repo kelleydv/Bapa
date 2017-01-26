@@ -3,11 +3,13 @@
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title">{{ entry['subject'] }}</h3>
           {% if session.get('user') and is_officer(session['user']['id']) %}
-          <button class="close" type="button" aria-label="Delete" data-delete-post data-post-id="{{ entry['id'] }}"><span aria-hidden="true">×</span></button>
-          <a class="edit-news" type="button" href="{{ url_for('officers.edit_news', news_id=entry['id']) }}"><i class="fa fa-pencil-square-o"></i></a>
+          <div class="officer-actions">
+            <button class="close" title="delete" type="button" aria-label="Delete" data-delete-post data-post-id="{{ entry['id'] }}"><span aria-hidden="true">×</span></button>
+            <a class="edit-news" title="edit" aria-label="Edit" type="button" href="{{ url_for('officers.edit_news', news_id=entry['id']) }}"><i class="fa fa-pencil-square-o"></i></a>
+          </div>
           {% endif %}
+          <h3 class="panel-title">{{ entry['subject'] }}</h3>
         </div>
         <div class="panel-body">
           <div class="news">

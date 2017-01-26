@@ -37,10 +37,6 @@ fieldset legend {
 }
 
 
-.news .panel-heading .panel-title {
-	display: inline;
-}
-
 .news a.edit-news {
 	float: right;
 	font-size: 1em;
