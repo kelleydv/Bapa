@@ -37,6 +37,10 @@
 						<li><a href="{{ url_for('officers.index') }}">Officers</a></li>
 						{% endif %}
 						<li><a href="{{ url_for('home.logout') }}">Sign Out</a></li>
+						{% if is_officer(session['user']['id']) == False %}
+						<li role="separator" class="divider"></li>
+						<li><a href="{{ url_for('officers.restore_permission') }}">Restore Officer Permissions</a></li>
+						{% endif %}
 					</ul>
 				</li>
 			</ul>

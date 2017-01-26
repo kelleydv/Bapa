@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from datetime import date
@@ -28,7 +28,7 @@ for prefix, bp in blueprints.items():
 # Template Globals
 from bapa.modules.officers.controllers import is_officer
 from bapa.modules.membership.controllers import is_member
-app.jinja_env.globals.update(is_officer=is_officer)
+app.jinja_env.globals.update(is_officer=lambda user_id: False if session.get('user', {}).get('officer') is False else is_officer(user_id))
 app.jinja_env.globals.update(is_member=is_member)
 app.jinja_env.globals.update(date_parse=lambda s:str(s).split(' ')[0])
 app.jinja_env.globals['year'] = date.today().year

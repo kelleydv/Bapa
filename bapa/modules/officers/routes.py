@@ -72,10 +72,23 @@ def appoint(key=None):
     flash(message)
     return redirect(url_for('membership.profile', user_id=user_id))
 
-@bp.route('/normal', methods=['GET'])
+@bp.route('/permissions/normalize', methods=['GET'])
 @require_officer
 def view_as_normal():
-    """Remove officer permissions for current session."""
-    del session['user']['officer']
-    flash('You are no longer viewing as an officer. Logout to reset your permissions.')
+    """
+    Remove officer permissions, temporarily. Useful for exploring the interface
+    as a normal user.
+    """
+    session['user']['officer'] = False
+    flash('You are no longer viewing as an officer.')
+    return redirect(url_for('home.index'))
+
+@bp.route('/permissions/restore', methods=['GET'])
+def restore_permission():
+    """
+    Restore officer permissions
+    """
+    if session['user'].get('officer') is not None:
+        session['user']['officer'] = True
+        flash('You are again viewing as an officer.')
     return redirect(url_for('home.index'))
