@@ -1,4 +1,4 @@
-from bapa import app, mail, db, services
+from bapa import app, db, services
 from bapa.services import get_pilot_data, verify_recaptcha, send_email
 from bapa.models import User, ResetPassword, Officer, Admin, News, Payment, Profile
 from bapa.utils import is_too_old
