@@ -4,6 +4,10 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h3 class="panel-title">{{ entry['subject'] }}</h3>
+          {% if session.get('user') and is_officer(session['user']['id']) %}
+          <button class="close" type="button" aria-label="Delete" data-delete-post data-post-id="{{ entry['id'] }}"><span aria-hidden="true">×</span></button>
+          <a class="edit-news" type="button" href="{{ url_for('officers.edit_news', news_id=entry['id']) }}"><i class="fa fa-pencil-square-o"></i></a>
+          {% endif %}
         </div>
         <div class="panel-body">
           <div class="news">
@@ -11,19 +15,16 @@
           </div>
         </div>
         <div class="panel-footer">
-          <small class="pull-left">Posted by {{ entry['name'] }} {{ entry.get('timestamp') }}</small>
+          <div class="col-xs-6">
+            <small class="pull-left">Posted by {{ entry['name'] }} {{ entry.get('timestamp') }}</small>
+          </div>
           {% if entry.get('updated_by') %}
-          <small class="pull-right">Updated by {{ entry.get('updated_by').split()[0] }} {{ entry.get('updated_at') }}</small>
+          <div class="col-xs-6">
+            <small class="pull-right">Updated by {{ entry.get('updated_by').split()[0] }} {{ entry.get('updated_at') }}</small>
+          </div>
           {% endif %}
           <br>
         </div>
       </div>
     </div>
-    {% if session.get('user') and session['user'].get('officer') %}
-    <div class="col-md-2">
-      <a class="btn btn-default btn-sm btn-warning-outline" type="button" href="{{ url_for('officers.edit_news', news_id=entry['id']) }}" >Edit</a>
-      <button class="btn btn-default btn-sm btn-danger-outline" type="button" data-delete-post data-post-id="{{ entry['id'] }}">Delete</button>
-    </div>
-    <br>
-    {% endif %}
   </div>

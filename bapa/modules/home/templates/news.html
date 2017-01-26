@@ -3,9 +3,11 @@
 {% block body %}
 
     <div class="container">
+      <div class="news">
       {% for entry in entries %}
         {% include "partials/news_entry.html" %}
       {% endfor %}
+      </div>
       <div class="row">
         <nav>
           <ul class="pager">

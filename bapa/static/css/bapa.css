@@ -36,6 +36,33 @@ fieldset legend {
 	color: dodgerblue;
 }
 
+
+.news .panel-heading .panel-title {
+	display: inline;
+}
+
+.news a.edit-news {
+	float: right;
+	font-size: 1em;
+	font-weight: 800;
+	line-height: 1.9;
+	margin-right: 2px;
+	color: #000;
+	text-shadow: 0 1px 0 #fff;
+	filter: alpha(opacity=20);
+	opacity: .2;
+}
+
+.news a.edit-news:hover,
+.news a.edit-news:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+
+
 /* tables */
 table.tablesorter thead tr .header {
 	background-image: url(/static/img/bg.gif);
@@ -164,6 +191,7 @@ a.commit {
     color: #f5f5f5;
     font-weight: bold;
     padding: 2px 4px;
+		margin-bottom: 10px;
 }
 
 .profile .dropdown-menu {
