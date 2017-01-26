@@ -32,6 +32,11 @@ app.jinja_env.globals.update(is_officer=is_officer)
 app.jinja_env.globals.update(is_member=is_member)
 app.jinja_env.globals.update(date_parse=lambda s:str(s).split(' ')[0])
 app.jinja_env.globals['year'] = date.today().year
+app.jinja_env.globals['env'] = env.lower()
 head = os.environ.get('HEROKU_SLUG_COMMIT') or str(subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip(), "utf-8")
 app.jinja_env.globals['commit_hash'] = head[:4]
-app.jinja_env.globals['env'] = env.lower()
+# For HEROKU_SLUG_COMMIT variable:
+# $ heroku labs:enable runtime-dyno-metadata -a <app name>
+# https://devcenter.heroku.com/articles/dyno-metadata)
+# with GitHub integrations on Heroku, there is no .git repo
+# on the server. This is the fix.
