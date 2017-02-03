@@ -7,7 +7,7 @@ import binascii
 
 def get_hash(m):
     """One hundred thousand applications of sha256"""
-    return pbkdf2_sha256.encrypt(m, salt_size=64, rounds=100000)
+    return pbkdf2_sha256.using(salt_size=64, rounds=100000).hash(m)
 
 def verify_hash(password, hash):
     """Verify and return boolean"""
