@@ -3,6 +3,7 @@ from bapa.models import Payment, User, News, Officer
 from bapa.utils import is_too_old, timestamp, parse_ratings
 from bapa.services import send_email
 from bapa.modules.membership.controllers import is_member
+from apiclient import discovery
 import os, json, string
 
 
@@ -129,6 +130,12 @@ def unappoint(user_id, unappointer_id, token=None):
 
     return 'Unappointment has failed.'
 
+def get_member_emails():
+    """
+    Return a list of member emails. A member is someone who has payed dues within the last year.
+    """
+    emails = [x[0] for x in db.session.query(User.email).join(Officer, Officer.user_id==User.id).all()]
+    return emails
 
 def get_officers():
     """
@@ -143,6 +150,20 @@ def get_officer_emails():
     """
     emails = [x[0] for x in db.session.query(User.email).join(Officer, Officer.user_id==User.id).all()]
     return emails
+
+def update_google_group(http_auth):
+    """
+    WIP: Update permissions on google group so that membership to group is
+    based on club membership.
+
+    Currently waiting for a google group email that can be accessed by the
+    Admin SDK.
+    """
+    group_service = discovery.build('admin', 'directory_v1', http=http_auth)
+    #print(app.config['GOOGLE_GROUP_EMAIL'])
+    r = group_service.members().list(groupKey=app.config['GOOGLE_GROUP_EMAIL']).execute()
+    #print(r)
+    return None
 
 def is_officer(user_id):
     """

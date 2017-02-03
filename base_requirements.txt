@@ -7,3 +7,5 @@ passlib
 requests
 markdown2
 cloudinary
+google-api-python-client
+python_dateutil

@@ -53,6 +53,8 @@ class Develop(Debug):
     RECAPTCHA_SITEKEY = os.environ.get('RECAPTCHA_SITEKEY')
     #https://developers.google.com/recaptcha/intro
 
+    GOOGLE_GROUP_EMAIL=os.environ.get('GOOGLE_GROUP_EMAIL')
+
     #profile pictures
     CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 

@@ -4,6 +4,14 @@ from flask import render_template, redirect, url_for, flash, g
 from flask import session, request
 from flask import Blueprint
 
+from oauth2client import client
+
+import json
+import os
+import httplib2
+
+
+
 bp = Blueprint('officers', __name__, template_folder='templates')
 
 
@@ -35,6 +43,59 @@ def delete_news():
     if request.method == 'POST':
         controllers.delete_news(request.form['post_id'])
         return redirect(url_for('home.news'))
+
+@bp.route('/googlegroup/update', methods=['POST'])
+@require_officer
+def update_google_group():
+    #http://localhost:5000/officers/googlegroup/update
+    """Update google group membership"""
+    if not session.get('google_oauth'):
+        return redirect(url_for('officers.oauth2callback'))
+    credentials = client.OAuth2Credentials.from_json(session['google_oauth'])
+    if credentials.access_token_expired:
+        return redirect(url_for('officers.oauth2callback'))
+    else:
+        #https://developers.google.com/api-client-library/python/start/get_started#build
+        #https://developers.google.com/admin-sdk/directory/v1/guides/manage-group-members
+        http_auth = credentials.authorize(httplib2.Http())
+        controllers.update_google_group(http_auth)
+        flash('Google Group Features Not Yet Implemented')
+        return redirect(url_for('home.news'))
+    return redirect(url_for('home.index'))
+
+
+@bp.route('/oauth2callback')
+def oauth2callback():
+
+    with open('client_secrets.json', 'w') as f:
+        f.write(json.dumps(
+            {
+                "web": {
+                    "client_id": os.environ['GOOGLE_CLIENT_ID'],
+                    "client_secret": os.environ['GOOGLE_CLIENT_SECRET'],
+                    "redirect_uris": [url_for('officers.oauth2callback', _external=True)],
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://accounts.google.com/o/oauth2/token"
+                }
+            }
+        ))
+
+    flow = client.flow_from_clientsecrets(
+        'client_secrets.json',
+        scope='https://www.googleapis.com/auth/admin.directory.group',
+        redirect_uri=url_for('officers.oauth2callback', _external=True)
+    )
+    if 'code' not in request.args:
+        auth_uri = flow.step1_get_authorize_url()
+        return redirect(auth_uri)
+    else:
+        auth_code = request.args['code']
+        credentials = flow.step2_exchange(auth_code)
+        session['google_oauth'] = credentials.to_json()
+        return redirect(url_for('officers.update_google_group'))
+
+
+
 
 @bp.route('/news/edit', methods=['GET'])
 @require_officer

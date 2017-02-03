@@ -8,6 +8,7 @@ import cloudinary
 import cloudinary.uploader
 
 from datetime import datetime
+from dateutil.parser import parse
 
 
 def get_user_profile(user_id):
@@ -64,14 +65,16 @@ def upload_profile_picture(user_id, image):
 def is_member(user_id):
     """
     Determine if someone is a member.
-    If they have payed dues in the last year,
-    they are a member.
+    If they have payed dues this year, they are a memeber.
     """
     dues = db.session.query(Payment).filter(Payment.user_id==user_id, Payment.item.startswith('Membership Dues')).order_by(Payment.created_at.desc()).first()
     if dues:
-        if not is_too_old(dues.created_at, years=1):
-            return True
-        return False
+        return dues.created_at.year == datetime.utcnow().year
+
+
+def get_members():
+    current_year = datetime.utcnow().year
+    members = db.session.query(User).join(Payment, User.id == Payment.user_id).filter_by(date.year == current_year)
 
 
 def get_last_payment(user_id):
@@ -99,10 +102,13 @@ def record_payment(ipn):
     if ipn['payment_status'] == 'Completed':
         if 'Membership Dues' in ipn['item_name']:
             try:
-                date = datetime.strptime(ipn['payment_date'],'%H:%M:%S %b %d, %Y %Z')
-                #ValueError: time data '20:48:35 Jan 24, 2017 PST' does not match format '%H:%M:%S %b %d, %Y %Z'
+                #automagically parse PayPal's datetime string, currently
+                #formatted like '20:48:35 Jan 24, 2017 PST'
+                date = parse(ipn['payment_date'])
             except ValueError:
+                #parsing failed, hopefully this was a recent payment
                 date = datetime.now()
+                #TODO: consider sending an email if parsing failed
             payment = Payment(
                 ipn['custom'], # user_id
                 ipn['item_name'],
@@ -113,5 +119,5 @@ def record_payment(ipn):
             db.session.add(payment)
             db.session.commit()
         else:
-            # todo, Donation, etc.
+            #TODO: Donation, etc.
             pass
