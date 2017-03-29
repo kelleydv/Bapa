@@ -69,25 +69,26 @@
 <script type="text/javascript" src="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/js/jquery.tablesorter.widgets.min.js') }}"></script>
 <script type="text/javascript" src="{{ url_for('static', filename='bower_components/jquery.tablesorter/dist/js/extras/jquery.tablesorter.pager.min.js') }}"></script>
 
-<script type=text/javascript>
-
-  /* nav-tabs */
-  $('#active-tab a').click(function(e) {
-    e.preventDefault();
-    $(this).tab('show');
-  });
-
-  // store the currently selected tab in the hash value
-  $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
-    var id = $(e.target).attr("href").substr(1);
-    window.location.hash = id;
-  });
-
-  // on load of the page: switch to the currently selected tab
-  var hash = window.location.hash;
-  $('#active-tab a[href="' + hash + '"]').tab('show');
+<script type="text/javascript">
 
   $(document).ready(function() {
+    /* nav-tabs */
+    $('#active-tab a').click(function(e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
+    // store the currently selected tab in the hash value
+    $("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+      var id = $(e.target).attr("href").substr(1);
+      window.location.hash = id;
+    });
+
+    // on load of the page: switch to the currently selected tab
+    var hash = window.location.hash;
+    $('#active-tab a[href="' + hash + '"]').tab('show');
+
+
 
     // NOTE: $.tablesorter.theme.bootstrap is ALREADY INCLUDED in the jquery.tablesorter.widgets.js
     // file; it is included here to show how you can modify the default classes
@@ -146,19 +147,19 @@
     });
   });
 
-  $(document).on('click', '#preview', function() {
+  $('#preview').on('click', function() {
     $('#news-body').data('markdown').showPreview();
     $('#preview').hide();
     $('#edit').show();
   });
 
-  $(document).on('click', '#edit', function() {
+  $('#edit').on('click', function() {
     $('#news-body').data('markdown').hidePreview();
     $('#edit').hide();
     $('#preview').show();
   });
 
-  $(document).on('click', "#post-news", function() {
+  $('#post-news').on('click', function() {
     $.ajax({
       url: "{{ url_for('officers.post_news') }}",
       type: "POST",

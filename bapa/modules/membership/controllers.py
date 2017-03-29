@@ -73,8 +73,14 @@ def is_member(user_id):
 
 
 def get_members():
+    """
+    Members are those who have payed since
+    Jan 1 of the current year
+    """
     current_year = datetime.utcnow().year
-    members = db.session.query(User).join(Payment, User.id == Payment.user_id).filter_by(date.year == current_year)
+    jan_first = datetime.utcnow() - datetime(year=current_year, month=1, day=1)
+    members = db.session.query(User).join(Payment, User.id == Payment.user_id).filter(Payment.date > str(jan_first)).all()
+    return members
 
 
 def get_last_payment(user_id):

@@ -84,7 +84,7 @@
                 {% if profile.picture %}
                 {{ profile.picture_html|safe }}
                 {% else %}
-                <img class="img-responsive prof" alt="profile picture" src="http://i.imgur.com/jcAOdkU.jpg">
+                <img class="img-responsive prof" alt="profile picture" src="http://i.imgur.com/xY37lcA.jpg">
                 {% endif %}
                 {% if user.id == profile_user_data.id %}
                 <!-- user is viewing their own profile -->
@@ -145,8 +145,7 @@
 
 {% block post_body %}
 {% include "partials/modals/appointments.html" %}
-<script type="text/javascript" src="{{ url_for('static', filename='bower_components/clipboard/dist/clipboard.min.js') }}">
-</script>
+<script type="text/javascript" src="{{ url_for('static', filename='bower_components/clipboard/dist/clipboard.min.js') }}"></script>
 <script type="text/javascript">
 
   function add_officer() {
