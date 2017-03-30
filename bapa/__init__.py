@@ -6,8 +6,7 @@ import os, subprocess
 
 app = Flask(__name__)
 
-#`env` must be set to dev, prod, or test
-env = os.environ.get('ENV')
+env = os.environ.get('ENV', 'DEV')
 conf = {
     'DEV': 'bapa.config.Develop',
     'PROD': 'bapa.config.Production',

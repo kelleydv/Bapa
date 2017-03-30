@@ -88,9 +88,11 @@ def reset_request():
 
     error = None
     if request.method == 'POST':
+        recaptcha_response = request.form.get('g-recaptcha-response')
         error = controllers.reset_password_request(
             request.form['ushpa_or_email'],
-            url_for('home.reset_auth')
+            url_for('home.reset_auth'),
+            recaptcha_response
         )
         if not error:
             flash('Email sent')

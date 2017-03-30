@@ -84,12 +84,19 @@ def delete_account(user_id):
     return
 
 
-def reset_password_request(ushpa_or_email, url):
-    """Send an email to the user with a token"""
+def reset_password_request(ushpa_or_email, url, recaptcha_response):
+    """
+    Send an email to the user with a token
+
+    The specified url represents the endpoint the user recieves in
+    an email for resetting their password.
+    """
     if not ushpa_or_email:
         return 'Please enter an email or pilot number associated with your account'
     elif not ('@' in ushpa_or_email and '.' in ushpa_or_email) and len(ushpa_or_email) != 5:
         return 'That was not a valid entry'
+    if app.config.get('RECAPTCHA') and not verify_recaptcha(recaptcha_response):
+        return 'reCAPTCHA test failed'
     else:
         if '@' in ushpa_or_email:
             user = User.query.filter_by(email=ushpa_or_email.lower()).first()

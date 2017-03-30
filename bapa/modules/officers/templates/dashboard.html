@@ -71,7 +71,8 @@
 
 <script type="text/javascript">
 
-  $(document).ready(function() {
+  $(function() {
+
     /* nav-tabs */
     $('#active-tab a').click(function(e) {
       e.preventDefault();
@@ -88,7 +89,41 @@
     var hash = window.location.hash;
     $('#active-tab a[href="' + hash + '"]').tab('show');
 
+    // news editing
+    $('#preview').on('click', function() {
+      $('#news-body').data('markdown').showPreview();
+      $('#preview').hide();
+      $('#edit').show();
+    });
 
+    $('#edit').on('click', function() {
+      $('#news-body').data('markdown').hidePreview();
+      $('#edit').hide();
+      $('#preview').show();
+    });
+
+    $('#post-news').on('click', function() {
+      $.ajax({
+        url: "{{ url_for('officers.post_news') }}",
+        type: "POST",
+        data: {
+          subject: $('#news-subject').val(),
+          body: $('#news-body').val(),
+          user_id: "{{ session['user']['id'] }}",
+          news_id: "{{ news_id }}"
+        },
+        success: function(response) {
+          $('#message-body').val('');
+          window.location = "{{ url_for('home.news') }}"
+        },
+        error: function(error) {
+          console.log(error);
+        }
+      });
+    });
+
+
+    // Officer's view on users
 
     // NOTE: $.tablesorter.theme.bootstrap is ALREADY INCLUDED in the jquery.tablesorter.widgets.js
     // file; it is included here to show how you can modify the default classes
@@ -144,38 +179,6 @@
       // output string - default is '{page}/{totalPages}';
       // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
       output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
-    });
-  });
-
-  $('#preview').on('click', function() {
-    $('#news-body').data('markdown').showPreview();
-    $('#preview').hide();
-    $('#edit').show();
-  });
-
-  $('#edit').on('click', function() {
-    $('#news-body').data('markdown').hidePreview();
-    $('#edit').hide();
-    $('#preview').show();
-  });
-
-  $('#post-news').on('click', function() {
-    $.ajax({
-      url: "{{ url_for('officers.post_news') }}",
-      type: "POST",
-      data: {
-        subject: $('#news-subject').val(),
-        body: $('#news-body').val(),
-        user_id: "{{ session['user']['id'] }}",
-        news_id: "{{ news_id }}"
-      },
-      success: function(response) {
-        $('#message-body').val('');
-        window.location = "{{ url_for('home.news') }}"
-      },
-      error: function(error) {
-        console.log(error);
-      }
     });
   });
 

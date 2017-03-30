@@ -98,7 +98,7 @@ def record_payment(ipn):
 
     user = User.query.get(ipn['custom'])
     if not user:
-        return 'Invalid user'
+        return 'Invalid User'
 
     # Save all IPNs
     this_ipn = Ipn(ipn['custom'], ipn)
@@ -124,6 +124,7 @@ def record_payment(ipn):
             )
             db.session.add(payment)
             db.session.commit()
+            return
         else:
             #TODO: Donation, etc.
             pass
