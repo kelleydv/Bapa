@@ -1,6 +1,6 @@
-# BAPA
+# BAPA [![Build Status](https://travis-ci.org/kelleydv/Bapa.svg?branch=develop)](https://travis-ci.org/kelleydv/Bapa)
 
-Website for the Bay Area Paragliding Association (Work In Progress)
+Website for the Bay Area Paragliding Association
 
 ### Requirements
 - [node/npm](https://nodejs.org/) (for front-end dependencies)
