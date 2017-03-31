@@ -4,8 +4,23 @@ body { padding-bottom: 70px; }
 form .form-group:last-child{ margin-bottom: 0; }
 .copyright { margin-left: 0; }
 
-fieldset legend {
-	padding-top: 22px;
+#edit-profile-form fieldset legend {
+	padding-top: 1.375em;
+}
+
+#edit-profile-form span {
+	font-size: 0.62em;
+	color: #777;
+	float: right;
+	padding-top: 0.8em;
+}
+
+#edit-profile-form .public span::after {
+	content: "(visible to bapa members)";
+}
+
+#edit-profile-form .protected span::after {
+	content: "(visible only to bapa club officers)";
 }
 
 .form-control:changed {

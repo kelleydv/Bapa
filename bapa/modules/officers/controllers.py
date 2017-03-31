@@ -167,8 +167,7 @@ def update_google_group(http_auth):
 
 def is_officer(user_id):
     """
-    Return True or False.
+    Return True or None.
     """
     if Officer.query.filter_by(user_id=user_id).first():
         return True
-    return False

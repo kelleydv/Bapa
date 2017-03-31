@@ -22,7 +22,7 @@ def profile(user_id=None):
     if not (profile_user_data and profile):
         return redirect(url_for('membership.profile'))
 
-    return render_template('profile.html', user=session['user'], profile=profile, profile_user_data=profile_user_data)
+    return render_template('profile.html', user=session['user'], profile=profile, profile_user_data=profile_user_data, paypal=app.config['PAYPAL'])
 
 @bp.route('/profile/edit', methods=['GET', 'POST'])
 @require_auth
@@ -44,22 +44,6 @@ def profile_picture():
         controllers.upload_profile_picture(session['user']['id'], request.files.get('picture'))
         flash('Your profile picture has been updated')
     return(redirect(url_for('membership.profile')))
-
-@bp.route('/status', methods=['GET'])
-@require_auth
-def status():
-    """View BAPA membership status"""
-    if request.method == 'GET':
-        payment = controllers.get_last_payment(session['user']['id'])
-    return render_template('status.html', payment=payment, session=session)
-
-
-@bp.route('/pay', methods=['GET', 'POST'])
-@require_auth
-def pay():
-    """Pay club dues"""
-    error = None
-    return render_template('pay.html', paypal=app.config['PAYPAL'], error=error, session=session)
 
 @bp.route('/ipnlistener', methods=['POST'])
 def listener():

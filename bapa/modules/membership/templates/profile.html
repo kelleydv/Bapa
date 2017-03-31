@@ -103,9 +103,17 @@
           <div class="col-xs-12 col-sm-4 emphasis">
             <div class="user-data membership">
               <h4><i class="fa fa-picture-o"></i> Membership</h4>
-              <p><a href="{{ url_for('membership.status')}}"><strong>Membership :</strong> {{ 'Active' if is_member(user['id']) else 'Not Active' }}</a></p>
-              <p><a href="{{ url_for('membership.status') }}"><strong>Last Payment :</strong> {{ date_parse(profile_user_data.last_payment['date']) }}</a></p>
-              <p><a href="{{ url_for('membership.pay') }}"><strong>Make a Payment</strong></a></p>
+              <p><a href="#"><strong>Membership :</strong> {{ 'Active' if is_member(user['id']) else 'Not Active' }}</a></p>
+              <p><a href="#"><strong>Last Payment :</strong> {{ date_parse(profile_user_data.last_payment['date']) }}</a></p>
+              <p>
+                <form action="{{ paypal['endpoint'] }}" method="post" target="_top">
+                  <input type="hidden" name="custom" value="{{ session['user']['id']}}">
+                  <input type="hidden" name="cmd" value="_s-xclick">
+                  <input type="hidden" name="hosted_button_id" value="{{ paypal['button_id'] }}">
+                  <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/silver-rect-paypalcheckout-26px.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                  <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+              </p>
             </div>
           </div>
           <div class="col-xs-12 col-sm-4 emphasis">
