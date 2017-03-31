@@ -1,8 +1,8 @@
 from passlib.hash import pbkdf2_sha256
-from base64 import b64encode
+from dateutil.parser import parse
+import secrets
 import datetime
-import os
-import binascii
+
 
 
 def get_hash(m):
@@ -20,8 +20,7 @@ def verify_hash(password, hash):
 
 def get_salt():
     """Return a salt string"""
-    salt = b64encode(os.urandom(64))
-    return binascii.hexlify(salt).decode('utf-8')
+    return secrets.token_hex(64)
 
 def timestamp(object=False):
     """Return a timestamp as an object or a string"""
@@ -32,7 +31,7 @@ def timestamp(object=False):
 
 def object_from_timestamp(date_str):
     """Create an object from a timestamp string"""
-    return datetime.datetime.strptime(date_str, "%Y-%m-%d %H:%M:%S.%f")
+    return parse(date_str)
 
 def is_too_old(time_obj, minutes=5, years=0):
     """Return True if a timestamp is older than limit, False otherwise"""
