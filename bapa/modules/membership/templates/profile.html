@@ -116,6 +116,8 @@
                   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>
               </p>
+              {% if False %}
+              <!-- Delete the if statement someday -->
               <p><a href="#"><strong>Donate :</strong></a></p>
               <p>
                 <form action="{{ paypal['endpoint'] }}" method="post" target="_top">
@@ -126,6 +128,7 @@
                   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>
               </p>
+              {% endif %}
               {% endif %}
             </div>
           </div>
