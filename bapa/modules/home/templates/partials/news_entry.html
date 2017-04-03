@@ -18,11 +18,11 @@
         </div>
         <div class="panel-footer">
           <div class="col-xs-6">
-            <small class="pull-left">Posted by {{ entry['name'] }} {{ entry.get('timestamp') }}</small>
+            <small class="pull-left">Posted by {{ entry['name'] }} {{ date_parse(entry.get('timestamp')) }}</small>
           </div>
           {% if entry.get('updated_by') %}
           <div class="col-xs-6">
-            <small class="pull-right">Updated by {{ entry.get('updated_by').split()[0] }} {{ entry.get('updated_at') }}</small>
+            <small class="pull-right">Updated by {{ entry.get('updated_by').split()[0] }} {{ date_parse(entry.get('updated_at')) }}</small>
           </div>
           {% endif %}
           <br>

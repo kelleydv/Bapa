@@ -32,7 +32,7 @@ app.jinja_env.globals.update(is_officer=lambda user_id: False if session.get('us
 app.jinja_env.globals.update(is_member=is_member)
 app.jinja_env.globals.update(is_this_year=lambda x: False if not x else x >= datetime(year=datetime.now().year, month=1, day=1))
 app.jinja_env.globals.update(parse_ratings=parse_ratings)
-app.jinja_env.globals.update(date_parse=lambda s:str(s).split(' ')[0])
+app.jinja_env.globals.update(date_parse=lambda d: '' if not d else d.strftime('%m/%d/%y')) #parse a datetime object
 app.jinja_env.globals['year'] = date.today().year
 app.jinja_env.globals['env'] = env.lower()
 head = os.environ.get('HEROKU_SLUG_COMMIT') or str(subprocess.check_output(['git', 'rev-parse', 'HEAD']).strip(), "utf-8")

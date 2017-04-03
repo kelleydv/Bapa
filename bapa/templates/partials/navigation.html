@@ -37,9 +37,12 @@
 						<li><a href="{{ url_for('officers.index') }}">Officers</a></li>
 						{% endif %}
 						<li><a href="{{ url_for('home.logout') }}">Sign Out</a></li>
-						{% if is_officer(session['user']['id']) == False %}
+						{% if session.user.get('officer') == False %}
 						<li role="separator" class="divider"></li>
 						<li><a href="{{ url_for('officers.restore_permission') }}">Restore Officer Permissions</a></li>
+						{% elif session.user.get('officer') == True %}
+						<li role="separator" class="divider"></li>
+						<li><a href="{{ url_for('officers.view_as_normal') }}">View Without Officer Permissions</a></li>
 						{% endif %}
 					</ul>
 				</li>

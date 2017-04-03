@@ -103,9 +103,9 @@ def edit_news():
     """Edit a news post"""
     news_id = request.args.get('news_id')
     news_subject, news_body = controllers.get_news(news_id)
-    members = controllers.get_members()
+    users = controllers.get_users()
     return render_template('dashboard.html',
-        members=members, news_subject=news_subject, news_body=news_body, news_id=news_id)
+        users=users, news_subject=news_subject, news_body=news_body, news_id=news_id)
 
 @bp.route('/appoint/', methods=['POST'])
 @bp.route('/appoint/<key>', methods=['GET'])
