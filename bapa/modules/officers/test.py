@@ -45,15 +45,17 @@ class OfficersTestCase(BaseTest):
         self.assertEqual(len(officers), 0)
 
         #self-appointment as an officer
-        key = os.environ['APPOINTMENT_KEY'] = 'abcd'
+        tmp = os.environ.get('APPOINTMENT_KEY')
+        os.environ['APPOINTMENT_KEY'] = 'abcd'
+        key = os.environ['APPOINTMENT_KEY']
         #wrong key
-        self.app.post(
+        self.app.get(
             '/officers/appoint/%s' % 'zyxw',
             follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
-        #self.assertTrue(b'failed' in resp.data)
+        self.assertTrue(b'failed' in resp.data)
         #correct key
-        self.app.post('/officers/appoint/%s' % key, follow_redirects=True)
+        self.app.get('/officers/appoint/%s' % key, follow_redirects=True)
         officers = Officer.query.all()
         self.assertEqual(len(officers), 1)
         resp = self.app.get('/officers', follow_redirects=True)
@@ -69,4 +71,4 @@ class OfficersTestCase(BaseTest):
         officers = Officer.query.all()
         self.assertEqual(len(officers), 2)
 
-        del os.environ['APPOINTMENT_KEY']
+        os.environ['APPOINTMENT_KEY'] = tmp
