@@ -188,7 +188,7 @@
 								<div class="form-group">
 									<label for="address" class="col-md-3 control-label">Address</label>
 									<div class="col-md-9">
-										<input type="text" value="{{ profile.address or '' }}" placeholder="street, number, and apartment" class="form-control" autocomplete="off">
+										<input type="text" name="address" value="{{ profile.address or '' }}" placeholder="street, number, and apartment" class="form-control" autocomplete="off">
 									</div>
 								</div>
 
@@ -243,7 +243,7 @@
 								</div>
 
 								<div class="form-group">
-									<label for="city" class="col-md-3 control-label">Telephone</label>
+									<label for="emergency_phone" class="col-md-3 control-label">Telephone</label>
 									<div class="col-md-9">
 										<input type="tel" name="emergency_phone" id="emergency_phone" value="{{ profile.emergency_phone  or '' }}" placeholder="(888) 888-8888" class="form-control" autocomplete="off">
 									</div>
@@ -290,26 +290,26 @@
 {% block post_body %}
 	{% include "partials/modals/delete_account.html" %}
 	<script type="text/javascript">
+	$(function () {
+		function delete_account() {
+			$('#account-delete').modal('show');
+		}
 
-	function delete_account() {
-    $('#account-delete').modal('show');
-  }
+		var $form = $('form');
 
-	var $form = $('form');
-
-	$form
-	.on('change', '.input', function() {
-		$(this).addClass('changed');
-	})
-	.on('click', 'input[type="reset"]', function() {
-		$form.find('.changed').removeClass('changed');
-	})
-	.on('submit', function (e) {
-		//e.preventDefault(); // Prevent actual form submission
-		var payload = $form.serialize();
-
-		$.post("{{ url_for('membership.profile') }}", payload, function () {
-			// Done
+		$form
+		.on('change', '.input', function() {
+			$(this).addClass('changed');
+		})
+		.on('click', 'input[type="reset"]', function() {
+			$form.find('.changed').removeClass('changed');
+		})
+		.on('submit', function (e) {
+			//e.preventDefault(); // Prevent actual form submission
+			var payload = $form.serialize();
+			$.post("{{ url_for('membership.profile') }}", payload, function () {
+				// Done
+			});
 		});
 	});
 	</script>
