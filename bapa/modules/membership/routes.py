@@ -13,16 +13,26 @@ bp = Blueprint('membership', __name__, template_folder='templates')
 @require_auth
 def profile(user_id=None):
     """View a user profile"""
-    if user_id:
-        profile_user_data, profile = controllers.get_user_profile(int(user_id))
-    else:
-        #User is viewing their own profile
-        profile_user_data, profile = controllers.get_user_profile(session['user']['id'])
+    own_profile = False
+    if not user_id or user_id == session['user']['id']:
+        own_profile = True #user is viewing their own profile
+    if request.args.get('public'):
+        own_profile = False
+
+    user_id = user_id or session['user']['id']
+    profile_user_data, profile = controllers.get_user_profile(int(user_id))
 
     if not (profile_user_data and profile):
         return redirect(url_for('membership.profile'))
 
-    return render_template('profile.html', user=session['user'], profile=profile, profile_user_data=profile_user_data, paypal=app.config['PAYPAL'])
+    if profile.private:
+        if session['user']['id'] == profile.user_id and request.args.get('public'):
+            flash('Your profile is set to private')
+            return redirect(url_for('membership.profile'))
+        if not session['user'].get('officer'):
+            return redirect(url_for('membership.profile'))
+
+    return render_template('profile.html', session=session, own_profile=own_profile, profile=profile, profile_user_data=profile_user_data, paypal=app.config['PAYPAL'])
 
 @bp.route('/profile/edit', methods=['GET', 'POST'])
 @require_auth

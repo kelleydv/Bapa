@@ -32,7 +32,7 @@
               {% endif %}
             </div>
 
-            {% if is_officer(user.id)  and user.id != profile_user_data.id %}
+            {% if session.user.get('officer') and not own_profile %}
             <div class="officer-actions">
               <div class="btn-group dropdown btn-block">
                 <button type="button" class="btn btn-primary"><span class="fa fa-gear"></span> Officers </button>
@@ -41,7 +41,7 @@
                 <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu text-left" role="menu">
-                  {% if is_officer(user.id) and user.id != profile_user_data.id %}
+                  {% if not own_profile and is_officer(session.user.id) %}
                     {% if not is_officer(profile_user_data.id) %}
                     <li><a href="#" onclick="add_officer()"><span class="fa fa-plus pull-right"></span>Appoint Officer</a></li>
                     {% else %}
@@ -86,8 +86,7 @@
                 {% else %}
                 <img class="img-responsive prof" alt="profile picture" src="http://i.imgur.com/xY37lcA.jpg">
                 {% endif %}
-                {% if user.id == profile_user_data.id %}
-                <!-- user is viewing their own profile -->
+                {% if own_profile %}
                 <div class="edit-icons">
                   <form action="{{ url_for('membership.profile_picture') }}" method="post" style="display:inline;" id="profile-pic-form" enctype="multipart/form-data">
                     <label for="profile-pic-upload"><a class="btn-o"><i class="fa fa-camera"></i> Change</a></label>
@@ -99,12 +98,15 @@
             </div>
           </div>
         </div>
+
+        {% if session.user.get('officer') or own_profile %}
         <div class="col-xs-12 divider">
           <div class="col-xs-12 col-sm-4 emphasis">
             <div class="user-data membership">
               <h4><i class="fa fa-picture-o"></i> Membership</h4>
-              <p><a href="#"><strong>Membership :</strong> {{ 'Active' if is_member(user['id']) else 'Not Active' }}</a></p>
+              <p><a href="#"><strong>Membership :</strong> {{ 'Active' if is_member(session.user.id) else 'Not Active' }}</a></p>
               <p><a href="#"><strong>Last Payment :</strong> {{ date_parse(profile_user_data.last_payment['date']) }}</a></p>
+              {% if own_profile %}
               <p>
                 <form action="{{ paypal['endpoint'] }}" method="post" target="_top">
                   <input type="hidden" name="custom" value="{{ session['user']['id']}}">
@@ -114,6 +116,7 @@
                   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>
               </p>
+              {% endif %}
             </div>
           </div>
           <div class="col-xs-12 col-sm-4 emphasis">
@@ -137,10 +140,12 @@
           </div>
 
         </div>
+        {% endif %}
 
-        {% if user.id == profile_user_data.id %}
+        {% if own_profile %}
         <div class="col-sx-12">
           <a href="{{ url_for('membership.edit_profile') }}" class="btn-o"><i class="fa fa-pencil-square-o fa-lg"></i> Edit Profile</a>
+          <a href="{{ url_for('membership.profile', public=True) }}" class="btn-o pull-right"><i class="fa fa-eye fa-lg"></i> View Public Profile</a>
         </div>
         {% endif %}
 

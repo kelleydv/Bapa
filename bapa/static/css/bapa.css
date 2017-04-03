@@ -150,11 +150,12 @@ a.commit {
 	position: absolute;
 	bottom: 12px;
 	width: 100%;
-	color: #FFF;
 }
 
 .profile .profile-picture .edit-icons a {
-
+	/*color: #222;*/
+	color: #222;
+  text-shadow: 2px 2px 4px #eee;
 }
 
 .profile .social-media {
@@ -162,13 +163,17 @@ a.commit {
 }
 
 .profile a {
-	color: #651D33;
+	color: #222;
 	cursor: pointer;
 	text-decoration: none;
 }
 
 .profile .user-data a {
-	color: black;
+	color: #222;
+}
+
+.profile .user-data p {
+	font-size: .85em;
 }
 
 

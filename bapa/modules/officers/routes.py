@@ -108,7 +108,7 @@ def edit_news():
         members=members, news_subject=news_subject, news_body=news_body, news_id=news_id)
 
 @bp.route('/appoint/', methods=['POST'])
-@bp.route('/appoint/<key>', methods=['POST'])
+@bp.route('/appoint/<key>', methods=['GET'])
 @require_auth
 def appoint(key=None):
     """Appoint an officer, or unappoint if get parameter "un" is marked"""
