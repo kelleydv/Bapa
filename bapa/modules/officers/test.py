@@ -71,4 +71,5 @@ class OfficersTestCase(BaseTest):
         officers = Officer.query.all()
         self.assertEqual(len(officers), 2)
 
-        os.environ['APPOINTMENT_KEY'] = tmp
+        if tmp:
+            os.environ['APPOINTMENT_KEY'] = tmp

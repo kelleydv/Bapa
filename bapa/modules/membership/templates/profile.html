@@ -116,6 +116,16 @@
                   <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
                 </form>
               </p>
+              <p><a href="#"><strong>Donate :</strong></a></p>
+              <p>
+                <form action="{{ paypal['endpoint'] }}" method="post" target="_top">
+                  <input type="hidden" name="custom" value="{{ session['user']['id']}}">
+                  <input type="hidden" name="cmd" value="_s-xclick">
+                  <input type="hidden" name="hosted_button_id" value="{{ paypal['donate_button_id'] }}">
+                  <input type="image" src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/silver-rect-paypalcheckout-26px.png" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                  <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+              </p>
               {% endif %}
             </div>
           </div>

@@ -25,7 +25,7 @@ class Debug(Config):
 class Develop(Debug):
     SECRET_KEY = os.environ.get('SECRET_KEY', Config.SECRET_KEY)
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', Config.SQLALCHEMY_DATABASE_URI) 
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', Config.SQLALCHEMY_DATABASE_URI)
 
     MAIL_SERVER = os.environ.get('POSTMARK_SMTP_SERVER')
     MAIL_PORT = os.environ.get('MAIL_PORT')
@@ -41,7 +41,8 @@ class Develop(Debug):
     PAYPAL = {
         'domain': 'https://www.sandbox.paypal.com',
         'endpoint': 'https://www.sandbox.paypal.com/cgi-bin/webscr',
-        'button_id': os.environ.get('PAYPAL_BUTTON_ID')
+        'button_id': os.environ.get('PAYPAL_BUTTON_ID'),
+        'donate_button_id': os.environ.get('PAYPAL_DONATE_BUTTON_ID')
     }
 
 
