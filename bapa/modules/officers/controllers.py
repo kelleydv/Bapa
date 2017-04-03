@@ -5,20 +5,25 @@ from bapa.services import send_email
 from bapa.modules.membership.controllers import is_member
 from apiclient import discovery
 import os, json, string
+from sqlalchemy import func
 
 
-
-
-def get_members():
+def get_users():
     """
-    Return id, first name, last name, and rating
-    for each registered user of the site.
+    Return a list of all users registered on the site,
+    with most recent payment info
     """
-    users = User.query.all()
-    f = lambda a: 'Active' if is_member(a) else 'Not Active'
-    users = [(x.id, x.firstname, x.lastname, 3,
-        parse_ratings(x.ushpa_data), f(x.id)) for x in users]
+    sub = db.session.query(
+        Payment.user_id,
+        func.max(Payment.date).label('last_payment')
+    ).group_by(Payment.user_id).subquery()
+
+    fields = User.id, User.firstname, User.lastname, sub.c.last_payment, User.ushpa_data
+
+    users = db.session.query(*fields).\
+        outerjoin(sub, sub.c.user_id == User.id).all()
     return users
+    # return db.session.query(*fields).outerjoin(Payment, User.id == Payment.user_id).all()
 
 def news_update(subject, body, user_id, news_id=None):
     """

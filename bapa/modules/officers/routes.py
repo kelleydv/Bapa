@@ -19,9 +19,9 @@ bp = Blueprint('officers', __name__, template_folder='templates')
 @require_officer
 def index():
     """Display Officer's Dashboard"""
-    members = controllers.get_members()
+    users = controllers.get_users()
     officers = controllers.get_officers()
-    return render_template('dashboard.html', members=members, officers=officers)
+    return render_template('dashboard.html', users=users, officers=officers)
 
 @bp.route('/news/post', methods=['POST'])
 @require_officer

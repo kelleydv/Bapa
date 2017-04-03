@@ -1,12 +1,12 @@
 
   <div class="col-md-12">
     <br/>
-    <table id="member-table" class="table tablesorter">
+    <table id="member-table" class="table tablesorter officer">
       <thead>
         <tr>
           <th>First</th>
           <th>Last</th>
-          <th>Membership Exp.</th>
+          <th>Last Payment</th>
           <th>Rating</th>
         </tr>
       </thead>
@@ -34,16 +34,12 @@
         </tr>
       </tfoot>
       <tbody>
-        {% for id, first, last, expiration, rating, status in members %}
-          <tr class="{{ 'success' if status=='Active' else 'danger' }}">
-            <td>
-              <a href="{{ url_for('membership.profile', user_id=id) }}">
-                {{ first }}
-              </a>
-            </td>
-            <td>{{ last }}</td>
-            <td>{{ expiration }}</td>
-            <td>{{ rating }}</td>
+        {% for id, firstname, lastname, last_payment, ushpa_data in users %}
+          <tr class="{{ 'success' if is_this_year(last_payment) else 'danger' }}" data-href="{{ url_for('membership.profile', user_id=id) }}">
+            <td>{{ firstname }}</td>
+            <td>{{ lastname }}</td>
+            <td>{{ date_parse(last_payment) }}</td>
+            <td>{{ parse_ratings(ushpa_data) }}</td>
           </tr>
         {% endfor %}
       </tbody>

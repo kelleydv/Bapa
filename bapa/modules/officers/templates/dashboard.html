@@ -22,7 +22,8 @@
       <div class="alert alert-danger" role="alert">
         <strong>Error</strong> {{ error }}
       </div>
-      {% endif %}      <div class="panel panel-default">
+      {% endif %}
+      <div class="panel panel-default">
         <div class="panel-body">
           <ul class="nav nav-tabs" id="active-tab">
             <li role="presentation" class="active"><a href="#post" role="tab" data-toggle="tab">Post</a></li>
@@ -125,6 +126,10 @@
 
     // Officer's view on users
 
+    $('table.officer tbody tr').click(function() {
+      window.location = $(this).data("href");
+    });
+
     // NOTE: $.tablesorter.theme.bootstrap is ALREADY INCLUDED in the jquery.tablesorter.widgets.js
     // file; it is included here to show how you can modify the default classes
     $.tablesorter.themes.bootstrap = {
@@ -180,6 +185,7 @@
       // possible variables: {page}, {totalPages}, {filteredPages}, {startRow}, {endRow}, {filteredRows} and {totalRows}
       output: '{startRow} - {endRow} / {filteredRows} ({totalRows})'
     });
+
   });
 
 </script>

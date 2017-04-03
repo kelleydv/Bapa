@@ -1,7 +1,7 @@
 
   <div class="col-md-12">
     <br/>
-    <table id="officer-table" class="table tablesorter">
+    <table id="officer-table" class="table tablesorter officer">
       <thead>
         <tr>
           <th>First</th>
@@ -11,12 +11,8 @@
       </thead>
       <tbody>
         {% for id, first, last, office in officers %}
-          <tr class="{{ 'success' if status=='Active' else 'danger' }}">
-            <td>
-              <a href="{{ url_for('membership.profile', user_id=id) }}">
-                {{ first }}
-              </a>
-            </td>
+          <tr class="{{ 'success' if status=='Active' else 'danger' }}" data-href="{{ url_for('membership.profile', user_id=id) }}">
+            <td>{{ first }}</td>
             <td>{{ last }}</td>
             <td>{{ office }}</td>
           </tr>
