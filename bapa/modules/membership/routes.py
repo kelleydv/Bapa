@@ -29,7 +29,7 @@ def profile(user_id=None):
         if session['user']['id'] == profile.user_id and request.args.get('public'):
             flash('Your profile is set to private')
             return redirect(url_for('membership.profile'))
-        if not session['user'].get('officer'):
+        if not session['user']['id'] == profile.user_id and not session['user'].get('officer'):
             return redirect(url_for('membership.profile'))
 
     return render_template('profile.html', session=session, own_profile=own_profile, profile=profile, profile_user_data=profile_user_data, paypal=app.config['PAYPAL'])
