@@ -7,7 +7,7 @@ from bapa.utils import parse_ratings, is_too_old
 import cloudinary
 import cloudinary.uploader
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil.parser import parse
 
 
@@ -67,9 +67,9 @@ def is_member(user_id):
     Determine if someone is a member.
     If they have payed dues this year, they are a memeber.
     """
-    dues = db.session.query(Payment).filter(Payment.user_id==user_id, Payment.item.startswith('Membership Dues')).order_by(Payment.created_at.desc()).first()
+    dues = db.session.query(Payment).filter(Payment.user_id==user_id, Payment.item.startswith('')).order_by(Payment.created_at.desc()).first()
     if dues:
-        return dues.created_at.year == datetime.utcnow().year
+        return dues.created_at > (datetime(year=datetime.now().year, month=1, day=1) - timedelta(days=45)) #could have payed up to 45 days before the new year
 
 
 def get_members():
