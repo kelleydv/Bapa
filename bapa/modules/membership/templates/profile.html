@@ -35,13 +35,13 @@
             {% if session.user.get('officer') and not own_profile %}
             <div class="officer-actions">
               <div class="btn-group dropdown btn-block">
-                <button type="button" class="btn btn-primary"><span class="fa fa-gear"></span> Officers </button>
-                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                <span class="caret"></span>
-                <span class="sr-only">Toggle Dropdown</span>
+                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                  <span class="fa fa-gear"></span> Officers
+                  <span class="caret"></span>
+                  <span class="sr-only">Toggle Dropdown</span>
                 </button>
                 <ul class="dropdown-menu text-left" role="menu">
-                  {% if not own_profile and is_officer(session.user.id) %}
+                  {% if not own_profile and session.user.get('officer') %}
                     {% if not is_officer(profile_user_data.id) %}
                     <li><a href="#" onclick="add_officer()"><span class="fa fa-plus pull-right"></span>Appoint Officer</a></li>
                     {% else %}
