@@ -26,7 +26,7 @@ def get_user_profile(user_id):
                 'width': 360,
                 'crop': 'fill',
             }
-            html = cloudinary.CloudinaryImage(cloudinary_id).image(**attrs)
+            html = cloudinary.CloudinaryImage(cloudinary_id).image(**attrs).replace('http://', 'https://')
             setattr(profile, 'picture_html', html)
     return user, profile
 
