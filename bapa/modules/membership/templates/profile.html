@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Profile{% endblock %}
 
+{% block post_head %}
+  <link href="{{ url_for('static', filename='bower_components/components-font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+{% endblock %}
+
 {% block body %}
-<!-- http://bootsnipp.com/snippets/featured/flat-user-profile-ui -->
-<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
