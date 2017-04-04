@@ -63,7 +63,7 @@ class Testing(Develop):
     SQLALCHEMY_DATABASE_URI = 'sqlite:////var/tmp/test-bapa.db'
 
 class Production(Develop):
-
+    DEBUG = False
     PAYPAL = {
         'domain': 'https://www.paypal.com',
         'endpoint': 'https://www.paypal.com/cgi-bin/webscr',
