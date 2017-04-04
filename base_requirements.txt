@@ -9,3 +9,4 @@ markdown2
 cloudinary
 google-api-python-client
 python_dateutil
+gunicorn
