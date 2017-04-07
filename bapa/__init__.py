@@ -1,4 +1,5 @@
 from flask import Flask, url_for, session
+from flask import request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from datetime import date, datetime
@@ -24,10 +25,12 @@ from bapa.modules import blueprints
 for prefix, bp in blueprints.items():
     app.register_blueprint(bp, url_prefix=prefix)
 
+
 # Template Globals
 from bapa.modules.officers.controllers import is_officer
 from bapa.modules.membership.controllers import is_member
 from bapa.utils import parse_ratings
+app.jinja_env.globals.update(config=app.config)
 app.jinja_env.globals.update(is_officer=lambda user_id: False if session.get('user', {}).get('officer') is False else is_officer(user_id))
 app.jinja_env.globals.update(is_member=is_member)
 app.jinja_env.globals.update(is_this_year=lambda x: False if not x else x >= datetime(year=datetime.now().year, month=1, day=1))

@@ -54,6 +54,9 @@ class Develop(Debug):
     RECAPTCHA_SITEKEY = os.environ.get('RECAPTCHA_SITEKEY')
     #https://developers.google.com/recaptcha/intro
 
+    #Google Analytics
+    GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
+
     #profile pictures
     CLOUDINARY_URL = os.environ.get('CLOUDINARY_URL')
 
