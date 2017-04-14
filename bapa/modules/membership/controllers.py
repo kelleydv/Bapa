@@ -96,9 +96,12 @@ def record_payment(ipn):
     if not verify_ipn(ipn):
         return 'Invalid IPN'
 
-    user = User.query.get(ipn['custom'])
-    if not user:
-        return 'Invalid User'
+    try:
+        user = User.query.get(ipn['custom'])
+        if not user:
+            raise ValueError
+    except:
+        return 'Invalid IPN'
 
     # Save all IPNs
     this_ipn = Ipn(ipn['custom'], ipn)
@@ -106,25 +109,28 @@ def record_payment(ipn):
     db.session.commit()
 
     if ipn['payment_status'] == 'Completed':
-        if 'Membership Dues' in ipn['item_name']:
+        if True or 'Membership Dues' in ipn['item_name']:
             try:
                 #automagically parse PayPal's datetime string, currently
                 #formatted like '20:48:35 Jan 24, 2017 PST'
                 date = parse(ipn['payment_date'])
+
             except ValueError:
                 #parsing failed, hopefully this was a recent payment
                 date = datetime.now()
                 #TODO: consider sending an email if parsing failed
+
             payment = Payment(
                 ipn['custom'], # user_id
-                ipn['item_name'],
-                ipn['payment_gross'],
+                ipn.get('item_name'),
+                ipn.get('payment_gross'),
                 date,
                 this_ipn.id
             )
+
             db.session.add(payment)
             db.session.commit()
             return
         else:
             #TODO: Donation, etc.
-            pass
+            return
