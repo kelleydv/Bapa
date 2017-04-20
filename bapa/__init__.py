@@ -29,8 +29,9 @@ for prefix, bp in blueprints.items():
 # Template Globals
 from bapa.modules.officers.controllers import is_officer
 from bapa.modules.membership.controllers import is_member
-from bapa.utils import parse_ratings
+from bapa.utils import parse_ratings, get_profile_picture
 app.jinja_env.globals.update(config=app.config)
+app.jinja_env.globals.update(profile_pic=lambda id, w, c: get_profile_picture(id, w, c))
 app.jinja_env.globals.update(is_officer=lambda user_id: False if session.get('user', {}).get('officer') is False else is_officer(user_id))
 app.jinja_env.globals.update(is_member=is_member)
 app.jinja_env.globals.update(is_this_year=lambda x: False if not x else x >= datetime(year=datetime.now().year, month=1, day=1))

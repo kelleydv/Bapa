@@ -1,4 +1,5 @@
 from . import controllers
+from bapa.modules.officers import controllers as officers
 from bapa import app
 from bapa.utils import timestamp, is_too_old
 from bapa.decorators.auth import redirect_authenticated, require_auth
@@ -185,3 +186,7 @@ def news():
             editable = True
     entries = controllers.get_news_entries(page, n)
     return render_template('news.html', entries=entries, page=page, n=n, editable=editable)
+
+@bp.route('/club', methods=['GET'])
+def club():
+    return render_template('pages/club.html', officers=officers.get_officers(), ession=session)

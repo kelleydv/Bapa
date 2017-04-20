@@ -10,11 +10,11 @@
         </tr>
       </thead>
       <tbody>
-        {% for id, first, last, office in officers %}
+        {% for officer in officers %}
           <tr class="{{ 'success' if status=='Active' else 'danger' }}" data-href="{{ url_for('membership.profile', user_id=id) }}">
-            <td>{{ first }}</td>
-            <td>{{ last }}</td>
-            <td>{{ office }}</td>
+            <td>{{ officer.firstname }}</td>
+            <td>{{ officer.lastname }}</td>
+            <td>{{ officer.office }}</td>
           </tr>
         {% endfor %}
       </tbody>

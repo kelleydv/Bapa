@@ -4,6 +4,12 @@ body { padding-bottom: 70px; }
 form .form-group:last-child{ margin-bottom: 0; }
 .copyright { margin-left: 0; }
 
+/* remove link styles */
+#club-officers a {
+	color: inherit;
+	text-decoration: none;
+}
+
 #edit-profile-form fieldset legend {
 	padding-top: 1.375em;
 }

@@ -2,7 +2,7 @@ from bapa import db
 from bapa.services import verify_ipn
 from bapa.models import User, Profile, Ipn, Payment
 
-from bapa.utils import parse_ratings, is_too_old
+from bapa.utils import parse_ratings, is_too_old, get_profile_picture
 
 import cloudinary
 import cloudinary.uploader
@@ -20,16 +20,9 @@ def get_user_profile(user_id):
     if profile:
         setattr(profile, 'ratings', parse_ratings(user.ushpa_data))
         if profile.picture:
-            cloudinary_id = profile.picture.get('public_id')
-            attrs = { #workaround since `class` is a keyword
-                'class': 'img-responsive prof',
-                'width': 360,
-                'crop': 'fill',
-            }
-            html = cloudinary.CloudinaryImage(cloudinary_id).image(**attrs).replace('http://', 'https://')
+            html = get_profile_picture(profile.picture.get('public_id'), 360)
             setattr(profile, 'picture_html', html)
     return user, profile
-
 
 def update_user_profile(user_id, data):
     """

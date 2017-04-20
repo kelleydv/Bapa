@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block title %}Club{% endblock %}
+
+{% block post_head %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bower_components/components-font-awesome/css/font-awesome.min.css') }}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">About BAPA <small>Why should you join?</small></h1>
+      <p>Joining The Bay Area Paragliding Association has many benefits. Our community of avid pilots and instructors...</p>
+      <p>Dues are $30 per year. To join the club, simply create an account on {{ config.HOST }} and use the paypal link from your profile.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Calendar</h2>
+      <p>(Events calendar goes here)</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Club Officers</h2>
+      <p>These are the people that make BAPA happen. You too can be elected an officer by joining the club.</p>
+    </div>
+  </div>
+
+  <div class="row" id="club-officers">
+    {% for officer in officers %}
+    <div class="col-lg-4 col-sm-6 text-center">
+      <a href="{{ url_for('membership.profile', user_id=officer.id) }}">
+        {{ profile_pic(officer.picture.get('public_id'), 200, 'img-circle img-center')|safe }}
+        <!-- <img class="img-responsive img-circle img-center prof" alt="profile picture" src="https://i.imgur.com/xY37lcA.jpg"> -->
+        <h3>{{ officer.firstname }} {{ officer.lastname }}
+          <small>{{ officer.office }}</small>
+        </h3>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}

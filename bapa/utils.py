@@ -3,6 +3,9 @@ from dateutil.parser import parse
 import secrets
 import datetime
 
+import cloudinary
+import cloudinary.uploader
+
 
 
 def get_hash(m):
@@ -65,3 +68,19 @@ def parse_ratings(ushpa_data):
     if ratings:
         return ratings.strip()
     return
+
+
+def get_profile_picture(cloudinary_id, width, classes=''):
+    """
+    Return the HTML for a profile picture
+    hosted on cloudinary cloudinary
+    """
+    classes += 'img-responsive prof'
+
+    attrs = { #workaround since `class` is a keyword
+        'class': classes,
+        'width': width,
+        'crop': 'fill',
+    }
+    html = cloudinary.CloudinaryImage(cloudinary_id).image(**attrs).replace('http://', 'https://')
+    return html

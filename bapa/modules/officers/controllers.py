@@ -1,5 +1,5 @@
 from bapa import db, app
-from bapa.models import Payment, User, News, Officer
+from bapa.models import Payment, User, News, Officer, Profile
 from bapa.utils import is_too_old, timestamp, parse_ratings
 from bapa.services import send_email
 from bapa.modules.membership.controllers import is_member
@@ -146,7 +146,7 @@ def get_officers():
     """
     Return a list of officers.
     """
-    officers = db.session.query(User.id, User.firstname, User.lastname, Officer.office).join(Officer, Officer.user_id==User.id)
+    officers = db.session.query(User.id, User.firstname, User.lastname, Officer.office, Profile.picture).join(Officer, Officer.user_id==User.id).join(Profile, Profile.user_id==Officer.user_id)
     return officers
 
 def get_officer_emails():
