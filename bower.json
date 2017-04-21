@@ -8,6 +8,7 @@
     "markdown": "*",
     "to-markdown": "*",
     "components-font-awesome": "4.7.0",
-    "clipboard": "1.5.15"
+    "clipboard": "1.5.15",
+    "fullcalendar": "3.3.1"
   }
 }

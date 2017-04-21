@@ -54,6 +54,10 @@ class Develop(Debug):
     RECAPTCHA_SITEKEY = os.environ.get('RECAPTCHA_SITEKEY')
     #https://developers.google.com/recaptcha/intro
 
+    #For integrating Google Calendar with fullcalendar
+    GOOGLE_API_KEY=os.environ.get('GOOGLE_API_KEY')
+    GOOGLE_CAL_ID=os.environ.get('GOOGLE_CAL_ID')
+
     #Google Analytics
     GA_TRACKING_ID = os.environ.get('GA_TRACKING_ID')
 

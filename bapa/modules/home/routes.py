@@ -189,4 +189,8 @@ def news():
 
 @bp.route('/club', methods=['GET'])
 def club():
-    return render_template('pages/club.html', officers=officers.get_officers(), ession=session)
+    return render_template('pages/club.html',
+        officers=officers.get_officers(),
+        google_api_key=app.config.get('GOOGLE_API_KEY'),
+        google_cal_id=app.config.get('GOOGLE_CAL_ID'),
+        session=session)
