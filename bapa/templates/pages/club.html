@@ -50,7 +50,7 @@
     {% for officer in officers %}
     <div class="col-lg-4 col-sm-6 text-center">
       <a href="{{ url_for('membership.profile', user_id=officer.id) }}">
-        {{ profile_pic(officer.picture.get('public_id'), 200, 'img-circle img-center')|safe }}
+        <!-- {{ profile_pic(officer.picture.get('public_id'), 200, 'img-circle img-center')|safe }} -->
         <!-- <img class="img-responsive img-circle img-center prof" alt="profile picture" src="https://i.imgur.com/xY37lcA.jpg"> -->
         <h3>{{ officer.firstname }} {{ officer.lastname }}
           <small>{{ officer.office }}</small>
