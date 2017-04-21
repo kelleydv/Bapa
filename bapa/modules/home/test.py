@@ -64,7 +64,7 @@ class HomeTestCase(BaseTest):
         #redirect authed user
         resp = self.app.get('/login', follow_redirects=True)
         self.assertFalse(b'Login' in resp.data)
-        self.assertTrue(b'Home' in resp.data)
+        self.assertTrue(b'<title>Profile' in resp.data)
 
     def test_logout(self):
         self.register(ushpa='12345', email='johndoe@example.com',

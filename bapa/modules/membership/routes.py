@@ -28,7 +28,7 @@ def profile(user_id=None):
     if profile.private:
         if session['user']['id'] == profile.user_id and request.args.get('public'):
             flash('Your profile is set to private')
-            return redirect(url_for('membership.profile'))
+            return redirect(url_for('home.index'))
         if not session['user']['id'] == profile.user_id and not session['user'].get('officer'):
             return redirect(url_for('membership.profile'))
 

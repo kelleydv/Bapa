@@ -16,14 +16,14 @@ def redirect_authenticated(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if session.get('user'):
-            return redirect(url_for('home.index'))
+            return redirect(url_for('membership.profile'))
         return f(*args, **kwargs)
     return decorated_function
 
 def require_officer(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not session.get('user') or not session['user'].get('officer'):
+        if not session.get('user', {}).get('officer'):
             return redirect(url_for('home.login'))
         return f(*args, **kwargs)
     return decorated_function

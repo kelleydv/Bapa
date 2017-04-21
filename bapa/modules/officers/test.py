@@ -29,7 +29,7 @@ class OfficersTestCase(BaseTest):
         #redirect to the home page, (no officer permissions)
         resp = self.app.get('/officers', follow_redirects=True)
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(b'Take Flight' in resp.data)
+        self.assertTrue(b'<title>Profile' in resp.data)
         officers = Officer.query.all()
         self.assertEqual(len(officers), 0)
 
