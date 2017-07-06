@@ -27,10 +27,10 @@ class Develop(Debug):
 
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', Config.SQLALCHEMY_DATABASE_URI)
 
-    MAIL_SERVER = os.environ.get('POSTMARK_SMTP_SERVER')
+    MAIL_SERVER = os.environ.get('SENDGRID_SMTP_SERVER')
     MAIL_PORT = os.environ.get('MAIL_PORT')
-    MAIL_USERNAME = os.environ.get('POSTMARK_API_KEY')
-    MAIL_PASSWORD = os.environ.get('POSTMARK_API_KEY')
+    MAIL_USERNAME = "apikey"
+    MAIL_PASSWORD = os.environ.get('SENDGRID_API_KEY')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
 
     USHPA_CHAPTER = os.environ.get('USHPA_CHAPTER')
